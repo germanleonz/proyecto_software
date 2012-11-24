@@ -31,7 +31,16 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador):
     else:
         idact= ult['idact__max']+1
 
-    a=Actividad(idact=idact, nombreact=nombre, descripcionact=descript,fechainicial=fechaini,fechaentrega=fechaent, avanceact=0.00,estadoact='s',idpizactividad=piz,logincreador=creador,loginjefe=creador, loginasignado=creador)
+    a=Actividad(idact=idact, 
+        nombreact=nombre,
+        descripcionact=descript,
+        fechainicial=fechaini,
+        fechaentrega=fechaent,
+        avanceact=0.00,estadoact='s',
+        idpizactividad=piz,
+        logincreador=creador,
+        loginjefe=creador,
+        loginasignado=creador)
     a.save()
 
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):
@@ -89,6 +98,5 @@ def colaboradores(idpiz):
         nombre = str(usuario.first_name)+" "+str(usuario.last_name)
         colaboradores.append(nombre)
         print nombre
-
 
     return colaboradores
