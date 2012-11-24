@@ -31,7 +31,16 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador):
     else:
         idact= ult['idact__max']+1
 
-    a=Actividad(idact=idact, nombreact=nombre, descripcionact=descript,fechainicial=fechaini,fechaentrega=fechaent, avanceact=0.00,estadoact='s',idpizactividad=piz,logincreador=creador,loginjefe=creador, loginasignado=creador)
+    a=Actividad(idact=idact, 
+        nombreact=nombre,
+        descripcionact=descript,
+        fechainicial=fechaini,
+        fechaentrega=fechaent,
+        avanceact=0.00,estadoact='s',
+        idpizactividad=piz,
+        logincreador=creador,
+        loginjefe=creador,
+        loginasignado=creador)
     a.save()
 
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):
@@ -46,9 +55,9 @@ def eliminarActividad(idactividad):
     act = Actividad.objects.filter(idact = idactividad)
     act.delete()
 
-def obtenerActividad(idactividad):
+def obtenerActividad(idpiz):
     actividad = {}
-    act = Actividad.Objects.get(idact = idactividad)
+    act = Actividad.Objects.get(idpizactividad = idpiz)
     actividad['nombre'] = act.nombreact
     actividad['descripcion'] = act.descripcionact
     actividad['fechainicial'] = act.fechainicial
@@ -76,3 +85,18 @@ def conseguirSubactividades(idpiz):
         #prox = 
         
     return subactividades, pares
+
+def colaboradores(idpiz):
+    """
+    Metodo que retorna los colaboradores de una pizarra
+    """
+    colaboradores= []
+    act= Actividad.objects.filter(idpizactividad= idpiz).distinct('loginasignado')
+    for elem in act:   
+        persona = elem.loginasignado
+        usuario = User.objects.get(username= persona)
+        nombre = str(usuario.first_name)+" "+str(usuario.last_name)
+        colaboradores.append(nombre)
+        print nombre
+
+    return colaboradores

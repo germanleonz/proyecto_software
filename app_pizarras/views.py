@@ -1,13 +1,14 @@
 from django.shortcuts import render
-from app_pizarras.models import Pizarra, CreadorPizarra, eliminar, modificar, colaboradores
-from app_pizarras.forms import CrearPizarraForm, ModificarPizarraForm
+from app_pizarras.models import *
+from app_pizarras.forms import *
+from app_actividad.models import colaboradores
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 @login_required
 def crear_pizarra(request):
-    """LA COMUNICACION CON AGENTES ELA COMUNICACION CON AGENTES EXTERNOS NO INFLUYE EN EL BUEN RENDIMIENTO DE NUESTRO SISTEMA)LA COMUNICACION CON AGENTES EXTERNOS NO INFLUYE EN EL BUEN RENDIMIENTO DE NUESTRO SISTEMA)LA COMUNICACION CON AGENTES EXTERNOS NO INFLUYE EN EL BUEN RENDIMIENTO DE NUESTRO SISTEMA)LA COMUNICACION CON AGENTES EXTERNOS NO INFLUYE EN EL BUEN RENDIMIENTO DE NUESTRO SISTEMA)XTERNOS NO INFLUYE EN EL BUEN RENDIMIENTO DE NUESTRO SISTEMA)
+    """
     Metodo que crea una nueva pizarra llamando a CreadorPizarra
     """
     if request.method == 'POST':
@@ -120,8 +121,11 @@ def visualizar_pizarra(request):
     if request.method== 'POST':
         idpiz = request.POST['idpiz']
         pi = Pizarra.objects.get(idpiz=idpiz)
+        print "EPALEEEEEEEEEE"
         lista = colaboradores(idpiz)
-        return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi})
+        for elem in lista:
+            print "en el views " + elem
+        return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': lista})
     
     #no se que retornar si no es post asi que retorno la vista anterior y ya
     lista = obtener_pizarras(request)

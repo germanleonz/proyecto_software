@@ -33,7 +33,8 @@ def crear_actividad(request):
 
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user)
       lista = obtener_actividades(request.POST['idpiz'])
-      return render(request,'app_pizarras/vistaPizarra.html', {'lista' : lista, 'pizarra': piz })
+      colab = colaboradores(request.POST['idpiz'])
+      return render(request,'app_pizarras/vistaPizarra.html', {'lista' : lista, 'pizarra': piz, 'colaboradores': colab })
     else:
       return render(request,'app_actividad/crear_actividad.html',{'form':form, 'idpiz':request.POST['idpiz']})
   
@@ -67,8 +68,9 @@ def eliminar_actividad(request):
         idpiz = request.POST['idpiz']
         piz = Pizarra.objects.get(idpiz = idpiz)
         eliminarActividad(idact)
+        colab = colaboradores(idpiz)
         lista = obtener_actividades(idpiz)
-        return render(request, 'app_pizarras/vistaPizarra.html', { 'lista' : lista, 'pizarra': piz,})
+        return render(request, 'app_pizarras/vistaPizarra.html', { 'lista' : lista, 'pizarra': piz, 'colaboradores': colab})
 
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/listar.html', { 'lista' : lista, })   
