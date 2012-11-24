@@ -146,3 +146,8 @@ def generar_form_modificar(request):
 
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/listar.html', { 'lista' : lista, })
+    
+    
+def asignar_actividad(request):
+    print 'hola'
+    return render(request, 'app_actividad/asignar_actividad.html')

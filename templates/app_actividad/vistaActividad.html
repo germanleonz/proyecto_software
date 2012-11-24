@@ -5,12 +5,20 @@
 <link href="{% static "css/pared_style.css" %}" rel="stylesheet" type="text/css"/>
 
 {% block cuerpo %}
-
 <table>
   <tr>
     <th>
       Informacion
     </th>
+  </tr><tr>
+    <td>
+      ESTADO:
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{actividad.estadoact}}
+    </td>
   </tr>
   <tr>
     <td>
@@ -70,7 +78,13 @@
 	<input type="submit" value="Modificar" />
     </form>
 
-
+<form action="{% url 'app_actividad:asignar_actividad'%}" id="asignar_actividad" method="post">
+  {% csrf_token %}
+  <input name="idact" type="hidden" value="{{actividad.idact}}"/>
+  <input type="submit" value="Asignar Actividad" />
+</form>  
+    
+    
 <FORM name="CambiarEstadoForm" action="{% url 'app_actividad:cambiar_estado_actividad' %}" method="post"> 
   {% csrf_token %}
   <SELECT name="estadoact">
