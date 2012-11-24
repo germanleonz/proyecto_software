@@ -46,9 +46,9 @@ def eliminarActividad(idactividad):
     act = Actividad.objects.filter(idact = idactividad)
     act.delete()
 
-def obtenerActividad(idactividad):
+def obtenerActividad(idpiz):
     actividad = {}
-    act = Actividad.Objects.get(idact = idactividad)
+    act = Actividad.Objects.get(idpizactividad = idpiz)
     actividad['nombre'] = act.nombreact
     actividad['descripcion'] = act.descripcionact
     actividad['fechainicial'] = act.fechainicial
@@ -76,3 +76,19 @@ def conseguirSubactividades(idpiz):
         #prox = 
         
     return subactividades, pares
+
+def colaboradores(idpiz):
+    """
+    Metodo que retorna los colaboradores de una pizarra
+    """
+    colaboradores= []
+    act= Actividad.objects.filter(idpizactividad= idpiz).distinct('loginasignado')
+    for elem in act:   
+        persona = elem.loginasignado
+        usuario = User.objects.get(username= persona)
+        nombre = str(usuario.first_name)+" "+str(usuario.last_name)
+        colaboradores.append(nombre)
+        print nombre
+
+
+    return colaboradores
