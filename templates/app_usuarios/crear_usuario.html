@@ -1,0 +1,7 @@
+<div id ="errores_crear_usuario" class="errores">Todos los campos son requeridos</div>
+<form action="{% url app_usuarios:crear_usuario %}" id="usuarioForm" method="post">
+  {% csrf_token %}
+  <fieldset  id="body">
+    {{ form.as_p }}
+  </fieldset>
+</form>

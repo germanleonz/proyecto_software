@@ -1,0 +1,15 @@
+{% extends "app_usuarios/base.html" %}
+{% load url from future %}
+{% load staticfiles %}
+{% block titulo %}Actividad Creada{% endblock %}
+
+<link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
+
+{% block cuerpo %}
+
+<!-- LOGIN BOX -->
+<div id="loginBox">                
+    La actividad se creó correctamente.
+</div>
+
+{% endblock %}

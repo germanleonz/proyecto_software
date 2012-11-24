@@ -1,0 +1,25 @@
+{% extends 'app_usuarios/template.html' %}
+{% load url from future %}
+{% load staticfiles %}
+{% block titulo %}Editar Información de un Usuario{% endblock %}
+{% block css %}
+<link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
+<link href="{% static "css/modificar_usuario_style.css" %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block rightHeader %}<a style="color:white;"href="{% url 'login_usuario' %}"><div id="nombre">Volver</div></a>{% endblock rightHeader %}
+{% block herramientas %} <div id ="herramientas"></div> {% endblock herramientas %}
+
+{% block cuerpo %}
+<div id="loginBox" style="margin-top:2px;">     
+  <form action="{% url 'app_usuarios:registrar_visitante' %}" id="loginForm" method="post">
+  <div id ="errores_crear_usuario" class="errores">Todos los campos son requeridos</div>
+    {% csrf_token %}
+    <fieldset  id="body">
+      {{ form.as_p }}
+    </fieldset>
+    <fieldset>
+      <input type="submit" id="login" value="Registrarse" />
+    </fieldset>
+  </form>
+</div>
+  {% endblock %}

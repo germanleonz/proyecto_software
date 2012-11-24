@@ -1,0 +1,14 @@
+{% extends "app_usuarios/base.html" %}
+{% load url from future %}
+{% block titulo %}Menu{% endblock %}
+{% block cuerpo %}
+<h2>Menu</h2>
+<ul>
+  <li>
+    <a href="{% url app_usuarios:crear_usuario %}">Crear Usuario</a>
+  </li>
+  <li>
+    <a href="{% url app_pizarras:crear_pizarra %}">Crear Pizarra</a>
+  </li>
+</ul>
+{% endblock cuerpo %}

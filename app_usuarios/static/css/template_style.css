@@ -1,0 +1,284 @@
+html,body {
+	margin: 0;
+	padding: 0;
+	background: #f0f0f0;
+	font-family: Helvetica;
+	color: #444;
+}
+
+/*tabla de actividades*/
+
+#tablaActividad{
+  position: absolute;
+  margin-top: 50px;
+  margin-left: 10px;
+}
+
+#tablaActividad td{
+  cursor: pointer;
+  min-width: 150px;
+  border-radius: 4px;
+  color: white;
+  margin: 10px;
+}
+.actividad{
+  cursor: move;
+  min-width: 150px;
+  border-radius: 4px;
+  background: #378B6E;
+  box-shadow: 6px 0px 50px -7px #888, -6px 0px 50px -7px #888;
+}
+
+#actHead{
+  text-align: center;
+}
+#actCont{
+  cursor: pointer !important;
+}
+
+/*botones de submit*/
+
+.submits{
+  border: none;
+  background: transparent;
+  font-size: 17px;
+  color: #444;
+  padding: 0;
+}
+/*Para los links*/
+a {
+	text-decoration: none;
+	color: #444;
+	font-family: Helvetica;
+}
+
+
+/*Contenedor de pagina*/
+#borde {
+	position: relative;
+	margin: 0 auto;
+	width: 900px;
+        background-color: #FFFFFF;
+	height: auto !important;
+	height: 100%;
+	min-height: 100%;
+}
+
+/*Encabezado*/
+#header {
+	position: absolute;
+	height: 50px;
+	width: 100%;
+	background: white;
+	border-bottom: solid 1px #BBB;
+}
+
+/*Logo de pagina*/
+#logo {
+	height: 46px;
+	margin: 2px;
+	margin-left: 30px;
+}
+
+/*Opciones de usuario*/
+#nombre {
+  color: #FFF;
+  float: right;
+  font-size: 17px;
+  padding: 2px;
+  min-width: 150px;
+  margin-top: 15px;
+  margin-right: 10px;
+  text-align: center;
+  border: solid #ddd;
+  border-width: 1px;
+  background: #378B6E;
+}
+
+#nombre:hover{
+  border: solid #ddd;
+  border-width: 1px;
+  background: #73AE9A;
+}
+
+
+
+/*Fin de encabezado*/
+/*Contenido de pagina*/
+#main {
+	padding: 50px 0px 60px 0px;
+        height: 100%;
+        box-shadow: 6px 0px 50px -7px #888, -6px 0px 50px -7px #888;
+}
+
+/*Si es una vista de trabajo*/
+#trabajo {
+	margin-left: -1px;
+	width: 100%;
+	height: 620px;
+	border: solid 1px #999;
+}
+
+#area {
+	float: right;
+	width: 712px;
+	height: 620px;
+	overflow: scroll;
+}
+
+/*tablas*/
+.tabla
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 45px;
+	width: 480px;
+	text-align: left;
+	border-collapse: collapse;
+	border: 1px solid #378B6E;
+}
+.tabla th
+{
+	padding: 12px 17px 12px 17px;
+	font-weight: normal;
+	font-size: 14px;
+	color: black;
+	border-bottom: 1px dashed #378B6E;
+}
+.tabla td
+{
+	padding: 7px 17px 7px 17px;
+	color: black;
+}
+.tabla tbody tr:hover td
+{
+	color: white;
+	background: #9BC5B6;
+}
+/*Fin de tabla*/
+
+/*Fin de contenido de pagina*/
+/*Pie de pagina*/
+#barra,#footer {
+	height: 60px;
+	bottom: 0;
+}
+
+#barra {
+	margin-left: -1px;
+	width: 900px;
+	background: #00C800;
+	border: solid 1px #999;
+}
+
+#footer {
+	width: 100%;
+	position: absolute;
+	background: #FFFFFF;
+	border-top: solid 2px #999;
+}
+
+#ano {
+	float: left;
+	margin: 21px;
+	font-size: 18px;
+}
+
+#idioma {
+	float: right;
+	margin: 21px;
+	font-size: 18px;
+}
+
+/*Fin de pie de pagina*/
+/*Para los botones de cerrar*/
+.close {
+	float: right;
+	height: 15px;
+	margin: 2px;
+}
+
+.button {
+	border-radius: 3px;
+	border: 1px solid gray;
+}
+
+/*Fin de contenedor de pagina*/
+
+/*opciones Usuario*/
+
+.opcionesDer{
+  float: right;
+  color: #FFFFFF;
+  padding: 10px;
+  border: solid #FFFFFF;
+  border-width: 0px 0px 0px 1px;
+}
+
+.opcionesDer:hover{
+  background: #73AE9A;
+}
+
+.opcionesIzq{
+  float: left;
+  color: #FFFFFF;
+  padding: 10px;
+  border: solid #FFFFFF;
+  border-width: 0px 0px 0px 1px;
+}
+
+.opcionesIzq:hover{
+  background: #73AE9A;
+}
+
+#opcionesUsuario{
+  display:none;
+  position: absolute;
+  overflow: hidden !important;
+  top: 0;
+  right: 0;
+  margin-top: 50px;
+  margin-right: 10px;
+  width: 150px;
+  border: solid #696969;
+  border-width: 0px 1px 1px 1px;
+  background-color: #FFFFFF;
+  -webkit-border-bottom-right-radius: 7px;
+  -webkit-border-bottom-left-radius: 7px;
+  -moz-border-radius-bottomright: 7px;
+  -moz-border-radius-bottomleft: 7px;
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+}
+
+.opcionVer{
+  cursor: pointer;
+  text-align: center;
+  padding: 10px;
+  border: solid #ddd;
+  border-width: 1px 0px 0px 0px;
+}
+
+.opcionVer form{
+  height: 0px;
+}
+
+.opcionVer:first-child {
+  border-top: #FFFFFF;
+}
+
+.opcionVer:hover{
+  background: #F8F8F8;
+}
+
+fieldset {
+    border: none;
+}
+/*Fin opciones Usuario*/
+
+/*Styling errores*/
+.errores{
+  color: red;
+  text-align: center;
+  font-size: 13px;
+}

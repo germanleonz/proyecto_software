@@ -1,0 +1,9 @@
+<div id="errores_crear_pizarra" class="errores">
+  *Todos los campos son requeridos
+</div>
+<form action="{% url app_pizarras:crear_pizarra %}" id="pizarraForm" method="post">
+  {% csrf_token %}
+  <fieldset  id="body">
+    {{ form.as_p }}
+  </fieldset>
+</form>

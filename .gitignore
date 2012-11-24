@@ -1,0 +1,9 @@
+*.swp
+*.swo
+*.orig
+*.pyc
+*.class
+*.o
+*~
+*.kate-swp
+.directory

@@ -1,0 +1,28 @@
+
+.pizarra {
+	width: 260px;
+	height: 180px;
+	margin: 15px;
+	margin-top: 50px;
+	margin-bottom: 0px;
+	border-radius: 5px;
+	border: 2px #2B2 solid;
+	background-color: #eee;
+}
+
+.pizarra #pizHead{
+	text-align: center;
+	background-color: #2B2;
+	font-size: 20px;
+	font-family: Helvetica;
+	color: white;
+}
+
+.pizarra #pizCont{
+        width: 240px;
+        height: 140px;
+        margin: 10px;
+        text-align: justify;
+        overflow-y: scroll; 
+        overflow-x: hidden;
+}

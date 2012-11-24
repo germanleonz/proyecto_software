@@ -1,0 +1,61 @@
+{% extends "app_usuarios/template.html" %}
+{% load url from future }
+{% load staticfiles %}
+{% load dajaxice_templatetags %}
+{% block titulo %}Pared{% endblock titulo %}
+{% block css %}
+<link href="{% static "css/pared_style.css" %}" rel="stylesheet" type="text/css"/>
+{% endblock css %}
+{% block cuerpo %}
+{% if not lista %}
+<center>
+  <p>No hay pizarras</p>
+</center>
+{% endif %}
+<script>
+  function divSubmit(div){
+    lista = div.getElementsByTagName("form");
+    for (var i = 0; i<lista.length; ++i){
+      var elem = lista[i]
+      if (elem.id == "visualizarPizarra")
+      elem.submit();
+    }
+  }
+</script>
+<table id="pared">
+  {% for object in lista%}
+  {% if forloop.counter0|divisibleby:"2"%}
+  <tr>
+    {% endif %}
+    <td>
+      <div class="pizarra" onclick="divSubmit(this)" >
+        <div id="titulo">
+          <form class="formEliminar" action="{% url app_pizarras:eliminar_pizarra %}" method="post" onsubmit="confirmacionBorrar()">
+            {{object.nombrepiz}}
+            {% csrf_token %}
+            <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>
+            <input class="borrar" type="submit" value=""/>
+          </form>
+          <form action="{% url app_pizarras:modificar_form %}" method="post" >
+            {% csrf_token %}
+            <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>
+            <input type="hidden" name="nombrepiz" value="{{object.nombrepiz}}"/>
+            <input type="hidden" name="descripcionpiz" value="{{object.descripcionpiz}}"/>
+            <input type="hidden" name="fechafinal" value="{{object.fechafinal}}"/>
+            <input class="modi" type="submit" value=""/>
+          </form>
+          <form id="visualizarPizarra" action="{% url app_pizarras:visualizar_pizarra %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>  
+        </div>
+        <div id="content">
+          {{object.descripcionpiz}}
+        </div>
+      </div>
+    </td>
+    {% if forloop.counter|divisibleby:"2"%}
+  </tr>
+  {% endif %}
+  {% endfor %}
+</table>
+{% endblock cuerpo %}

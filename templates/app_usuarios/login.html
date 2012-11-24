@@ -1,0 +1,64 @@
+{% extends "app_usuarios/template.html" %}
+{% load url from future %}
+{% load staticfiles %}
+{% block titulo %}Inicio de sesion{% endblock %}
+{% block css %}
+<link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
+{% endblock css %}
+{% block rightHeader %}
+<a style="color:white;" href="{% url 'app_usuarios:registrar_visitante' %}">
+ <div id="nombre">
+   Registrarse
+</div>
+ </a>
+{% endblock rightHeader %}
+{% block herramientas %}{% endblock herramientas %}
+{% block cuerpo %}
+<script>
+  
+
+  $("#forgot").click(function() {
+    $("#recuperar").dialog({
+      modal:true,
+      position: { my: "center", at: "top", of: window },
+      dialogClass: 'style_Dialog',
+      title: "Recuperar contrasena",
+      buttons: {
+        "Enviar": function(){
+          var mail = $("#");
+
+          return true;
+        },
+        Cancelar: function() {
+          $(this.)dialog("close");
+        }
+      }
+    });
+  })
+</script>
+
+<div id="tutorial" >
+  Como usar el Proyecto Pizarra<br>
+  <iframe width="400" height="225" src="http://www.youtube.com/embed/9bZkp7q19f0?rel=0" frameborder="0" allowfullscreen></iframe>
+</div>
+<!-- LOGIN BOX -->
+<div id="loginBox">                
+  <form action="{% url 'login_usuario' %}" method="post" id="loginForm">
+    <fieldset id="body">
+        {% csrf_token %}
+        {{ form.as_p }}
+      <input type="submit" id="login" value="Iniciar Sesión" />
+    </fieldset>
+    <span><a id="forgot" href="{% url 'app_usuarios:password_reset' %}">¿Olvistaste tu contrasena?</a></span>
+    <!--<span><div id="forgot">¿Olvistaste tu contrasena?</div></span>-->
+  </form>
+</div>
+
+<div id="recuperar" style="display: none;">
+  <form>
+    Usuario <input type="text"><br>
+  </form>
+</div>
+
+{% endblock %}
+

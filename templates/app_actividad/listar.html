@@ -1,0 +1,66 @@
+{% extends "app_usuarios/base.html" %}
+{% load staticfiles %}
+{% block titulo %}Listar Actividad{% endblock titulo %}
+<link href="{% static "css/pared_style.css" %}" rel="stylesheet" type="text/css"/>
+{% block cuerpo %}
+{% if not lista %}
+<center>
+  <p>No hay actividad</p>
+</center>
+{% endif %}
+<script>
+  function divSubmit(div){
+    lista = div.getElementsByTagName("form");
+    for (var i = 0; i<lista.length; ++i){
+      var elem = lista[i]
+      if (elem.id == "visualizarActividad")
+        elem.submit();
+    }
+  }
+</script>
+<table>
+  {% for object in lista%}
+    {% if forloop.counter0|divisibleby:"3"%}
+      <tr>
+    {% endif %}
+    <td>
+      <div class="actividad" onclick="divSubmit(this)" >
+        <div id="actHead">
+          <form id="visualizarActividad" action="{% url app_actividad:visualizar_actividad %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="idact" value="{{object.idact}}"/>
+          </form>
+          {{object.nombreact}}
+          <form action="{% url app_actividad:eliminar_actividad %}" method="post" onsubmit="confirmacionBorrar()">
+            {% csrf_token %}
+            <input type="hidden" name="idact" value="{{object.idact}}"/>
+            <input class="borrar" type="submit" value=""/>
+          </form>
+          <form action="{% url app_actividad:modificar_form %}" method="post" >
+            {% csrf_token %}
+            <input type="hidden" name="idact" value="{{object.idact}}"/>
+            <input type="hidden" name="nombreact" value="{{object.nombreact}}"/>
+            <input type="hidden" name="descripcionact" value="{{object.descripcionact}}"/>
+            <input type="hidden" name="fechainicial" value="{{object.fechainicial}}"/>
+            <input type="hidden" name="fechaentrega" value="{{object.fechaentrega}}"/>
+            <input class="modi" type="submit" value=""/>
+          </form>
+        </div>
+        <div id="actCont">
+          {{object.descripcionact}}
+        </div>
+      </div>
+    </td>
+    {% if forloop.counter|divisibleby:"3"%}
+    </tr>
+  {% endif %}
+  {% endfor %}
+</table>
+<script>
+  function confirmacionBorrar() {
+    var r=confirm("¿Está seguro de que desea eliminar esta actividad?");
+    if (!r)
+      window.location = "http://127.0.0.1:8000/actividad/listar_actividad/";
+    }
+  </script>
+{% endblock cuerpo %}

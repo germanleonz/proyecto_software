@@ -1,0 +1,42 @@
+
+.pizarra {
+	width: 260px;
+	height: 180px;
+	margin: 15px;
+	margin-top: 50px;
+	margin-bottom: 0px;
+	border-radius: 5px;
+	border: 2px #2B2 solid;
+	background-color: #eee;
+}
+
+.pizarra #pizHead{
+	text-align: center;
+	background-color: #2B2;
+	font-size: 20px;
+	font-family: Helvetica;
+	color: white;
+}
+
+.borrar{
+        cursor: pointer;
+        background-color: transparent;
+        float: right;
+        margin 2px;
+        margin-top: -25px !important;
+        width: 24px;
+        height: 24px;
+        background-image: url('../images/close2.png');
+        border: none;
+}
+
+.modi{
+        cursor: pointer;
+        background-color: transparent;
+        float: right;
+        margin 2px;
+        border: none;
+        width: 24px;
+        height: 24px;
+        background-image: url('../images/pencil.png')
+}

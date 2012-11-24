@@ -1,0 +1,50 @@
+/*Styling recuperar contraseña*/
+
+/*Division de los datos*/
+#Recuperar{
+	margin: 0px 0px 0px 100px;
+	width: 450px;
+	height: 500px;
+}
+#datos{
+	width: 300px;
+	height: 200px;
+	padding-top: 50px;
+	margin-left: 180px;
+}
+
+#datos input{
+	width: 85%;
+	margin: 10px;
+	
+}
+#datos #Enviar{
+	 width:90px;
+    float:right;
+    background:#52CCA3;
+    color:#fff;
+    padding:7px 10px 8px 10px;
+    text-shadow:0px -1px #278db8;
+    border:1px solid #339cdf;
+    box-shadow:none;
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+    margin:50px 12px 0 0;
+    cursor:pointer;
+    *padding:7px 2px 8px 2px; /* IE7 Fix */
+}
+#modificar{
+	padding-top: 100px;
+	padding-left: 80px; 
+	font-family: Helvetica;
+	font-style: italic;
+	font-weight: 200;
+	font-size: 30px;
+}
+
+
+#aclaratoria{
+	font-size: 12px;
+	padding-top: 50px;
+	width: 600px;
+}

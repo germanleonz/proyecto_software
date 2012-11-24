@@ -1,0 +1,144 @@
+
+html, body{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background: #f0f0f0;
+	
+	font-family: Helvetica;
+	color: #444;	
+}
+
+/*Para los links*/
+a{
+	text-decoration: none;
+	color: #444;
+	font-family: Helvetica;
+}
+
+/*Para la barra infinita*/
+#topBorde{
+	position: absolute;
+	height: 50px;
+	width: 100%;
+	background-color: white;
+	border-bottom: solid 2px #999;
+}
+
+/*Contenedor de pagina*/
+#borde{
+	position: relative;
+	margin: 0 auto;
+	background: 	#f0f0f0;
+	
+	
+	width: 900px;
+	height: auto !important;
+	height: 100%;
+	min-height: 100%;
+}
+
+/*Encabezado*/
+#header{
+	position: absolute;
+	height: 50px;
+	width: 100%;
+	background: white;
+	border-bottom: solid 2px #999;
+}
+
+/*Logo de pagina*/
+#logo{
+	height: 46px;
+	margin: 2px;
+	margin-left: 30px
+}
+
+/*Opciones de usuario*/
+#nombre{
+	float: right;
+	font-size: 20px;
+	margin-top: 14px;
+	margin-right: 0px;
+}
+
+#engranaje{
+	float: right;
+	height: 30px;
+	margin: 10px;
+	margin-right: 30px;
+}
+/*Fin de encabezado*/
+
+/*Contenido de pagina*/
+#main{
+	padding: 50px 0px 60px 0px;
+}
+
+/*Si es una vista de trabajo*/
+#trabajo{
+	margin-left: -1px;
+	width: 100%;
+	height: 620px;
+	border: solid 1px #999;
+}
+
+#columna{
+	float: left;
+	width: 180px;
+	height: 620px;
+	border-right: solid 1px #999;
+	background: #bbb;
+	overflow-y: scroll;
+	overflow-x: hidden; 
+}
+
+#area{
+	float: right;
+	width: 712px;
+	height: 620px;
+	overflow: scroll;
+}
+/*Fin de contenido de pagina*/
+
+/*Pie de pagina*/
+#barra, #footer{
+	height: 60px;
+	bottom: 0;
+}
+
+#barra{
+	margin-left: -1px;
+	width: 900px;
+	background: #00C800;
+	border: solid 1px #999;
+}
+
+#footer{	
+	width: 100%;
+	position: absolute;
+	background: #f0f0f0;
+	border-top: solid 2px #999;
+}
+
+#ano {
+	float: left;
+	margin: 21px;
+	font-size: 18px;
+}
+
+#idioma {
+	float: right;
+	margin: 21px;
+	font-size: 18px;
+}
+/*Fin de pie de pagina*/
+
+/*Para los botones de cerrar*/
+.close {
+	float: right;
+	height: 15px;
+	margin: 2px;	
+}
+
+/*Fin de contenedor de pagina*/

@@ -1,0 +1,15 @@
+{% extends "app_usuarios/base.html" %}
+{% load url from future %}
+{% load staticfiles %}
+{% block titulo %}Pizarra Modificada{% endblock %}
+
+<link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
+
+{% block cuerpo %}
+
+<!-- LOGIN BOX -->
+<div id="loginBox">                
+    La pizarra se modificó correctamente.
+</div>
+
+{% endblock %}

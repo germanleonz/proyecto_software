@@ -1,0 +1,108 @@
+/*Styling de dialog de actividad*/
+
+.style_Dialog { 
+  position: absolute; 
+  padding: .2em;  
+  border: 1px solid #CCCCFF;
+  overflow: hidden; 
+  border-radius: 4px;
+  background: #FFFFFF;
+}
+
+
+.style_Dialog .ui-widget-header .ui-icon{
+  background-image: url('../images/close2.png');
+  background-repeat: no-repeat;
+}
+.style_Dialog .ui-dialog-titlebar{ 
+  height: 30px;
+  padding: .5em 1em; 
+  position: relative;
+  font-family: helvetica; 
+  font-weight: bold;
+  border-radius: 4px;
+  background: #378B6E;
+}
+
+.style_Dialog .ui-dialog-title { 
+  float: left; 
+  margin: .2em 16px .1em 0;
+  color: #FFFFFF; 
+}
+
+.style_Dialog .ui-dialog-titlebar-close { 
+  position: absolute;
+  color: transparent;
+  right: .3em;
+  top: 40%;
+  width: 19px;
+  margin: -10px 5px 0 0;
+  padding: 1px;
+  height: 18px;
+}
+
+.style_Dialog .ui-dialog-titlebar-close span { 
+  width: 25px;
+  height: 25px;
+  display: block; 
+  margin: 1px; 
+}
+
+.style_Dialog .ui-dialog-titlebar-close:hover, .style_actividad .ui-dialog-titlebar-close:focus { 
+  padding: 0; 
+}
+
+.style_Dialog .ui-dialog-content { 
+  position: relative; 
+  border: 0; 
+  padding: .5em 1em; 
+  background: none; 
+  overflow: auto; 
+  zoom: 1; 
+}
+
+.style_Dialog .ui-dialog-buttonpane { 
+  text-align: left; 
+  border: solid #CCCCFF;
+  border-width: 1px 0 0 0; 
+  background-image: none; 
+  margin: .5em 0 0 0; 
+  padding: .3em 1em .5em .4em; 
+}
+
+
+
+.style_Dialog .ui-dialog-buttonpane button { 
+  margin: .5em .4em .5em 0; 
+  cursor: pointer; 
+}
+
+
+.style_Dialog .ui-dialog-titlebar { 
+  cursor: move; 
+}
+
+.style_Dialog .ui-dialog-buttonpane{
+  height: 30px;
+  cursor: pointer;
+}
+
+.botonDer{
+  float: right;
+}
+
+.botonDer img{
+  padding: .4em .4em 0px 10px;
+
+}
+
+.botonIzq{
+  width: 25px;
+  height: 25px;
+  float: left;
+  margin-left: 10px;
+  margin-top: 5px;
+  background-image: url('../img/add-icon.png')
+}
+
+/*End styling dialog */

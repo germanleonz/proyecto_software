@@ -1,0 +1,113 @@
+{% extends "app_usuarios/template.html" %}
+{% load url from future }
+{% block titulo %}Listar usuarios{% endblock titulo %}
+{% block cuerpo %}
+{% block javascript %}
+{% endblock javascript %}
+<script>
+  function my_js_callback(data) {
+    document.getElementById("formUsuario").innerHTML = data.vista;
+  };
+</script>
+<div id="formUsuario"></div>
+<table class="tabla">
+  <tr>
+    <th style="width:200px !important;">Nombre de usuario</th>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    {% if puede_modificar %} 
+    <th>Modificar</th>
+    {% endif %}
+    {% if puede_eliminar %}
+    <th>Eliminar</th>
+    {% endif %}
+
+  </tr>
+  {% for object in lista%}
+  <tr>
+    <td>
+      {{object.username}}
+    </td>
+    <td>
+      {{object.first_name}}
+    </td>
+    <td>
+      {{object.last_name}}
+    </td>
+    <td>
+      <form action="{% url app_usuarios:modificar_form %}" method="post">
+        {% csrf_token %}
+        <input id="id_nombre_usuario" name="nombre_usuario" type="hidden" value="{{object.username}}"/>
+        <input id="id_nombre" name="nombre" type="hidden" value="{{object.first_name}}"/>
+        <input id="id_apellido" name="apellido" type="hidden" value="{{object.last_name}}"/>
+        <input id="id_correo" name="correo" type="hidden" value="{{object.email}}"/>
+        {% if puede_modificar %}
+        <input type="submit" value="Modificar"/>
+        {% endif %}
+      </form>
+    </td>
+    <td>
+      {% if puede_eliminar %}
+      <form action="{% url app_usuarios:eliminar_usuario %}" method="post">
+        {% csrf_token %}
+        <input name="nombre_usuario" type="hidden" value="{{object.username}}"/>
+        <input type="submit" value="Eliminar"/>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+</br>
+<button id="crearUsuario" onclick="Dajaxice.app_usuarios.crearUsuarioForm(my_js_callback);" style="cursor:pointer;">Crear Usuario</button>
+<script>
+  function chequearLongitud( o, n, min, max ) {
+    if (o.val().length == 0) {
+      $("#errores_crear_usuario").html("El campo " + n + " es requerido");
+      return false;
+    }
+    if ( o.val().length > max || o.val().length < min ) {
+      $("#errores_crear_usuario").html("El campo " + n + " debe tener entre " + min + " y " + max + " caracteres");
+        return false;
+    } else {
+      return true;
+    }
+  };
+
+  $("#crearUsuario").click(function(){
+    $("#formUsuario").dialog({
+      modal:true,
+      position: { my: "center", at: "top", of: window },
+      dialogClass: 'style_Dialog',
+      title: "Registrar Nuevo Usuario",
+      buttons: {
+        "Crear un nuevo usuario": function() {
+          var bValid = true,
+              nombre_usuario = $("#id_nuevo_nombre_usuario"),
+              contrasena = $("#id_nueva_password"),
+              //contrasena2 = $("#id_nueva_password2"),
+              correo = $("#id_nuevo_correo"),
+              nombre = $("#id_nuevo_nombre"),
+              apellido = $("#id_nuevo_apellido"),
+              telefono = $("#id_nuevo_telefono"),
+
+          bValid = bValid && chequearLongitud(nombre_usuario, "Nombre de usuario", 1, 30);
+          bValid = bValid && chequearLongitud(contrasena, "Contrasena", 6, 15);
+          bValid = bValid && chequearLongitud(correo, "Correo", 6, 50);
+          bValid = bValid && chequearLongitud(nombre, "Nombre", 1, 80);
+          bValid = bValid && chequearLongitud(apellido, "Apellido", 1, 20);
+          bValid = bValid && chequearLongitud(telefono, "Telefono", 1, 15);
+
+          if (bValid) {
+            // Agregar el usuario recien creado a la lista de usuarios
+            $("#usuarioForm").submit();
+            $(this).dialog("close");
+          } 
+        },
+        Cancel: function() {
+        }
+      }
+    })
+  });
+</script>
+{% endblock cuerpo %}
