@@ -65,7 +65,10 @@
       <td>
         <div id="lista">
           <h>Participantes</h></br>
-          
+          {%for elem in colaboradores %}
+              {{elem}}
+              <br>
+          {%endfor%}
         </div>
       </td>
     </tr>
