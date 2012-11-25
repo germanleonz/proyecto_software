@@ -79,6 +79,7 @@ a {
 
 /*Opciones de usuario*/
 #nombre {
+  cursor: pointer;
   color: #FFF;
   float: right;
   font-size: 17px;

@@ -49,10 +49,10 @@
             dialog();
             barraUsuario();
           });
-                  </script>
+        </script>
 
         <div id="herramientas">
-          <a id="crearPizarra" onclick="Dajaxice.app_pizarras.crearPizarraForm(my_js_callback);" class="opcionesDer" href="#">Nueva Pizarra</a>
+          <a id="crearPizarra" onclick="Dajaxice.app_pizarras.crearPizarraForm(my_js_callbackPizarra);" class="opcionesDer" href="#">Nueva Pizarra</a>
 
           {% block botones %}{% endblock botones %}
         </div>
@@ -75,9 +75,6 @@
         {%endblock dialogs%}
         {% block cuerpo %}
         {% endblock cuerpo %}
-        <!-- Script de dialog para crear pizarra-->
-
-
       </div>	
 
       <div id="footer">

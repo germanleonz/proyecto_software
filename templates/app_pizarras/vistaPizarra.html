@@ -6,18 +6,14 @@
 <link href="{% static "css/vistaPizarra_style.css" %}" rel="stylesheet" type="text/css"/>
 {% endblock css %}
 {% block javascript %}
-<script>
-  function my_js_callback1(data){
-    $("#formActividad").html(data.vista);
-  }
-</script>
 {% endblock javascript %}
 
 {% block botones %}
-<a id="crearActividad" onclick="Dajaxice.app_actividad.crearActividadForm(my_js_callback1, {'data': {{pizarra.idpiz}}});" class="opcionesDer" href="#">Crear Actividad</a>
+<a id="crearActividad" onclick="Dajaxice.app_actividad.crearActividadForm(my_js_callbackActividad, {'data': {{pizarra.idpiz}}});" class="opcionesDer" href="#">Crear Actividad</a>
 {% endblock botones %}
 {% block cuerpo %}
-<div id="formActividad"></div>
+<div id="ventanaActividad" style="display:none"></div>
+<div id="formActividad" style="display:none"></div>
 <style>
   #formActividad textarea, input[type="text"]{
     width:92%;
@@ -66,8 +62,8 @@
         <div id="lista">
           <h>Participantes</h></br>
           {%for elem in colaboradores %}
-              {{elem}}
-              <br>
+          {{elem}}
+          </br>
           {%endfor%}
         </div>
       </td>
@@ -75,57 +71,48 @@
   </table>
 </div>
 <div id="arbol">
-
-
-
-<!-- ---------------------------------------------------------------------------------------------------------- -->
-
-
-	{% if not lista %}
-<center>
-  <p>No hay actividades</p>
-</center>
-{% endif %}
-<script>
-  function divSubmit(div){
-    lista = div.getElementsByTagName("form");
-    for (var i = 0; i<lista.length; ++i){
-      var elem = lista[i]
-      if (elem.id == "visualizarActividad")
-        elem.submit();
-    }
-  }
-</script>
-<table id="tablaActividad">
-  {% for object in lista %}
-    {% if forloop.counter0|divisibleby:"3"%}
-      <tr>
-    {% endif %}
-    <td>
-      <div class="actividad"  >
-        <div id="actHead">
-          {{object.nombreact}}
-          <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="confirmacionBorrar()">
-            {% csrf_token %}
-            <input type="hidden" name="idact" value="{{object.idact}}"/>
-            <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
-            <input class="borrar" type="submit" value=""/>
-          </form>
-        </div>
-        <div id="actCont" onclick="divSubmit(this)">
-          {{object.descripcionact}}
-          <form id="visualizarActividad" action="{% url 'app_actividad:visualizar_actividad' %}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="idact" value="{{object.idact}}"/>
-          </form>
-        </div>
-      </div>
-    </td>
-    {% if forloop.counter|divisibleby:"3"%}
-    </tr>
+  {% if not lista %}
+  <center>
+    <p>No hay actividades</p>
+  </center>
   {% endif %}
-  {% endfor %}
-</table>
+  <script>
+    function divSubmit(div){
+      lista = div.getElementsByTagName("form");
+      for (var i = 0; i<lista.length; ++i){
+        var elem = lista[i]
+        if (elem.id == "visualizarActividad")
+        elem.submit();
+      }
+    }
+  </script>
+  <table id="tablaActividad">
+    {% for object in lista %}
+    {% if forloop.counter0|divisibleby:"3"%}
+    <tr>
+      {% endif %}
+      <td>
+        <div class="actividad"  >
+          <div id="actHead">
+            {{object.nombreact}}
+            <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="confirmacionBorrar()">
+              {% csrf_token %}
+              <input type="hidden" name="idact" value="{{object.idact}}"/>
+              <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
+              <input class="borrar" type="submit" value=""/>
+            </form>
+          </div>
+          <div class="mostrarActividad" id="actCont" onclick="Dajaxice.app_actividad.mostrarActividad(visualizarActividad, {'data': {{object.idact}}});">
+            {{object.descripcionact}}
+          </div>
+        </div>
+      </td>
+      {% if forloop.counter|divisibleby:"3"%}
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </table>
+</div>
 <script>
   $(function() {
     $( ".actividad" ).draggable();
@@ -135,165 +122,7 @@
   function confirmacionBorrar() {
     var r=confirm("¿Está seguro de que desea eliminar esta actividad?");
     if (!r)
-      window.location = "http://127.0.0.1:8000/pizarras/visualizar_pizarra/";
-    }
-  </script>
-</table>
-<script>
-  $("#crearActividad").click(function(){
-    $("#formActividad").dialog({
-      modal:true,
-      position: { my: "center", at: "top", of: window },
-      dialogClass: 'style_Dialog',
-      title: "Nueva Actividad",
-      buttons: {
-        "Crear Actividad": function(){
-          var nombre = $("#id_nombre"),
-              descripcion = $("#id_descripcion"),
-              fechaini = $("#id_fecha_inicio"),
-              fechafin = $("#id_fecha_final"),
-              valido = true,
-              formato = /^[A-Za-z0-9\?\¿\!\¡\:\,\.\-\ç\ñáéíóú\(\)\"\'\äëïöüàèìòù\s]*$/;
-
-              /*Chequeo de largo de inputs*/
-              function checkLength(obj, name, min, max){
-                var valido = true;
-                if (obj.val().length == 0){
-                  valido = false;
-                }
-                else if (obj.val().length<min){
-                  valido = false;
-                }
-                else if (obj.val().length>max){
-                  valido = false;
-                }
-                
-                if (!valido){
-                  $("#errores_crear_actividad").html("*"+name+" debe tener entre "+min+" y "+max+" caracteres");
-                }
-
-                return valido;
-              }
-
-              /*Chequeo de regex en inputs*/
-              function checkRegex(obj, name, regex){
-                if (!regex.test(obj.val())){
-                  $("#errores_crear_actividad").html("*"+name+" no es valido");
-                  return false;
-                }
-                return true;
-              }
-              /*chequear formato de fecha*/
-              function isDate(obj) {
-                var valido = true;
-                var fecha = obj.val(), dia, mes, anio;
-                if (fecha.length !== 10) { 
-                  valido = false;
-                } 
-                // third and sixth character should be '/' 
-                if (fecha.substring(2, 3) !== '/' || fecha.substring(5, 6) !== '/') { 
-                  valido = false;
-                } 
-
-                dia = parseInt(fecha.substring(0,2));
-                mes = parseInt(fecha.substring(3,5));
-                anio = parseInt(fecha.substring(6,10));
-                if (dia<1 || dia>31){
-                  valido = false;
-                }
-                if (mes<1 || mes>12){
-                  valido = false;
-                }
-
-                if (!valido){
-                  $("#errores_crear_actividad").html("*El formato de fecha debe ser dd/mm/yyyy");
-                }
-                return valido;
-              }
-              function obtenerFechaActual(){
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth()+1; //January is 0!
-                var yyyy = today.getFullYear();
-                if(dd<10){
-                  dd='0'+dd
-                } 
-                if(mm<10){
-                  mm='0'+mm
-                } 
-                today = dd+'/'+mm+'/'+yyyy;
-                return today;
-              }
-
-              function compareDates(date1, date2){
-                dia1 = parseInt(date1.substring(0,2));
-                mes1 = parseInt(date1.substring(3,5))-1;
-                anio1 = parseInt(date1.substring(6,10));
-                fecha1 = new Date(anio1,mes1,dia1);
-
-                if (date2 !== obtenerFechaActual()){
-                  dia2 = parseInt(date2.substring(0,2));
-                  mes2 = parseInt(date2.substring(3,5))-1;
-                  anio2 = parseInt(date2.substring(6,10));
-                  fecha2 = new Date(anio2,mes2,dia2);
-
-                }
-                else{
-                  fecha2 = new Date();
-                }
-
-                if (fecha1 > fecha2){
-                  return -1;
-                }
-                else if (fecha1 == fecha2){
-                  return 0;
-                }
-                else{
-                  return 1;
-                }
-              }
-
-              function checkEmpty(obj,n){
-                if (obj.val().length == 0){
-                  $("#errores_crear_actividad").html("*"+n+" no puede ser vacio");
-                  return false;
-                }
-                return true;
-              }
-
-              
-              valido = valido && checkLength(nombre,"Nombre",1,50);
-              valido = valido && checkLength(descripcion,"Descripcion",1,150);
-              valido = valido && checkRegex(nombre,"Nombre",formato);
-              valido = valido && checkRegex(descripcion,"Descripcion",formato);
-              valido = valido && checkEmpty(fechaini, "Fecha inicio");
-              valido = valido && checkEmpty(fechafin, "Fecha final");
-              valido = valido && isDate(fechaini);
-              valido = valido && isDate(fechafin);
-              if (valido && compareDates(fechaini.val(),fechafin.val())==-1){
-                valido = false;
-                $("#errores_crear_actividad").html("*La fecha final debe ser mayor a la de inicio");
-              }
-
-              today = obtenerFechaActual();
-
-              if (valido && compareDates(fechaini.val(),today)== 1){
-                valido = false;
-                $("#errores_crear_actividad").html("*La fecha de inicio debe ser mayor a la de hoy");
-              }
-              if (valido){
-                $("#actividadForm").append("#idPizarra");
-                $("#actividadForm").submit();
-                $(this).dialog("close");
-              }
-        },
-        Cancelar: function(){
-          $(this).dialog("close");
-        }
-      }
-      });
-  })
+    window.location = "http://127.0.0.1:8000/pizarras/visualizar_pizarra/";
+  }
 </script>
-
 {% endblock cuerpo%}
-
