@@ -31,10 +31,6 @@ def validate_unico(value):
 	else:
 		raise ValidationError(u'Ya existe usuario con ese Nombre')
 
-
-
-
-
 class LoginForm (forms.Form):    
 
     class Meta:
@@ -63,19 +59,16 @@ class LoginForm (forms.Form):
 
         return cleaned_data        
 
-
-
-
 class CrearUsuarioForm(forms.Form):
     """
     Form para crear un nuevo usuario en el sistema
     """
-    nuevo_nombre_usuario = forms.CharField(max_length=30, validators=[validate_unico,validate_user])	
-    nueva_password = forms.CharField(widget=forms.PasswordInput, max_length=15,validators=[validate_password])
-    nuevo_correo = forms.EmailField(max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})
-    nuevo_nombre = forms.CharField(max_length=80,validators=[validate_nombre])
-    nuevo_apellido = forms.CharField(max_length=20,validators=[validate_apellido])
-    nuevo_telefono = forms.CharField(max_length=15,validators=[validate_telefono])
+    nombre_usuario = forms.CharField(max_length=30, validators=[validate_unico,validate_user])	
+    password = forms.CharField(widget=forms.PasswordInput, max_length=15,validators=[validate_password])
+    correo = forms.EmailField(max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})
+    nombre = forms.CharField(max_length=80,validators=[validate_nombre])
+    apellido = forms.CharField(max_length=20,validators=[validate_apellido])
+    telefono = forms.CharField(max_length=15,validators=[validate_telefono])
 
 class ModificarUsuarioForm(forms.Form):
     """

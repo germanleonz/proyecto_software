@@ -232,23 +232,26 @@ def invitar_usuario(request):
         id_actividad = request.post['id_actividad']
         recipiente = request.post['recipiente']
         remitente = "pizarras@software.com"
-        nombre_usuario = recipiente.partition("@")[0]  
-        contrasena = User.object.make_random_password()
-        asunto = "Felicidades, usted ha sido invitado a participar como colaborador"
-        mensaje = """
-            Felicidades usted ha sido invitado a trabajar como colaborador en un actividad 
-            Su nombre de usuario es: {0} 
-            Su contrasena es: {1}
+        if UserProfile.getEmail():
+            #   El usuario ya esta registrado le enviamos un correo
+            nombre_usuario = recipiente.partition("@")[0]  
+            contrasena = User.object.make_random_password()
+            asunto = "Felicidades, usted ha sido invitado a participar como colaborador"
+            mensaje = """
+                Felicidades usted ha sido invitado a trabajar como colaborador en un actividad 
+                Su nombre de usuario es: {0} 
+                Su contrasena es: {1}
 
-            Por su seguridad le recomendamos cambiar la clave tan pronto como le sea posible
-        """.format(unicode(usuario), unicode(contrasena))
-        send_mail(asunto, mensaje, remitente, [recipiente],  fail_silently = False)
+                Por su seguridad le recomendamos cambiar la clave tan pronto como le sea posible
+            """.format(unicode(usuario), unicode(contrasena))
+            send_mail(asunto, mensaje, remitente, [recipiente],  fail_silently = False)
 
-        #   Creamos el usuario con nombre de usuario y contrasena como unicos datos
-        User.objects.create(username=nombre_usuario)
-        datos = {}
-        datos['telefono'] = ""
-        crear_colaborador(usuario, datos)
+            #   Creamos el usuario con nombre de usuario y contrasena como unicos datos
+            User.objects.create(username=nombre_usuario)
+            datos = {}
+            datos['telefono'] = ""
+            crear_colaborador(usuario, datos)
+        else:
 
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad
         #   al usuario recien creado

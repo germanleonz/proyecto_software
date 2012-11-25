@@ -46,14 +46,13 @@ def eliminarActividad(idactividad):
     act = Actividad.objects.filter(idact = idactividad)
     act.delete()
 
-def obtenerActividad(idactividad):
-    actividad = {}
-    act = Actividad.Objects.get(idact = idactividad)
-    actividad['nombre'] = act.nombreact
-    actividad['descripcion'] = act.descripcionact
-    actividad['fechainicial'] = act.fechainicial
-    actividad['fechaentrega'] = act.fechaentrega
-    return actividad
+def obtener_actividades(idpiz):
+    act = Actividad.objects.filter(idpizactividad = idpiz)
+    lista = []
+    for elem in act:
+        lista.append(elem)
+    return lista
+
 
 def conseguirHijos(idpiz):
     """

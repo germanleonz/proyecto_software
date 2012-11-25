@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from app_pizarras.models import *
 from app_pizarras.forms import CrearPizarraForm
+from app_pizarras.models import *
 from app_actividad.forms import *
-from app_comentarios.models import *
 from app_actividad.models import *
+from app_comentarios.models import *
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
@@ -53,13 +53,6 @@ def listar_actividad(request):
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/listar.html', { 'lista' : lista, })		
       
-def obtener_actividades(idpiz):
-    act = Actividad.objects.filter(idpizactividad = idpiz)
-    lista = []
-    for elem in act:
-        lista.append(elem)
-    return lista
-
 def eliminar_actividad(request):
 
     if request.method == 'POST':
