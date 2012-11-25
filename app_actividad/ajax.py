@@ -12,5 +12,5 @@ def crearActividadForm(request,data):
 
 @dajaxice_register
 def mostrarActividad(request,data):
-    vista = render_to_string()
+    vista = render_to_string('app_actividad/vistaActividad.html', {'actividad:': data})
     return simplejson.dumps({'vista': vista})

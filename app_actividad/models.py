@@ -31,7 +31,16 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador):
     else:
         idact= ult['idact__max']+1
 
-    a=Actividad(idact=idact, nombreact=nombre, descripcionact=descript,fechainicial=fechaini,fechaentrega=fechaent, avanceact=0.00,estadoact='s',idpizactividad=piz,logincreador=creador,loginjefe=creador, loginasignado=creador)
+    a=Actividad(idact=idact, 
+        nombreact=nombre,
+        descripcionact=descript,
+        fechainicial=fechaini,
+        fechaentrega=fechaent,
+        avanceact=0.00,estadoact='s',
+        idpizactividad=piz,
+        logincreador=creador,
+        loginjefe=creador,
+        loginasignado=creador)
     a.save()
 
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):
@@ -46,13 +55,20 @@ def eliminarActividad(idactividad):
     act = Actividad.objects.filter(idact = idactividad)
     act.delete()
 
-def obtener_actividades(idpiz):
-    act = Actividad.objects.filter(idpizactividad = idpiz)
-    lista = []
-    for elem in act:
-        lista.append(elem)
-    return lista
+def obtenerActividad(idpiz):
+    actividad = {}
+    act = Actividad.Objects.get(idpizactividad = idpiz)
+    actividad['nombre'] = act.nombreact
+    actividad['descripcion'] = act.descripcionact
+    actividad['fechainicial'] = act.fechainicial
+    actividad['fechaentrega'] = act.fechaentrega
+    return actividad
 
+def conseguirHijos(idpiz):
+    """
+    Metodo que consigue las subactividades inmediatas de una actividad padre
+    """
+    pass
 
 def conseguirHijos(idpiz):
     """
@@ -75,3 +91,26 @@ def conseguirSubactividades(idpiz):
         #prox = 
         
     return subactividades, pares
+
+def colaboradores(idpiz):
+    """
+    Metodo que retorna los colaboradores de una pizarra
+    """
+    colaboradores= []
+    act= Actividad.objects.filter(idpizactividad= idpiz).distinct('loginasignado')
+    for elem in act:   
+        persona = elem.loginasignado
+        usuario = User.objects.get(username= persona)
+        nombre = str(usuario.first_name)+" "+str(usuario.last_name)
+        colaboradores.append(nombre)
+        print nombre
+
+    return colaboradores
+
+def obtener_actividades(idpiz):
+    act = Actividad.objects.filter(idpizactividad = idpiz)
+    lista = []
+    for elem in act:
+        lista.append(elem)
+    return lista
+

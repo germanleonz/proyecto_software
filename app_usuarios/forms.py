@@ -32,7 +32,6 @@ def validate_unico(value):
 		raise ValidationError(u'Ya existe usuario con ese Nombre')
 
 class LoginForm (forms.Form):    
-
     class Meta:
             model = User
 
@@ -56,19 +55,18 @@ class LoginForm (forms.Form):
             usuario = authenticate(username=username, password=password)
             if usuario is None:
                 raise ValidationError(u'Error en el nombre de usuario o contrasena')
-
         return cleaned_data        
 
 class CrearUsuarioForm(forms.Form):
     """
     Form para crear un nuevo usuario en el sistema
     """
-    nombre_usuario = forms.CharField(max_length=30, validators=[validate_unico,validate_user])	
-    password = forms.CharField(widget=forms.PasswordInput, max_length=15,validators=[validate_password])
-    correo = forms.EmailField(max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})
-    nombre = forms.CharField(max_length=80,validators=[validate_nombre])
-    apellido = forms.CharField(max_length=20,validators=[validate_apellido])
-    telefono = forms.CharField(max_length=15,validators=[validate_telefono])
+    nuevo_nombre_usuario = forms.CharField(label="Introduzca un nombre de usuario",max_length=30, validators=[validate_unico,validate_user])	
+    nueva_password = forms.CharField(label="Introduzca una contrasena", widget=forms.PasswordInput, max_length=15,validators=[validate_password])
+    nuevo_correo = forms.EmailField(label="Introduzca una direccion de correo electronico", max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})
+    nuevo_nombre = forms.CharField(label="Introduzca un nombre", max_length=80,validators=[validate_nombre])
+    nuevo_apellido = forms.CharField(label="Introduzca un apellido", max_length=20,validators=[validate_apellido])
+    nuevo_telefono = forms.CharField(label="Introduzca un numero de telefono", max_length=15,validators=[validate_telefono])
 
 class ModificarUsuarioForm(forms.Form):
     """
@@ -78,3 +76,10 @@ class ModificarUsuarioForm(forms.Form):
     apellido = forms.CharField(max_length=20,validators=[validate_apellido])
     telefono = forms.CharField(max_length=15,validators=[validate_telefono])
     correo = forms.EmailField(max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})
+
+class CambiarContrasenaForm(forms.Form):
+    """
+    Form para cambiar la contrasena de un usuario
+    """
+    contrasena1 = forms.CharField(label = "Nueva contrasena", widget=forms.PasswordInput, max_length=15,validators=[validate_password])
+    contrasena2 = forms.CharField(label = "Repita su nueva contrasena", widget=forms.PasswordInput, max_length=15,validators=[validate_password])

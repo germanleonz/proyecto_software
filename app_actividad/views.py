@@ -12,7 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 #requiere permisos para agregar actividad
 #@permission_required('app_pizarras.add_actividad')
-
 """
 Falta arreglar este metodo para que guarde los datos de los usuraios involucrados
 """
@@ -33,7 +32,8 @@ def crear_actividad(request):
 
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user)
       lista = obtener_actividades(request.POST['idpiz'])
-      return render(request,'app_pizarras/vistaPizarra.html', {'lista' : lista, 'pizarra': piz })
+      colab = colaboradores(request.POST['idpiz'])
+      return render(request,'app_pizarras/vistaPizarra.html', {'lista' : lista, 'pizarra': piz, 'colaboradores': colab })
     else:
       return render(request,'app_actividad/crear_actividad.html',{'form':form, 'idpiz':request.POST['idpiz']})
   
@@ -60,8 +60,9 @@ def eliminar_actividad(request):
         idpiz = request.POST['idpiz']
         piz = Pizarra.objects.get(idpiz = idpiz)
         eliminarActividad(idact)
+        colab = colaboradores(idpiz)
         lista = obtener_actividades(idpiz)
-        return render(request, 'app_pizarras/vistaPizarra.html', { 'lista' : lista, 'pizarra': piz,})
+        return render(request, 'app_pizarras/vistaPizarra.html', { 'lista' : lista, 'pizarra': piz, 'colaboradores': colab})
 
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/listar.html', { 'lista' : lista, })   
@@ -139,3 +140,50 @@ def generar_form_modificar(request):
 
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/listar.html', { 'lista' : lista, })
+    
+def asignar_actividad(request):
+    print 'hola'
+    return render(request, 'app_actividad/asignar_actividad.html')
+
+def invitar_usuario(request):
+    """
+    Metodo que invita a un colaborador a hacerse responsable de una actividad
+    parametros: id_actividad a la que se le esta asignando un responsable y correo 
+    de la persona a la que se le esta asignando 
+    """
+    if request.method == 'POST':
+        id_actividad = request.post['idact']
+        recipiente = request.post['recipiente']
+        if User.objects.filter(email=recipiente).exists():
+            #   El usuario no estaba registrado se le crea un nombre de usuario y una contrasena
+            nombre_usuario = recipiente.partition("@")[0]  
+            contrasena = User.object.make_random_password()
+            asunto = "Felicidades, usted ha sido invitado a participar como colaborador"
+            mensaje = """
+                Felicidades usted ha sido invitado a trabajar como colaborador en un actividad 
+                Su nombre de usuario es: {0} 
+                Su contrasena es: {1}
+
+                Por su seguridad le recomendamos cambiar la clave tan pronto como le sea posible
+            """.format(unicode(usuario), unicode(contrasena))
+            send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
+
+            #   Creamos el usuario con nombre de usuario y contrasena como unicos datos
+            usuario = User.objects.create(username=nombre_usuario)
+            usuario.set_password(contrasena)
+            usuario.save()
+
+            datos = {}
+            datos['telefono'] = ""
+            crear_colaborador(usuario, datos)
+        else:
+            #   El usuario ya estaba registrado solo hace falta notificarle su asignacion por correo 
+            usuario = User.objects.get(email=recipiente)
+            asunto = "Buen dia, usted ha sido seleccionado para trabajar en una actividad"
+            mensaje = "El presente correo es para notificarle que a usted se la ha asignado una actividad de su empresa"
+            send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
+        #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
+        lista = app_pizarras.views.obtener_pizarras(request)
+        return render(request, 'app_pizarras/listar.html', { 'lista' : lista, }) #  Esta vista puede ser cualquier otra  
+    return render(request, 'app_pizarras/asignar_actividad.html', { 'idact' : idact, }) #  Esta vista puede ser cualquier otra  
+    
