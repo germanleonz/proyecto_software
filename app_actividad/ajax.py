@@ -2,6 +2,13 @@ from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from django.template.loader import render_to_string
 from app_actividad.forms import CrearActividadForm
+from app_comentarios.models import CreadorComentario, obtener_comentarios
+from app_actividad.models import Actividad
+from app_comentarios.forms import CrearComentarioForm
+from datetime import date
+from datetime import datetime
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 
 @dajaxice_register
 def crearActividadForm(request,data):
@@ -12,5 +19,30 @@ def crearActividadForm(request,data):
 
 @dajaxice_register
 def mostrarActividad(request,data):
-    vista = render_to_string('app_actividad/vistaActividad.html', {'actividad:': data})
+    act = Actividad.objects.get(idact = data)
+    vista = render_to_string('app_actividad/vistaActividad.html', {'actividad': act})
     return simplejson.dumps({'vista': vista})
+
+@csrf_exempt
+@dajaxice_register
+def crearComentario(request,form,data):
+    print "ENTREEEE"
+    f= CrearComentarioForm(form)
+    if f.is_valid():
+        datos = f.cleaned_data
+        contenido = datos['contenido']
+        act = Actividad.objects.get(idact = data)
+        hora = datetime.time(datetime.now())
+        fecha = date.today()
+        usuario = request.user
+        CreadorComentario(hora, fecha, contenido, act, usuario)
+        act = Actividad.objects.get(idact = data)
+        lista = obtener_comentarios(data)
+        vista = render_to_string('app_actividad/vistaActividad.html', {'lista': lista, 'actividad': act, })
+        return simplejson.dumps({'vista':vista})
+
+    act = Actividad.objects.get(idact = data)
+    lista = obtener_comentarios(data)
+    vista = render_to_string('app_actividad/vistaActividad.html', {'lista': lista, 'actividad': act, })
+    return simplejson.dumps({'vista':vista})
+
