@@ -5,16 +5,14 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.core.exceptions import ValidationError
 
-
 class Pizarra(models.Model):
-    idpiz = models.IntegerField(primary_key = True)
+    idpiz = models.AutoField(primary_key = True)
     nombrepiz = models.CharField(max_length=50)
     descripcionpiz = models.CharField(max_length=150) 
     fechacreacion = models.DateField(auto_now=False, auto_now_add=False)
     fechafinal = models.DateField(auto_now=False, auto_now_add=False)
     avancepiz = models.IntegerField()
     logindueno = models.ForeignKey(User, related_name='pizarra_dueno')
-
 
     def save(self, *args, **kwargs):
         if self.fechacreacion < date.today():
@@ -31,24 +29,20 @@ class PersonalizarPizarra(models.Model):
     pizarra = models.ForeignKey(Pizarra, related_name='pizarra_personalizar_pizarra')
     posicion = models.IntegerField()
 
-"""
-Metodo que guarda una pizarra en la base de datos generando la id como el siguiente al mas alto
-"""
-
 def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario):
     """
     Metodo que guarda una pizarra en la base de datos generando la id como el siguiente al mas alto
     """
     #Obtengo el ultimo id creado y sumo 1 a su valor para el id de la nueva pizarra
-    ultima = Pizarra.objects.all().aggregate(Max('idpiz'))
-    if ultima['idpiz__max'] == None:
-        idpiz=0
-    else:
-        idpiz= ultima['idpiz__max']+1
+#    ultima = Pizarra.objects.all().aggregate(Max('idpiz'))
+    #if ultima['idpiz__max'] == None:
+        #idpiz=0
+    #else:
+        #idpiz= ultima['idpiz__max']+1
 
     #instancio la pizarra a guardar   
 
-    nuevo = Pizarra(idpiz=idpiz,
+    nuevo = Pizarra(
         nombrepiz=nombrepiz, 
         descripcionpiz=descripcionpiz,
         fechacreacion=fechacreacion,
@@ -56,6 +50,8 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
         avancepiz=0,
         logindueno =  usuario)
     nuevo.save()
+
+    #   Creamos la actividad que representa a la pizarra dentro de la pizarra   
     #crearActividad(nombrepiz,descripcionpiz,fechacreacion, fechafinal, idpiz, usuario)
 
 def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal):

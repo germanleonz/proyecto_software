@@ -160,7 +160,7 @@ function validarUsuario(){
       telefono = $("#id_nuevo_telefono"),
       div = "#errores_crear_usuario",
       formatoNombres = /^[A-Za-z0-9\?\¿\!\¡\:\,\.\-\ç\ñáéíóú\(\)\"\'\äëïöüàèìòù\s]*$/,
-      formatoCorreo = /^[a-zA-Z0-9]+@[a-zA-Z]+\.([a-z]{2-4})$/,
+      formatoCorreo = /^[a-zA-Z0-9]+[@]?[a-zA-Z]+\.([a-z]{2-4})$/,
       formatoTelefono = /^[0-9]+[-]?[0-9]+$/,
       valido = true;
 
