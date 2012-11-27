@@ -77,7 +77,7 @@ function dialog(){
     });
 
   /*dialog de ver actividad*/
-  $("#actCont").click(function(){
+  $(".mostrarActividad").click(function(){
     $("#ventanaActividad").dialog({
       modal:true,
       width: 800,
@@ -125,4 +125,11 @@ function my_js_callbackActividad(data){
 
 function visualizarActividad(data){
   $("#ventanaActividad").html(data.vista);
+}
+
+function crear_comentario(idpiz){
+  data = $("#crear_comentario").serializeObject();
+  alert("hola");
+  Dajaxice.app_actividad.crearComentario(visualizarActividad,{'form':data, 'data':idpiz});
+  return false;
 }
