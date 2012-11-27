@@ -13,7 +13,7 @@
 {% endif %}
 	<!-- LOGIN BOX -->
  	<div id="loginBox">                
-          <form action="{% url 'app_pizarras:modificar_pizarra' %}" id="loginForm" method="post">
+          <form action="{% url 'app_pizarras:modificar_pizarra' %}" id="loginForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta informacion?')) return false">
             {% csrf_token %}
 			<fieldset id="body">
                                 <input type="hidden" name="idpiz" value="{{idpiz}}" />

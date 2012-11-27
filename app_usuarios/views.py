@@ -8,13 +8,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-<<<<<<< HEAD
-from app_usuarios.models import *
-from app_usuarios.forms import *
-=======
 from app_usuarios.models import UserProfile
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
->>>>>>> 21455ee272688766ecc8362b9993e7c6c38922c5
+
 
 def login_usuario(request):
     """	

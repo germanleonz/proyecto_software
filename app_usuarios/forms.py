@@ -77,9 +77,6 @@ class ModificarUsuarioForm(forms.Form):
     apellido = forms.CharField(max_length=20,validators=[validate_apellido])
     telefono = forms.CharField(max_length=15,validators=[validate_telefono])
     correo = forms.EmailField(max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})
-<<<<<<< HEAD
-    
-=======
 
 class CambiarContrasenaForm(forms.Form):
     """
@@ -87,4 +84,4 @@ class CambiarContrasenaForm(forms.Form):
     """
     contrasena1 = forms.CharField(label = "Nueva contrasena", widget=forms.PasswordInput, max_length=15,validators=[validate_password])
     contrasena2 = forms.CharField(label = "Repita su nueva contrasena", widget=forms.PasswordInput, max_length=15,validators=[validate_password])
->>>>>>> 21455ee272688766ecc8362b9993e7c6c38922c5
+
