@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.contrib.admin.widgets import AdminDateWidget
 import re
 
 def validate_nombrepiz(value):
@@ -18,8 +19,8 @@ class CrearPizarraForm(forms.Form):
     """
     nombre = forms.CharField(max_length=50)
     descripcion = forms.CharField(max_length=100, widget=forms.Textarea)
-    fecha_inicio = forms.DateField()
-    fecha_final = forms.DateField()
+    fecha_inicio = forms.DateField(widget = AdminDateWidget)
+    fecha_final = forms.DateField(widget = AdminDateWidget)
 
 class ModificarPizarraForm(forms.Form):
     """

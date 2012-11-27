@@ -21,3 +21,6 @@ class ModificarActividadForm(forms.Form):
     
 class CambiarEstadoForm(forms.Form):
     estadoact = forms.CharField(max_length=15)
+    
+class AsignarForm(forms.Form):
+     correo = forms.EmailField(max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})

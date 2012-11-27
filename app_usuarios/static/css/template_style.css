@@ -59,9 +59,6 @@ a {
 	margin: 0 auto;
 	width: 900px;
         background-color: #FFFFFF;
-	height: auto !important;
-	height: 100%;
-	min-height: 100%;
 }
 
 /*Encabezado*/
@@ -82,6 +79,7 @@ a {
 
 /*Opciones de usuario*/
 #nombre {
+  cursor: pointer;
   color: #FFF;
   float: right;
   font-size: 17px;
@@ -106,9 +104,10 @@ a {
 /*Fin de encabezado*/
 /*Contenido de pagina*/
 #main {
-	padding: 50px 0px 60px 0px;
-        height: 100%;
+	padding: 50px 0px 0px 0px;
+	margin: 0 auto;
         box-shadow: 6px 0px 50px -7px #888, -6px 0px 50px -7px #888;
+        min-height: 100%;
 }
 
 /*Si es una vista de trabajo*/
@@ -281,4 +280,41 @@ fieldset {
   color: red;
   text-align: center;
   font-size: 13px;
+}
+
+/*actividad*/
+#columna {
+  float: left;
+  width: 180px;
+  height: 500px;
+  max-height: 500px;
+  border-right: solid 1px #999;
+  background: #bbb;
+}
+
+#columna table, #columna a {
+  width: 180px;
+  color: black;
+  font-size: 13px;
+  text-align: justify;
+}
+
+#columna table tr td {
+  padding: 5px 0 5px 5px;
+  background-color: #696969;
+  border-bottom: 1px solid #aaa;
+  height: 50px;
+  max-height: 50px;
+}
+
+#columna table h {
+  font-size: 16px;
+  color: white;
+}
+
+#columna table tr td{
+  max-width: 170px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

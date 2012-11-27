@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Max
 from django.contrib.auth.models import User
+#from app_actividad.models import crearActividad
 from datetime import date
 from django.core.exceptions import ValidationError
 
@@ -47,9 +48,15 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
 
     #instancio la pizarra a guardar   
 
-    nuevo = Pizarra(idpiz=idpiz, nombrepiz=nombrepiz, descripcionpiz=descripcionpiz, fechacreacion=fechacreacion, fechafinal=fechafinal, avancepiz=0, logindueno =  usuario)
-
+    nuevo = Pizarra(idpiz=idpiz,
+        nombrepiz=nombrepiz, 
+        descripcionpiz=descripcionpiz,
+        fechacreacion=fechacreacion,
+        fechafinal=fechafinal,
+        avancepiz=0,
+        logindueno =  usuario)
     nuevo.save()
+    #crearActividad(nombrepiz,descripcionpiz,fechacreacion, fechafinal, idpiz, usuario)
 
 def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal):
     """

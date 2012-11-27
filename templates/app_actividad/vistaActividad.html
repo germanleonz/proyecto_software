@@ -1,118 +1,71 @@
-{% extends "app_usuarios/base.html" %}
-{% load url from future %}
-{% load staticfiles %}
-{% block titulo %}Listar Actividad{% endblock titulo %}
-<link href="{% static "css/pared_style.css" %}" rel="stylesheet" type="text/css"/>
-
-{% block cuerpo %}
-
-<table>
-  <tr>
-    <th>
-      Informacion
-    </th>
-  </tr>
-  <tr>
-    <td>
-      Nombre actividad
-    </td>
-  </tr>
-  <tr>
-    <td>
-      {{actividad.nombreact}}
-      {{actividad.idact}}
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Creador
-    </td>
-  </tr>
-  <tr>
-    <td>
-      {{actividad.logincreador}}
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Fecha Inicial
-    </td>
-  </tr>
-  <tr>
-    <td>
-      {{actividad.fechainicial}}
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Fecha Entrega
-    </td>
-  </tr>
-  <tr>
-    <td>
-      {{actividad.fechaentrega}}
-    </td>
-    <br>
-    <br>
-    <form action="{% url 'app_comentarios:crear_comentario' %}" id="crear_comentario" method="post">
-	    {% csrf_token %}
-    	<input id="idact" name="idact" type="hidden" value="{{actividad.idact}}"/>
-	<input id="contenido" name="contenido" type="textarea"/>
-	<input type="submit" value="Comentar" />
-    </form>
-    <form action="{% url 'app_actividad:modificar_form' %}" method="post">
-	    {% csrf_token %}
-    	    <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-	    <input type="hidden" name="nombreact" value="{{actividad.nombreact}}"/>
-	    <input type="hidden" name="descripcionact" value="{{actividad.descripcionact}}"/>
-	    <input type="hidden" name="fechainicial" value="{{actividad.fechainicial}}"/>
-	    <input type="hidden" name="fechaentrega" value="{{actividad.fechaentrega}}"/>
-	<input type="submit" value="Modificar" />
-    </form>
-
-
-<FORM name="CambiarEstadoForm" action="{% url 'app_actividad:cambiar_estado_actividad' %}" method="post"> 
-  {% csrf_token %}
-  <SELECT name="estadoact">
-    <OPTION value="null"> Estado
-    <OPTION value="s"> Sin Asignar
-    <OPTION value="c"> Completada
-    <OPTION value="r"> Retrasada
-    <OPTION value="e"> En Ejecucion
-    <OPTION value="p"> Postergada
-  </SELECT> 
-    <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-    <input type="submit" value="Cambiar Estado" />
-</FORM>
-
-  {% for object in lista %}
-    {% if forloop.counter0|divisibleby:"3"%}
-      <tr>
-    {% endif %}
-    <td>
-      <div class="comentario" onclick="divSubmit(this)" >
-        <div id="comHead">
-          {{object.contenido}}
-          <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post" onsubmit="confirmacionBorrar()">
-            {% csrf_token %}
-            <input type="hidden" name="idcomentario" value="{{object.idcomentario}}"/>
-            <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-            <input class="borrar" type="submit" value=""/>
-          </form>
-        </div>
-        <div id="comCont">
-	  Fecha: {{object.fechacomentario}}
-	  Por: {{object.loginusuario}}
-        </div>
-      </div>
-    </td>
-    {% if forloop.counter|divisibleby:"3"%}
+<div id="columna">
+  <table>
+    <tr>
+      <td>
+        <h>Nombre</h></br>
+        {{actividad.nombreact}}
+      </td>
     </tr>
-  {% endif %}
-  {% endfor %}
-
-
-</table>
-
-{% endblock cuerpo%}
-
+    <tr>
+      <td>
+        <h>Creador</h></br>
+        {{actividad.logincreador}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h>Fecha inicial</h></br>
+        {{actividad.fechainicial}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h>Fecha de entraga</h></br>
+        {{actividad.fechaentrega}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <!-- hacer comentarios -->
+        <form action="{% url app_comentarios:crear_comentario %}" id="crear_comentario" method="post">
+          {% csrf_token %}
+          <input id="idact" name="idact" type="hidden" value="{{actividad.idact}}"/>
+          <input id="contenido" name="contenido" type="textarea"/>
+          <input type="submit" value="Comentar" />
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <!-- modificar actividad -->
+        <form action="{% url app_actividad:modificar_form %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+          <input type="hidden" name="nombreact" value="{{actividad.nombreact}}"/>
+          <input type="hidden" name="descripcionact" value="{{actividad.descripcionact}}"/>
+          <input type="hidden" name="fechainicial" value="{{actividad.fechainicial}}"/>
+          <input type="hidden" name="fechaentrega" value="{{actividad.fechaentrega}}"/>
+          <input type="submit" value="Modificar" />
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <!-- cambiar estado -->
+        <form name="CambiarEstadoForm" action="{% url app_actividad:cambiar_estado_actividad %}" method="post"> 
+          {% csrf_token %}
+          <select name="estadoact">
+            <option value="null"> Estado </option>
+            <option value="s"> Sin Asignar </option>
+            <option value="c"> Completada </option>
+            <option value="r"> Retrasada </option>
+            <option value="e"> En Ejecucion </option>
+            <option value="p"> Postergada </option>
+          </select> 
+          <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+          <input type="submit" value="Cambiar Estado" />
+        </form>
+      </td>
+    </tr>
+  </table>
+</div>

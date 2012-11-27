@@ -4,12 +4,8 @@
 {% block cuerpo %}
 {% block javascript %}
 {% endblock javascript %}
-<script>
-  function my_js_callback(data) {
-    document.getElementById("formUsuario").innerHTML = data.vista;
-  };
-</script>
-<div id="formUsuario"></div>
+
+<div id="dialogCrearUsuario"></div>
 <table class="tabla">
   <tr>
     <th style="width:200px !important;">Nombre de usuario</th>
@@ -59,55 +55,5 @@
   {% endfor %}
 </table>
 </br>
-<button id="crearUsuario" onclick="Dajaxice.app_usuarios.crearUsuarioForm(my_js_callback);" style="cursor:pointer;">Crear Usuario</button>
-<script>
-  function chequearLongitud( o, n, min, max ) {
-    if (o.val().length == 0) {
-      $("#errores_crear_usuario").html("El campo " + n + " es requerido");
-      return false;
-    }
-    if ( o.val().length > max || o.val().length < min ) {
-      $("#errores_crear_usuario").html("El campo " + n + " debe tener entre " + min + " y " + max + " caracteres");
-        return false;
-    } else {
-      return true;
-    }
-  };
-
-  $("#crearUsuario").click(function(){
-    $("#formUsuario").dialog({
-      modal:true,
-      position: { my: "center", at: "top", of: window },
-      dialogClass: 'style_Dialog',
-      title: "Registrar Nuevo Usuario",
-      buttons: {
-        "Crear un nuevo usuario": function() {
-          var bValid = true,
-              nombre_usuario = $("#id_nuevo_nombre_usuario"),
-              contrasena = $("#id_nueva_password"),
-              //contrasena2 = $("#id_nueva_password2"),
-              correo = $("#id_nuevo_correo"),
-              nombre = $("#id_nuevo_nombre"),
-              apellido = $("#id_nuevo_apellido"),
-              telefono = $("#id_nuevo_telefono"),
-
-          bValid = bValid && chequearLongitud(nombre_usuario, "Nombre de usuario", 1, 30);
-          bValid = bValid && chequearLongitud(contrasena, "Contrasena", 6, 15);
-          bValid = bValid && chequearLongitud(correo, "Correo", 6, 50);
-          bValid = bValid && chequearLongitud(nombre, "Nombre", 1, 80);
-          bValid = bValid && chequearLongitud(apellido, "Apellido", 1, 20);
-          bValid = bValid && chequearLongitud(telefono, "Telefono", 1, 15);
-
-          if (bValid) {
-            // Agregar el usuario recien creado a la lista de usuarios
-            $("#usuarioForm").submit();
-            $(this).dialog("close");
-          } 
-        },
-        Cancel: function() {
-        }
-      }
-    })
-  });
-</script>
+<button id="crearUsuario" onclick="Dajaxice.app_usuarios.crearUsuarioAjax(my_js_callbackUsuario);" style="cursor:pointer;">Crear Usuario</button>
 {% endblock cuerpo %}

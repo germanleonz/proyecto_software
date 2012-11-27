@@ -10,5 +10,6 @@ urlpatterns = patterns('',
         url(r'^modificar_form/',views.generar_form_modificar, name='modificar_form'),
         url(r'^cambiar_estado_actividad/',views.cambiar_estado_actividad, name='cambiar_estado_actividad'),
         url(r'^form_crear/',views.form_crear, name='form_crear'),
+        url(r'^asignar_actividad/',views.asignar_actividad, name='asignar_actividad'),
 )
 

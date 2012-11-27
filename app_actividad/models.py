@@ -31,7 +31,16 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador):
     else:
         idact= ult['idact__max']+1
 
-    a=Actividad(idact=idact, nombreact=nombre, descripcionact=descript,fechainicial=fechaini,fechaentrega=fechaent, avanceact=0.00,estadoact='s',idpizactividad=piz,logincreador=creador,loginjefe=creador, loginasignado=creador)
+    a=Actividad(idact=idact, 
+        nombreact=nombre,
+        descripcionact=descript,
+        fechainicial=fechaini,
+        fechaentrega=fechaent,
+        avanceact=0.00,estadoact='s',
+        idpizactividad=piz,
+        logincreador=creador,
+        loginjefe=creador,
+        loginasignado=creador)
     a.save()
 
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):
@@ -54,6 +63,12 @@ def obtenerActividad(idpiz):
     actividad['fechainicial'] = act.fechainicial
     actividad['fechaentrega'] = act.fechaentrega
     return actividad
+
+def conseguirHijos(idpiz):
+    """
+    Metodo que consigue las subactividades inmediatas de una actividad padre
+    """
+    pass
 
 def conseguirHijos(idpiz):
     """
@@ -90,5 +105,12 @@ def colaboradores(idpiz):
         colaboradores.append(nombre)
         print nombre
 
-
     return colaboradores
+
+def obtener_actividades(idpiz):
+    act = Actividad.objects.filter(idpizactividad = idpiz)
+    lista = []
+    for elem in act:
+        lista.append(elem)
+    return lista
+
