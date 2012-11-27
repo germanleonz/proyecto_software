@@ -68,6 +68,14 @@
               <input class="submits" type="submit" value="Editar Perfil">
             </form>
           </div>
+          <div class="opcionVer">
+            <form action="{% url app_usuarios:editar_contrasena %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="contrasena" value={{user.password}}/>
+              <input class="submits" type="submit" value="Cambiar Contrasena">
+            </form>
+          </div>
+          
           <div class="opcionVer"><a href="{% url app_usuarios:logout_view %}">Cerrar Sesion</a></div>
         </div>
         {%block dialogs %}

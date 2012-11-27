@@ -32,9 +32,6 @@ def validate_unico(value):
 		raise ValidationError(u'Ya existe usuario con ese Nombre')
 
 
-
-
-
 class LoginForm (forms.Form):    
 
     class Meta:
@@ -85,3 +82,4 @@ class ModificarUsuarioForm(forms.Form):
     apellido = forms.CharField(max_length=20,validators=[validate_apellido])
     telefono = forms.CharField(max_length=15,validators=[validate_telefono])
     correo = forms.EmailField(max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})
+    

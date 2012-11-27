@@ -10,7 +10,7 @@ from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 
 from app_usuarios.models import *
-from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm
+from app_usuarios.forms import *
 
 def login_usuario(request):
     """	
@@ -309,4 +309,3 @@ def registrar_visitante(request):
         form = CrearUsuarioForm()  # Un Form Unbound
 
         return render(request, 'app_usuarios/registrar_visitante.html', { 'form': form, })
-
