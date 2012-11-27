@@ -53,7 +53,7 @@
 
         <div id="herramientas">
           <a id="crearPizarra" onclick="Dajaxice.app_pizarras.crearPizarraForm(my_js_callbackPizarra);" class="opcionesDer" href="#">Nueva Pizarra</a>
-
+          <a id="listarUsuarios" class="opcionesDer" href="{% url app_usuarios:listar_usuarios%}">Listar usuarios</a>
           {% block botones %}{% endblock botones %}
         </div>
         {% endblock herramientas %}
@@ -68,10 +68,12 @@
               <input class="submits" type="submit" value="Editar Perfil">
             </form>
           </div>
+          <div class="opcionVer"><a id="cambiarContrasena" onclick="Dajaxice.app_usuarios.cambiarContrasenaAjax(my_js_callbackContrasena);" href="#">Cambiar Contrasena</a></div>
           <div class="opcionVer"><a href="{% url app_usuarios:logout_view %}">Cerrar Sesion</a></div>
         </div>
         {%block dialogs %}
         <div id="formPizarra" style="display:none;"></div>
+        <div id="dialogCambiarContrasena" style="display:none;"></div>
         {%endblock dialogs%}
         {% block cuerpo %}
         {% endblock cuerpo %}

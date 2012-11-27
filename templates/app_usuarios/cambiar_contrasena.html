@@ -1,0 +1,7 @@
+<div id ="errores_cambiar_contrasena" class="errores">Introduzca su nueva contrasena</div>
+<form action="{% url app_usuarios:cambiar_contrasena %}" id="cambiarContrasenaForm" method="post">
+  {% csrf_token %}
+  <fieldset  id="body">
+    {{ form.as_p }}
+  </fieldset>
+</form>

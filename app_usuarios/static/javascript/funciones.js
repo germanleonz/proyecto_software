@@ -32,7 +32,7 @@ function dialog(){
 
   /*dialog de crear usuario*/
   $("#crearUsuario").click(function(){
-    $("#formUsuario").dialog({
+    $("#dialogCrearUsuario").dialog({
       modal:true,
       position: { my: "center", at: "top", of: window },
       dialogClass: 'style_Dialog',
@@ -42,7 +42,30 @@ function dialog(){
           bValid = validarUsuario();
           if (bValid) {
             // Agregar el usuario recien creado a la lista de usuarios
-            $("#usuarioForm").submit();
+            $("#crearUsuarioForm").submit();
+            $(this).dialog("close");
+          } 
+        },
+      Cancel: function() {
+        $(this).dialog("close");
+      }
+      }
+    })
+  });
+
+  /*dialog de cambiar contrasena*/
+  $("#cambiarContrasena").click(function(){
+    $("#dialogCambiarContrasena").dialog({
+      modal:true,
+      position: { my: "center", at: "top", of: window },
+      dialogClass: 'style_Dialog',
+      title: "Cambiar contrasena",
+      buttons: {
+        "Cambiar contrasena": function() {
+          bValid = validarContrasenas();
+          if (bValid) {
+            // Cambiar contrasena del usuario
+            $("#cambiarContrasenaForm").submit();
             $(this).dialog("close");
           } 
         },
@@ -116,7 +139,7 @@ function my_js_callbackPizarra(data){
 }
 
 function my_js_callbackUsuario(data) {
-  $("#formUsuario").html(data.vista);
+  $("#dialogCrearUsuario").html(data.vista);
 };
 
 function my_js_callbackActividad(data){
@@ -127,9 +150,6 @@ function visualizarActividad(data){
   $("#ventanaActividad").html(data.vista);
 }
 
-function crear_comentario(idpiz){
-  data = $("#crear_comentario").serializeObject();
-  alert("hola");
-  Dajaxice.app_actividad.crearComentario(visualizarActividad,{'form':data, 'data':idpiz});
-  return false;
+function my_js_callbackContrasena(data){
+  $("#dialogCambiarContrasena").html(data.vista);
 }

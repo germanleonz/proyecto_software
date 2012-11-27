@@ -4,10 +4,8 @@
 {% block cuerpo %}
 {% block javascript %}
 {% endblock javascript %}
-<script>
 
-</script>
-<div id="formUsuario"></div>
+<div id="dialogCrearUsuario"></div>
 <table class="tabla">
   <tr>
     <th style="width:200px !important;">Nombre de usuario</th>
@@ -57,5 +55,5 @@
   {% endfor %}
 </table>
 </br>
-<button id="crearUsuario" onclick="Dajaxice.app_usuarios.crearUsuarioForm(my_js_callbackUsuario);" style="cursor:pointer;">Crear Usuario</button>
+<button id="crearUsuario" onclick="Dajaxice.app_usuarios.crearUsuarioAjax(my_js_callbackUsuario);" style="cursor:pointer;">Crear Usuario</button>
 {% endblock cuerpo %}

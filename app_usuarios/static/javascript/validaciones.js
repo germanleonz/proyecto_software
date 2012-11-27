@@ -106,6 +106,15 @@ function compareDates(date1, date2){
   }
 }
 
+function compararContrasenas(contrasena1, contrasena2, div) {
+    if ((contrasena1.val()).localeCompare(contrasena2.val()) == 0) {
+        return true;
+    } else {
+        $(div).html("Las contrasenas no coinciden");
+    }
+    return false;
+}
+
 
 /*funcion para validar el form de crear pizarra*/
 function validarPizarra(){
@@ -152,6 +161,7 @@ function validarUsuario(){
       div = "#errores_crear_usuario",
       formatoNombres = /^[A-Za-z0-9\?\¿\!\¡\:\,\.\-\ç\ñáéíóú\(\)\"\'\äëïöüàèìòù\s]*$/,
       formatoCorreo = /^[a-zA-Z0-9]+@[a-zA-Z]+\.([a-z]{2-4})$/,
+      formatoTelefono = /^[0-9]+[-]?[0-9]+$/,
       valido = true;
 
       valido = valido && checkLength(nombre_usuario,"Nombre de Usuario", 1, 30, div);
@@ -162,9 +172,22 @@ function validarUsuario(){
       valido = valido && checkLength(telefono,"Telefono", 1, 30, div);
       //valido = valido && checkRegex(correo,"Correo",formatoCorreo, div);
       valido = valido && checkRegex(nombre,"Nombre",formatoNombres, div);
+      valido = valido && checkRegex(telefono,"Telefono",formatoTelefono, div);
       valido = valido && checkRegex(apellido,"Apellido",formatoNombres, div);
 
       return valido;
+}
+
+function validarContrasenas() {
+    var contrasena1 = $("#id_contrasena1"),
+    contrasena2 = $("#id_contrasena2"),
+    valido = true,
+    div = "#errores_cambiar_contrasena";
+
+    valido = valido && checkLength(contrasena1, "Contrasena", 6, 15, div);
+    valido = valido && checkLength(contrasena2, "Repeticion contrasena", 6, 15, div);
+    valido = valido && compararContrasenas(contrasena1, contrasena2, div);
+    return valido;
 }
 
 function validarActividad(){

@@ -6,6 +6,7 @@ from django.contrib.auth import views as views_admin
 urlpatterns = patterns('',
     url(r'^crear_usuario/', views_usuarios.crear_usuario, name='crear_usuario'),
     url(r'^registrar_visitante/', views_usuarios.registrar_visitante, name='registrar_visitante'),
+    url(r'^cambiar_contrasena/', views_usuarios.cambiar_contrasena, name='cambiar_contrasena'),
     url(r'^listar_usuarios/', views_usuarios.listar_usuarios, name='listar_usuarios'),
     url(r'^modificar_usuario/', views_usuarios.modificar_usuario, name='modificar_usuario'),
     url(r'^modificar_form/', views_usuarios.modificar_form, name='modificar_form'),
