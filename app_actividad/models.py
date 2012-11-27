@@ -68,6 +68,12 @@ def conseguirHijos(idpiz):
     """
     Metodo que consigue las subactividades inmediatas de una actividad padre
     """
+    pass
+
+def conseguirHijos(idpiz):
+    """
+    Metodo que consigue las subactividades inmediatas de una actividad padre
+    """
     hijos = list(SeDivide.objects.filter(idactividad= idpiz))
     return hijos
 
@@ -100,3 +106,11 @@ def colaboradores(idpiz):
         print nombre
 
     return colaboradores
+
+def obtener_actividades(idpiz):
+    act = Actividad.objects.filter(idpizactividad = idpiz)
+    lista = []
+    for elem in act:
+        lista.append(elem)
+    return lista
+

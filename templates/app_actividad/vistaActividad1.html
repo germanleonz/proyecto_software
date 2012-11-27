@@ -86,7 +86,7 @@
       <input type="submit" value="Comentar" />
     </form>
 
-    <!-- modificar actividad --
+    <!-- modificar actividad -->
     <form action="{% url 'app_actividad:modificar_form' %}" method="post">
       {% csrf_token %}
       <input type="hidden" name="idact" value="{{actividad.idact}}"/>

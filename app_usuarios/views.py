@@ -6,11 +6,15 @@ from django.contrib.auth import views as views_admin
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 
+<<<<<<< HEAD
 from app_usuarios.models import *
 from app_usuarios.forms import *
+=======
+from app_usuarios.models import UserProfile
+from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
+>>>>>>> 21455ee272688766ecc8362b9993e7c6c38922c5
 
 def login_usuario(request):
     """	
@@ -26,9 +30,9 @@ def login_usuario(request):
             if usuario is not None:
                 #   El usuario se autentico correctamente
                 if usuario.is_active:
-                    login(request, usuario)
-                    print "Acceso permitido para %s" % nombre_usuario
                     #   Redirigir a pagina de login correcto (ver pared)
+                    print "Acceso permitido para %s" % nombre_usuario
+                    login(request, usuario)
                     lista = app_pizarras.views.obtener_pizarras(request)
                     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
                 else:
@@ -75,7 +79,7 @@ def crear_usuario(request):
                 datos_perfil = {}
                 datos_perfil['telefono'] = data['nuevo_telefono']
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
-                crear_colaborador(u, datos_perfil)
+                UserProfile.objects.crear_colaborador(u, datos_perfil)
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
@@ -137,7 +141,7 @@ def modificar_usuario(request):
             #   Datos del UserProfile   
             telefono = data['telefono']
     
-            modificar(nombre_usuario, nombre, apellido, telefono, correo)
+            UserProfile.objects.modificar(nombre_usuario, nombre, apellido, telefono, correo)
         else:
             #   Aqui se deben levantar los errores cuando los datos proporcionados no sean validos
             print "No se pudo modificar el usuario"
@@ -222,39 +226,6 @@ def modificar_perfil(request):
     lista.append(perfil_usuario.telefono)
     return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario' : nombre_usuario, 'lista' : lista })
 
-def invitar_usuario(request):
-    """
-    Metodo que invita a un colaborador a hacerse responsable de una actividad
-    parametros: id_actividad a la que se le esta asignando un responsable y correo 
-    de la persona a la que se le esta asignando 
-    """
-    if request.method == 'POST':
-        id_actividad = request.post['id_actividad']
-        recipiente = request.post['recipiente']
-        remitente = "pizarras@software.com"
-        nombre_usuario = recipiente.partition("@")[0]  
-        contrasena = User.object.make_random_password()
-        asunto = "Felicidades, usted ha sido invitado a participar como colaborador"
-        mensaje = """
-            Felicidades usted ha sido invitado a trabajar como colaborador en un actividad 
-            Su nombre de usuario es: {0} 
-            Su contrasena es: {1}
-
-            Por su seguridad le recomendamos cambiar la clave tan pronto como le sea posible
-        """.format(unicode(usuario), unicode(contrasena))
-        send_mail(asunto, mensaje, remitente, [recipiente],  fail_silently = False)
-
-        #   Creamos el usuario con nombre de usuario y contrasena como unicos datos
-        User.objects.create(username=nombre_usuario)
-        datos = {}
-        datos['telefono'] = ""
-        crear_colaborador(usuario, datos)
-
-        #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad
-        #   al usuario recien creado
-    lista = app_pizarras.views.obtener_pizarras(request)
-    return render(request, 'app_pizarras/listar.html', { 'lista' : lista, }) #  Esta vista puede ser cualquier otra  
-
 def logout_view(request):
     """
     Metodo llamado cuando se quiere cerrar la sesion, crea un formulario unbound para el login
@@ -291,7 +262,7 @@ def registrar_visitante(request):
                 datos_perfil = {}
                 datos_perfil['telefono'] = data['nuevo_telefono']
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
-                crear_colaborador(u, datos_perfil)
+                UserProfile.objects.crear_colaborador(u, datos_perfil)
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
@@ -309,3 +280,24 @@ def registrar_visitante(request):
         form = CrearUsuarioForm()  # Un Form Unbound
 
         return render(request, 'app_usuarios/registrar_visitante.html', { 'form': form, })
+
+@csrf_exempt
+@login_required
+def cambiar_contrasena(request):
+    if request.method == 'POST':
+        form = CambiarContrasenaForm(request.POST)
+        if form.is_valid():
+            #   Cambiando la contrasena   
+            data = form.cleaned_data
+            contrasena = data['contrasena1']
+            usuario = request.user
+            print usuario.email
+            usuario.set_password(contrasena)
+            usuario.save()
+
+            lista = app_pizarras.views.obtener_pizarras(request)
+            return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+    else:
+        form = CambiarContrasenaForm()
+    return render(request, 'app_usuarios/cambiar_contrasena.html', { 'form': form, })
+
