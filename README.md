@@ -3,7 +3,7 @@ Proyecto de gestion de pizarras y actividades
 Notas de instalacion o primera corrida del sistema:  
 
 1.- Clonar el repositorio  
-    git clone https://github.com/germanleonz/proyecto_pizarras.git  
+    git clone https://github.com/germanleonz/proyecto_software.git  
 
 2.- Desde el directorio raiz del proyecto hacer:
     python manage.py syncdb && python manage.py crear_grupos  

@@ -94,6 +94,3 @@ def obtenerPizarra(idpiz):
     pizarra['fechafinal'] = elem.fechafinal
     
     return pizarra
-
-def colaboradores(idpiz):
-    pass
