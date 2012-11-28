@@ -39,6 +39,7 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
     """
     Metodo que guarda una pizarra en la base de datos generando la id como el siguiente al mas alto
     """
+    from app_actividad.models import crearActividad
     #Obtengo el ultimo id creado y sumo 1 a su valor para el id de la nueva pizarra
     ultima = Pizarra.objects.all().aggregate(Max('idpiz'))
     if ultima['idpiz__max'] == None:
@@ -56,7 +57,7 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
         avancepiz=0,
         logindueno =  usuario)
     nuevo.save()
-    #crearActividad(nombrepiz,descripcionpiz,fechacreacion, fechafinal, idpiz, usuario)
+    crearActividad(nombrepiz,descripcionpiz,fechacreacion, fechafinal, nuevo, usuario)
 
 def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal):
     """
