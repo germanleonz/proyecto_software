@@ -100,7 +100,7 @@ function dialog(){
     });
 
   /*dialog de ver actividad*/
-  $("#actCont").click(function(){
+  $(".mostrarActividad").click(function(){
     $("#ventanaActividad").dialog({
       modal:true,
       width: 800,

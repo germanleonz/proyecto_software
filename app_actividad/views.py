@@ -77,6 +77,7 @@ def visualizar_actividad(request):
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, })
     
 
+@csrf_exempt
 @login_required
 def modificar_actividad(request):
   """
