@@ -98,7 +98,24 @@
     <tr>
       {% endif %}
       <td>
-        <div class="actividad">
+        <div class="actividad" style="
+          {%if object.estadoact == "c"%}
+          background: #378B6E;
+          {%endif%}
+          {%if object.estadoact == "r"%}
+          background: #FFCC00;
+          {%endif%}
+          {%if object.estadoact == "e"%}
+          background: #1947D1;
+          {%endif%}
+          {%if object.estadoact == "p"%}
+          background: #FF0000;
+          {%endif%}
+          {%if object.estadoact == "s"%}
+          background: #FFF;
+          color: black;
+          {%endif%}
+          ">
           <div id="actHead">
             {{object.nombreact}}
             <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
