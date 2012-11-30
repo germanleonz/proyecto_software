@@ -51,6 +51,32 @@
         {{actividad.fechaentrega}}
       </td>
     </tr>
+     <tr>
+      <td>
+        <h>Estado</h></br>
+        {{actividad.estadoact}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h>Estado</h></br>
+        {% if actividad.estadoact == "e" %}
+        En ejecucion
+        {% endif %}
+        {% if actividad.estadoact == "r" %}
+        Retrasada
+        {% endif %}
+        {% if actividad.estadoact == "p" %}
+        Postergada
+        {% endif %}
+        {% if actividad.estadoact == "c" %}
+        Completada
+        {% endif %}
+        {% if actividad.estadoact == "s" %}
+        Sin asignar
+        {% endif %}
+      </td>
+    </tr>
     <tr>
       <td>
         <!-- modificar actividad -->
@@ -80,6 +106,16 @@
           </select> 
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
           <input type="submit" value="Cambiar Estado" />
+        </form>
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <form action="{% url 'app_actividad:crear_subactividad' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+	  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
+          <input type="submit" id="modificarAct" value="Crear SubActividad" />
         </form>
       </td>
     </tr>
@@ -119,6 +155,8 @@
     </form>
   </div>
   </div>
-  <div id="subactividades"></div>
+  <div id="subactividades">
+  </div>
 </div>
+
 {% endblock cuerpo%} 

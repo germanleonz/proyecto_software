@@ -10,27 +10,27 @@ class Actividad(models.Model):
     idpizactividad = models.ForeignKey(Pizarra,related_name='actividad_enPizarra')
     fechainicial = models.DateField(auto_now=False, auto_now_add=False)
     fechaentrega = models.DateField(auto_now=False, auto_now_add=False)
-    descripcionact = models.CharField(max_length=150)
-    ESTADOS=(('c', 'Completada'), ('r', 'Retrasada'),('e', 'En Ejecucion'), ('p', 'Postergada'),('s', 'Sin Asignar'))
+    descripcionact = models.CharField(max_length =150)
+    ESTADOS=(('c', 'Completada'), ('r', 'Retrasada'),('e', 'En Ejecucion'),('p', 'Postergada'),('s', 'Sin Asignar'))
     estadoact = models.CharField(max_length=15, choices=ESTADOS)
     avanceact = models.IntegerField()
     nombreact = models.CharField(max_length=50)
     logincreador = models.ForeignKey(User, related_name = 'actividad_loginCreador')
     loginjefe = models.ForeignKey(User, related_name = 'actividad_loginJefe')
     loginasignado = models.ForeignKey(User, related_name = 'actividad_loginAsignado')
+    actividad_padre = models.ForeignKey('self', related_name='sub_actividades', null=True) # Atributo que indica el padre de la actividad, en caso de que la actividad sea la raiz entonces el padre es null
 
 class seDivide(models.Model):
     idactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idAct')
     idsubactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idSubAct')    
 
-def crearActividad(nombre,descript,fechaini,fechaent,piz,creador):
+def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
 
     ult = Actividad.objects.all().aggregate(Max('idact'))
     if ult['idact__max'] == None:
         idact=0
     else:
         idact= ult['idact__max']+1
-
     a=Actividad(idact=idact, 
         nombreact=nombre,
         descripcionact=descript,
@@ -40,7 +40,8 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador):
         idpizactividad=piz,
         logincreador=creador,
         loginjefe=creador,
-        loginasignado=creador)
+        loginasignado=creador,
+        actividad_padre= padre)
     a.save()
 
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):
@@ -64,6 +65,15 @@ def obtenerActividad(idpiz):
     actividad['fechaentrega'] = act.fechaentrega
     return actividad
 
+def obtenerSubactividad(idact,idpiz):
+    actividad = {}
+    act = Actividad.Objects.get(idpizactividad = idpiz, actividad_padre=idact)
+    actividad['nombre'] = act.nombreact
+    actividad['descripcion'] = act.descripcionact
+    actividad['fechainicial'] = act.fechainicial
+    actividad['fechaentrega'] = act.fechaentrega
+    return actividad
+ 
 def conseguirHijos(idpiz):
     """
     Metodo que consigue las subactividades inmediatas de una actividad padre
@@ -111,4 +121,11 @@ def obtener_actividades(idpiz):
     for elem in act:
         lista.append(elem)
     return lista
+    
+def obtener_subactividades(idact):
+    act = Actividad.objects.filter(actividad_padre=idact)
+    lista = []
+    for elem in act:
+        lista.append(elem)
+    return lista    
 

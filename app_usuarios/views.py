@@ -1,4 +1,5 @@
 import re
+import datetime 
 import app_pizarras
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -7,8 +8,10 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+
 from app_usuarios.models import UserProfile
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
+from app_log.models import crearAccionUser
 from app_pizarras.views import listar_pizarra
 
 def login_if(request):
@@ -22,41 +25,46 @@ def login_if(request):
         return login_usuario(request)
 
 def login_usuario(request):
-	"""	
-	Metodo que verificar las credenciales del usuario y permite o no el acceso
-	sistema
-	In: request
-	Out: vista login
-	Autor: German Leon 
-	Fecha: 5-11-12 Version 1.0
-	"""
-	if request.method == 'POST':
-		form = LoginForm(request.POST)
-		if form.is_valid():
-			nombre_usuario = form.cleaned_data['nombre_usuario']
-			password = form.cleaned_data['password']
-			usuario = authenticate(username=nombre_usuario, password=password)
-			if usuario is not None:
-				#   El usuario se autentico correctamente
-				if usuario.is_active:
-					#   Redirigir a pagina de login correcto (ver pared)
-					print "Acceso permitido para %s" % nombre_usuario
-					login(request, usuario)
-					lista = app_pizarras.views.obtener_pizarras(request)
-					return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
-				else:
-					#   Devolver un mensaje de cuenta deshabilitada
-					pass
-			else:
-				#   Devolver un mensaje de usuario o contrasena incorrectas
-				print "Acceso denegado para %s" % nombre_usuario
-				print "-----" + str(User.objects.filter(username = nombre_usuario))
-				#   Aqui se deben levantar los errores
-				return render(request, 'app_usuarios/login.html', { 'form': form, })
-	else:
-		# An Unbound Form (formulario sin datos)
-		form = LoginForm()  
-	return render(request, 'app_usuarios/login.html', { 'form': form, })
+    """ 
+    Metodo que verificar las credenciales del usuario y permite o no el acceso
+    sistema
+    In: request
+    Out: vista login
+    Autor: German Leon 
+    Fecha: 5-11-12 Version 1.0
+    """
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            nombre_usuario = form.cleaned_data['nombre_usuario']
+            password = form.cleaned_data['password']
+            usuario = authenticate(username=nombre_usuario, password=password)
+            if usuario is not None:
+                #   El usuario se autentico correctamente
+                if usuario.is_active:
+
+                    #Se registra la accion de login del usuario
+                    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %I:%M")
+                    crearAccionUser(usuario, "El usuario %s inicio sesion en la fecha %s" % (nombre_usuario, str(fechaYHora)), fechaYHora)
+
+                    #   Redirigir a pagina de login correcto (ver pared)
+                    print "Acceso permitido para %s" % nombre_usuario
+                    login(request, usuario)
+                    lista = app_pizarras.views.obtener_pizarras(request)
+                    return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+                else:
+                    #   Devolver un mensaje de cuenta deshabilitada
+                    pass
+            else:
+                #   Devolver un mensaje de usuario o contrasena incorrectas
+                print "Acceso denegado para %s" % nombre_usuario
+                print "-----" + str(User.objects.filter(username = nombre_usuario))
+                #   Aqui se deben levantar los errores
+                return render(request, 'app_usuarios/login.html', { 'form': form, })
+    else:
+        # An Unbound Form (formulario sin datos)
+        form = LoginForm()  
+    return render(request, 'app_usuarios/login.html', { 'form': form, })
 
 def perfil_usuario(request):
     if request.method == 'POST':
@@ -102,6 +110,15 @@ def crear_usuario(request):
                 datos_perfil['telefono'] = data['nuevo_telefono']
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
                 UserProfile.objects.crear_colaborador(u, datos_perfil)
+
+                #Se obtiene al usuario que esta loggeado al momento de crear un nuevo usuario.
+                usuario = request.user
+
+                #Se registra en el log que "usuario" creo a un nuevo colaborador
+                fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                crearAccionUser(usuario, "El usuario %s agrego a %s en la fecha %s" % (usuario.username, nombre_usuario, str(fechaYHora)), fechaYHora)  
+
+
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
@@ -173,6 +190,14 @@ def modificar_usuario(request):
             telefono = data['telefono']
     
             UserProfile.objects.modificar(nombre_usuario, nombre, apellido, telefono, correo)
+
+            #Se obtiene al usuario que realizo la modificacion
+            usuario = request.user
+
+            #Se agrega en el log que "usuario" modifico a nombre_usuario
+            fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            crearAccionUser(usuario, "El usuario %s modifico la informacion de %s en la fecha %s" % (usuario.username, nombre_usuario, fechaYHora), fechaYHora)
+
         else:
             #   Aqui se deben levantar los errores cuando los datos proporcionados no sean validos
             print "No se pudo modificar el usuario"
@@ -239,6 +264,14 @@ def eliminar_usuario(request):
         usuario.delete()
         print "Usuario eliminado"
 
+        #Se obtiene al usuario que realizo la eliminacion
+        usuarioNew = request.user
+        username = str(usuarioNew.username)
+
+        #Se agrega en el log que "usuario" elimino a nombre_usuario
+        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+        crearAccionUser(usuarioNew, "El usuario %s elimino a %s en la fecha %s" % (username, nombre_usuario, str(fechaYHora)), fechaYHora)
+
     lista = User.objects.all()
     puede_eliminar = request.user.has_perm('auth.delete_user')
     puede_modificar = request.user.has_perm('auth.change_user')
@@ -267,6 +300,12 @@ def modificar_perfil(request):
     lista.append(usuario.last_name)
     lista.append(usuario.email)
     lista.append(perfil_usuario.telefono)
+
+    #Se agrega en el log que "usuario" edito su perfil
+
+    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    crearAccionUser(usuario, "El usuario %s modifico la informacion de su perfil en la fecha %s" % (nombre_usuario, str(fechaYHora)),fechaYHora)
+
     return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario' : nombre_usuario, 'lista' : lista })
 
 def logout_view(request):
@@ -279,7 +318,17 @@ def logout_view(request):
     Fecha 5-11-12 Version 1.0
     """
     form = LoginForm()
+    
+    #Se obtiene al usuario que desea cerrar sesion
+    usuario = request.user
+    nombre_usuario = usuario.username
     logout(request)
+
+    #Se agrega en el log que "nombre_usuario cerro sesion
+    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    crearAccionUser(usuario, "El usuario %s cerro sesion en la fecha %s" % (nombre_usuario, str(fechaYHora)), fechaYHora)
+
+    
     return render(request, 'app_usuarios/login.html', { 'form': form, })
 
 def registrar_visitante(request):
