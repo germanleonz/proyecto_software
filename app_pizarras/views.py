@@ -1,9 +1,11 @@
+import datetime
 from django.shortcuts import render
 from app_pizarras.models import *
 from app_pizarras.forms import *
 from app_actividad.models import colaboradores, obtener_actividades
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from app_log.models import crearAccionPizarra
 
 @csrf_exempt
 @login_required
@@ -25,6 +27,12 @@ def crear_pizarra(request):
             usuario = request.user
             #Metodo que guarda la pizarra en la base de datos.
             CreadorPizarra(nombrepiz,descripcionpiz,fechaCreacion,fechaFinal,usuario)
+
+            #Se registra en el log la creacion de la nueva pizarra
+            fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            nombre_usuario = usuario.username            
+            crearAccionPizarra(usuario,"El usuario %s creo la pizarra %s en la fecha %s" % (nombre_usuario, str(nombrepiz), str(fechaYHora)), fechaYHora)
+
             lista = obtener_pizarras(request)
             return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
         else:
@@ -62,10 +70,20 @@ def eliminar_pizarra(request):
     """
     if request.method == 'POST':
         idpiz = request.POST['idpiz']
+        pizarra = Pizarra.objects.get(idpiz=idpiz)
+        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+        usuario = request.user
+        nombre_usuario = usuario.username
+        nombrepiz = pizarra.nombrepiz
+
+        #Se registra en el log la creacion de la nueva pizarra
+        crearAccionPizarra(usuario,"El usuario %s elimino la pizarra %s en la fecha %s" % (nombre_usuario, str(nombrepiz), str(fechaYHora)), fechaYHora)        
         eliminar(idpiz)
         lista = obtener_pizarras(request)
         return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
+    
+    
     lista = obtener_pizarras(request)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
@@ -88,6 +106,15 @@ def modificar_pizarra(request):
                 fechaFinal = data['fecha_final']
                 #Metodo que guarda la pizarra en la base de datos.
                 modificar(idpiz,nombrepiz,descripcionpiz,fechaFinal)
+
+                fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                usuario = request.user
+                nombre_usuario = usuario.username
+
+                #Se registra en el log la creacion de la nueva pizarra
+                crearAccionPizarra(usuario,"El usuario %s modifico la informacion de la pizarra %s en la fecha %s" % (nombre_usuario, str(nombrepiz), str(fechaYHora)), fechaYHora)        
+
+
                 lista = obtener_pizarras(request)
                 return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
             else:

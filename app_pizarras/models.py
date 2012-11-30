@@ -30,9 +30,7 @@ class PersonalizarPizarra(models.Model):
     posicion = models.IntegerField()
 
 def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario):
-    """
-    Metodo que guarda una pizarra en la base de datos generando la id como el siguiente al mas alto
-    """
+    """Metodo que guarda una pizarra en la base de datos generando la id como el siguiente al mas alto"""
     from app_actividad.models import crearActividad
     #Obtengo el ultimo id creado y sumo 1 a su valor para el id de la nueva pizarra
 #    ultima = Pizarra.objects.all().aggregate(Max('idpiz'))

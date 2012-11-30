@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'app_pizarras',
     'app_actividad',
     'app_comentarios',
+    'app_log',
 )
 
 # A sample logging configuration. The only tangible logging

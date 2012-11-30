@@ -1,0 +1,43 @@
+{% extends "app_usuarios/template.html" %}
+{% load url from future }
+{% block titulo %}Acciones de Usuarios{% endblock titulo %}
+{% block cuerpo %}
+{% block javascript %}
+{% endblock javascript %}
+
+<table class="tabla">
+  <tr>
+    <th style="width:200px !important;">Nombre de usuario</th>
+    <th>Descripcion</th>
+    <th>Fecha</th>
+    {% if puede_eliminar %}
+    <th>Eliminar</th>
+    {% endif %}
+
+  </tr>
+  {% for object in lista%}
+  <tr>
+    <td>
+      {{object.loginuser}}
+    </td>
+    <td>
+      {{object.contenidoaccionuser}}
+    </td>
+    <td>
+      {{object.fechaaccionuser}}
+    </td>
+    <td>
+      {% if puede_eliminar %}
+      <form action="{% url app_log:eliminarAccionUser %}" method="post">
+        {% csrf_token %}
+        <input name="idaccionuser" type="hidden" value="{{object.idaccionuser}}"/>
+        <input type="submit" value="Eliminar"/>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+</br>
+<button id="crearUsuario" onclick="Dajaxice.app_usuarios.crearUsuarioAjax(my_js_callbackUsuario);" style="cursor:pointer;">Crear Usuario</button>
+{% endblock cuerpo %}
