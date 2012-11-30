@@ -5,6 +5,15 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+"""
+Clase para la tabla de los comentarios
+atributo idcomentario: id del comentario
+atributo horacomentario: hora del comentario
+atributo fechacomentario: fecha del comentario
+atributo contenido: contenido del comentario
+atributo idactcomentario: id de la actividad a la que pertenece el comentario
+atributo loginusuario: usuario creador del comentario
+"""
 class Comentario(models.Model):
   idcomentario = models.AutoField(primary_key=True)
   horacomentario = models.TimeField(auto_now=False,auto_now_add=False)
@@ -14,20 +23,24 @@ class Comentario(models.Model):
   loginusuario = models.ForeignKey(User, related_name = "comentario_loginusuario")
 
 def CreadorComentario(hora, fecha, contenido, idact, usuario):
-  #Obtengo el ultimo id creado y sumo 1 a su valor para el id de la nuevo comentario
-#  ultimo = Comentario.objects.all().aggregate(Max('idcomentario'))
-  #if ultimo['idcomentario__max'] == None:
-      #idcomentario=0
-  #else:
-      #idcomentario= ultimo['idcomentario__max']+1
-
-  #instancio el comentario a guardar   
+  """
+  Metodo que guarda en BD un nuevo comentario
+  param hora: hora del comentario
+  param fecha: fecha del comentario
+  param contenido: contenido del comentario
+  param idact: actividad a la que pertenece el comentario
+  param usuario: usuario que escribio el comentario
+  autor: Ivan Travecedo
+  fecha: 20/11/2012
+  version: 1.0
+  """ 
   nuevoComentario = Comentario(horacomentario=hora, fechacomentario=fecha, contenido=contenido, idactcomentario=idact,loginusuario=usuario)
   nuevoComentario.save()
 
 def eliminar(idComentario):
     """
     Elimina un comentario de la tabla de comentarios
+    param idComentario: id del comentario a eliminar
     """
     comentario = Comentario.objects.filter(idcomentario = idComentario)
     comentario.delete()
@@ -35,6 +48,8 @@ def eliminar(idComentario):
 def obtener_comentarios(idActividad):
   """
   Metodo que obtiene los comentarios de la actividad seleccionada
+  param idActividad: id de la actividad de la cual se obtendran comentarios
+  out lista: Lista con los comentarios de la actividad
   """
   comentarios = Comentario.objects.filter(idactcomentario=idActividad)
   lista = []

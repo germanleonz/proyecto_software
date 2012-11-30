@@ -13,6 +13,8 @@ from django.contrib.auth.models import User
 def crear_comentario(request):
   """
   Metodo que crea un nuevo comentario llamando a CreadorComentario
+  in: request
+  out: salida a la vista adecuada
   """
   if request.method =='POST':
     form = CrearComentarioForm(request.POST)
@@ -38,6 +40,11 @@ def crear_comentario(request):
 
 @login_required
 def eliminar_comentario(request):
+  """
+  Metodo que llama al manejador para eliminar comentario
+  in request
+  out salida a la vista adevuada
+  """
   if request.method == 'POST':
     #   Eliminamos el comentario que se selecciono
     idComentario = request.POST['idcomentario']
@@ -50,12 +57,3 @@ def eliminar_comentario(request):
       eliminar(idComentario)
     lista = obtener_comentarios(idActividad)
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, 'actividad': actividad,})
-
-
-@login_required
-def listar_comentarios(request):
-  """
-  Metodo que lista los comentarios en la pared 
-  """
-  lista = obtener_comentarios(request)
-  return render(request, '', { 'lista' : lista, })

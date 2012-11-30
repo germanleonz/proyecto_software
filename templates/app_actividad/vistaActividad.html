@@ -35,7 +35,7 @@
     </tr>
     <tr>
       <td>
-        <h>Descripcion</h></br>
+        <h>Descripción</h></br>
         {{actividad.descripcionact}}
       </td>
     </tr>
@@ -49,6 +49,12 @@
       <td>
         <h>Fecha de entrega</h></br>
         {{actividad.fechaentrega}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h>Estado</h></br>
+        {{actividad.estadoact}}
       </td>
     </tr>
     <tr>
@@ -80,6 +86,16 @@
           </select> 
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
           <input type="submit" value="Cambiar Estado" />
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <form action="{% url 'app_actividad:crear_actividad' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+	  <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
+          <input type="submit" id="modificarAct" value="Crear SubActividad" />
         </form>
       </td>
     </tr>
