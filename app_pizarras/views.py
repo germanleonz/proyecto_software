@@ -29,12 +29,13 @@ def crear_pizarra(request):
             usuario = request.user
             #Metodo que guarda la pizarra en la base de datos.
             CreadorPizarra(nombrepiz,descripcionpiz,fechaCreacion,fechaFinal,usuario)
-            lista = obtener_pizarras(request)
-            return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+            print "SII"
+            return listar_pizarra(request)
         else:
-            lista = obtener_pizarras(request)
-            return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+            print "NOO"
+            return listar_pizarra(request)
     
+    print "YAA"
     form = CrearPizarraForm()
     return render(request, 'app_pizarras/crear_pizarra.html', { 'form': form, })
 
