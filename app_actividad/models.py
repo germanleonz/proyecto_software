@@ -10,7 +10,7 @@ class Actividad(models.Model):
     idpizactividad = models.ForeignKey(Pizarra,related_name='actividad_enPizarra')
     fechainicial = models.DateField(auto_now=False, auto_now_add=False)
     fechaentrega = models.DateField(auto_now=False, auto_now_add=False)
-    descripcionact = models.CharField(max_length=100)
+    descripcionact = models.CharField(max_length=150)
     ESTADOS=(('c', 'Completada'), ('r', 'Retrasada'),('e', 'En Ejecucion'), ('p', 'Postergada'),('s', 'Sin Asignar'))
     estadoact = models.CharField(max_length=15, choices=ESTADOS)
     avanceact = models.IntegerField()
