@@ -67,6 +67,7 @@ def eliminar_actividad(request):
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/listar.html', { 'lista' : lista, })   
         
+@csrf_exempt        
 def visualizar_actividad(request):
     if request.method== 'POST':
         idact = request.POST['idact']
@@ -113,18 +114,21 @@ def modificar_actividad(request):
 	lista.append(request.POST['fechaentrega'])
 	return render(request, 'app_actividad/modificar_actividad.html', { 'form': form, 'idact' : idact, 'lista' : lista })
 	
+@csrf_exempt	
 @login_required
 def cambiar_estado_actividad(request):
   if request.method == 'POST':
     idact = request.POST['idact']
     estado = request.POST['estadoact']
+    print "holaaaaaaaaaa soy idact",
+    print idact
     act = Actividad.objects.get(idact = idact)
     if estado != "null":
       cambiarEstado(idact,estado)
     lista = obtener_comentarios(idact)
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, 'actividad': act})
 
-
+@csrf_exempt
 @login_required
 def generar_form_modificar(request):
     """
