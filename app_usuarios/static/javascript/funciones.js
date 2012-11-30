@@ -87,6 +87,8 @@ function dialog(){
         "Crear Actividad": function(){
           valido = validarActividad();
           if (valido){
+            $("#actividadForm").submit();
+            $(this).dialog("close");
           }
 
         },

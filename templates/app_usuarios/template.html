@@ -48,7 +48,15 @@
           $(document).ready(function(){
             dialog();
             barraUsuario();
+           // Dajaxice.app_pizarras.buscarActividades(mifuncion)
           });
+
+          function mifuncion(data){
+            var i;
+            for (i=0; i<data.nombres.length; ++i){
+              alert(data.nombres[i].length);
+            }
+          }
         </script>
 
         <div id="herramientas">
@@ -57,7 +65,6 @@
           <a id="listarUsuarios" class="opcionesDer" href="{% url app_usuarios:listar_usuarios%}">Listar usuarios</a>
           {% block botones %}{% endblock botones %}
         </div>
-        {% endblock herramientas %}
         <div id="opcionesUsuario">
           <div class="opcionVer"><a href="{% url app_pizarras:listar_pizarra %}">Mis pizarras</a></div>
           <div class="opcionVer">
@@ -72,6 +79,7 @@
           <div class="opcionVer"><a id="cambiarContrasena" onclick="Dajaxice.app_usuarios.cambiarContrasenaAjax(my_js_callbackContrasena);" href="#">Cambiar Contrasena</a></div>
           <div class="opcionVer"><a href="{% url app_usuarios:logout_view %}">Cerrar Sesion</a></div>
         </div>
+        {% endblock herramientas %}
         {%block dialogs %}
         <div id="formPizarra" style="display:none;"></div>
         <div id="dialogCambiarContrasena" style="display:none;"></div>
