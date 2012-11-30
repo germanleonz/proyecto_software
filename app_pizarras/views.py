@@ -6,6 +6,8 @@ from app_actividad.models import colaboradores, obtener_actividades
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from app_log.models import crearAccionUser
+from app_pizarras.arbol import *
+from app_actividad.models import generar_arbol
 
 @csrf_exempt
 @login_required
@@ -176,7 +178,9 @@ def visualizar_pizarra(request):
         pi = Pizarra.objects.get(idpiz=idpiz)
         colab = colaboradores(idpiz)
         lista = obtener_actividades(request.POST['idpiz'])
-        return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista})
+        root = generar_arbol(lista[len(lista)-1].idact)
+        root  =  root.generate_list()
+        return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista, 'arbol': root})
     
     #no se que retornar si no es post asi que retorno la vista anterior y ya
     lista = obtener_pizarras(request)
