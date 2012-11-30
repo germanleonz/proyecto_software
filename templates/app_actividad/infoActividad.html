@@ -6,11 +6,6 @@
 <link href="{% static "css/vistaPizarra_style.css" %}" rel="stylesheet" type="text/css"/>
 {% endblock css %}
 {% block javascript %}
-<script>
-  $(function(){
-    $( "#arbol" ).tabs();
-  })
-</script>
 {% endblock javascript %}
 
 {% block botones %}
@@ -23,7 +18,6 @@
     <tr>
       <td>
         <h>Nombre</h></br>
-        {{data}}
         {{actividad.nombreact}}
       </td>
     </tr>
@@ -61,7 +55,7 @@
           <input type="hidden" name="descripcionact" value="{{actividad.descripcionact}}"/>
           <input type="hidden" name="fechainicial" value="{{actividad.fechainicial}}"/>
           <input type="hidden" name="fechaentrega" value="{{actividad.fechaentrega}}"/>
-          <input type="submit" id="modificarAct" value="Modificar" />
+          <input type="submit" value="Modificar" />
         </form>
       </td>
     </tr>
@@ -85,40 +79,12 @@
     </tr>
   </table>
 </div>
-<div id="arbol">
-  <ul>
-    <li><a href="#comentarios">Comentarios</a></li>
-    <li><a href="#subactividades">Subactividades</a></li>
-  </ul>
-  <div id="comentarios">
-    <table id="tablaComentarios">
-      {% for elem in lista %}
-      <tr>
-        <td>
-	    <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post">
-	      {% csrf_token %}
-	      {{elem.contenido}}
-	      <br>
-	      Fecha: {{elem.fechacomentario}}
-	      Hora: {{elem.horacomentario}}
-	      <br>
-	      Autor: {{elem.loginusuario}}
-	      <input type="hidden" name="idcomentario" value="{{elem.idcomentario}}"/>
-	      <input type="submit" value="Eliminar"/>
-	    </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
-    <!-- hacer comentarios -->
-    <div id="comentar">
-    <form action="{% url 'app_comentarios:crear_comentario' %}" id="crear_comentario" method="post">{% csrf_token %}
-      <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-      <textarea id="contenido" name="contenido"></textarea>
-      <input type="submit" value="Comentar"/>
-    </form>
-  </div>
-  </div>
-  <div id="subactividades"></div>
+<div id="comentarios">
+  <!-- hacer comentarios -->
+  <form action="{% url 'app_comentarios:crear_comentario' %}" id="crear_comentario" method="post">{% csrf_token %}
+    <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+    <textarea id="contenido" name="contenido"></textarea>
+    <input type="submit" value="Comentar"/>
+  </form>
 </div>
 {% endblock cuerpo%} 

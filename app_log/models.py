@@ -11,12 +11,6 @@ class AccionUser(models.Model):
     fechahoraaccionuser = models.DateTimeField(auto_now=False, auto_now_add=False)
 
 
-class AccionPizarra(models.Model):
-	idaccionpiz = models.AutoField(primary_key=True)
-	loginuserpiz = models.ForeignKey(User, related_name = 'accion_piz_loginuser')
-	contenidoaccionpiz = models.CharField(max_length=200)
-	fechahoraaccionpiz = models.DateTimeField(auto_now=False, auto_now_add=False)
-
 def crearAccionUser(accionloginuser, contenidoaccionuser, fechahoraaccionuser):
 	
 	"""Metodo que crea una accion referente a un usuario."""
@@ -40,12 +34,13 @@ def obtenerAccionUser(idaccionuser):
 
     return a
 
-def obtenerAccionesUser(idaccionuser):
+def obtenerAccionesUser():
 	"""Metodo que retorna una lista con los datos de una accion asociada al usuario"""
-	accion = []
-	acciones = AccionUser.objects.get(idaccionuser = idaccionuser)
-	for a in acciones:
-		lista.append(a)
+	result = AccionUser.objects.all()
+	lista = []
+	for elem in result:
+		lista.append(elem)
+
 	return lista
 
 
@@ -59,44 +54,44 @@ def eliminarAccionUser(idaccionuser):
 
 ########################## Acciones sobre Pizarras ####################
 
-def crearAccionPizarra(loginuserpiz, contenidoaccionpiz, fechahoraaccionpiz):
+# def crearAccionPizarra(loginuserpiz, contenidoaccionpiz, fechahoraaccionpiz):
 	
-	"""Metodo que crea una accion referente a una pizarra."""
+# 	"""Metodo que crea una accion referente a una pizarra."""
 
-	nuevo = AccionPizarra(
-		loginuserpiz = loginuserpiz,
-		contenidoaccionpiz = contenidoaccionpiz,
-		fechahoraaccionpiz = fechahoraaccionpiz
-		)
+# 	nuevo = AccionPizarra(
+# 		loginuserpiz = loginuserpiz,
+# 		contenidoaccionpiz = contenidoaccionpiz,
+# 		fechahoraaccionpiz = fechahoraaccionpiz
+# 		)
 
-	nuevo.save()
+# 	nuevo.save()
 
-def obtenerAccionPizarra(idaccionpiz):
-    """Metodo que retorna un diccionario con los datos de una accion asociada con el idpiz y
-    el login del usuario"""
+# def obtenerAccionPizarra(idaccionpiz):
+#     """Metodo que retorna un diccionario con los datos de una accion asociada con el idpiz y
+#     el login del usuario"""
 
-    accion = {}
-    a = AccionPizarra.Objects.get(idaccionpiz = idaccionpiz)
-    accion['loginuserpiz'] = a.loginuserpiz
-    actividad['contenidoaccionpiz'] = a.contenidoaccionpiz
-    actividad['fechahoraaccionpiz'] = a.fechahoraaccionpiz
+#     accion = {}
+#     a = AccionPizarra.Objects.get(idaccionpiz = idaccionpiz)
+#     accion['loginuserpiz'] = a.loginuserpiz
+#     actividad['contenidoaccionpiz'] = a.contenidoaccionpiz
+#     actividad['fechahoraaccionpiz'] = a.fechahoraaccionpiz
 
-    return a
+#     return a
 
-def obtenerAccionesPiz(idaccionpiz):
-	"""Metodo que retorna una lista con los datos de una accion asociada a una pizarra"""
-	accion = []
-	acciones = AccionPizarra.objects.get(idaccionpiz = idaccionpiz)
-	for a in acciones:
-		lista.append(a)
+# def obtenerAccionesPiz(idaccionpiz):
+# 	"""Metodo que retorna una lista con los datos de una accion asociada a una pizarra"""
+# 	accion = []
+# 	acciones = AccionPizarra.objects.get(idaccionpiz = idaccionpiz)
+# 	for a in acciones:
+# 		lista.append(a)
 
-	return lista
+# 	return lista
 
 
-def eliminarAccionPiz(idaccionuser):
-    """
-    Metodo que elimina una accion de una pizarra de la base de datos
-    """
-    elem = AccionPizarra.objects.filter(idaccionpiz = idaccionpiz)
+# def eliminarAccionPiz(idaccionuser):
+#     """
+#     Metodo que elimina una accion de una pizarra de la base de datos
+#     """
+#     elem = AccionPizarra.objects.filter(idaccionpiz = idaccionpiz)
 
-    elem.delete()
+#     elem.delete()

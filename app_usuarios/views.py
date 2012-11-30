@@ -9,16 +9,19 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-
-
 from app_usuarios.models import UserProfile
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
 from app_log.models import crearAccionUser
 
+
 def login_usuario(request):
-    """	
+    """ 
     Metodo que verificar las credenciales del usuario y permite o no el acceso
     sistema
+    In: request
+    Out: vista login
+    Autor: German Leon 
+    Fecha: 5-11-12 Version 1.0
     """
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -60,6 +63,10 @@ def crear_usuario(request):
     """
     Metodo para crear un usuario con los datos debidamente validados 
     proporcionados por el usuario
+    In: request
+    Out: vista crear usuario
+    Autor: German Leon
+    Fecha: 5-11-12 Version 1.0
     """
     if request.method == 'POST':
         form = CrearUsuarioForm(request.POST)
@@ -123,8 +130,13 @@ def crear_usuario(request):
 def listar_usuarios(request):
     """
     Metodo para popular la lista de usuarios que se le mostrara al usuario
+    In: request
+    Out: vista con lista de usuarios
+    Autor: German Leon
+    Fecha: 5-11-12
     """
-    lista = User.objects.all()
+    # Se omite el usuario actual de la lista
+    lista = User.objects.exclude(username = request.user.username)
     puede_eliminar = request.user.has_perm('auth.delete_user')
     puede_modificar = request.user.has_perm('auth.change_user')
     puede_crear = request.user.has_perm('auth.create_user')
@@ -140,6 +152,10 @@ def listar_usuarios(request):
 def modificar_usuario(request):
     """
     Metodo que llama al Manejador de Usuarios para modificar los datos de un usuario
+    In: request
+    Out: vista para modificar usuario
+    Autor: German Leon
+    Fecha: 5-11-12
     """
     if request.method == 'POST':
 
@@ -175,7 +191,9 @@ def modificar_usuario(request):
             lista.append(request.POST['telefono'])
             return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario': nombre_usuario, 'lista': lista, })
 
-    lista = User.objects.all()
+    # Se debe excluir de la lista de todos los usuarios el
+    # usuario actual
+    lista = User.objects.exclude(username = request.user.username)
     puede_eliminar = request.user.has_perm('auth.delete_user')
     puede_modificar = request.user.has_perm('auth.change_user')
     puede_crear = request.user.has_perm('auth.add_user')
@@ -192,7 +210,9 @@ def modificar_usuario(request):
 @permission_required('auth.can_change_user')
 def modificar_form(request):
     """
-    dostring de modificar_form
+    Metodo que carga el form del usuario que se selecciono para modificarse
+    Autor: German Leon
+    Fecha: 5-11-12 Version 1.0
     """
     lista = []
     if request.method == 'POST':
@@ -210,6 +230,10 @@ def eliminar_usuario(request):
     """
     Metodo que elimina un usuario de la base de datos
     Nota: Accion solo permitida para cuentas de administradores
+    In: request 
+    Out: vista listar usuarios
+    Autor: German Leon
+    Fecha: 5-11-12 Version 1.0
     """
     if request.method == 'POST':
         #   Eliminamos el usuario que se selecciono
@@ -244,6 +268,10 @@ def eliminar_usuario(request):
 def modificar_perfil(request):
     """
     Metodo para modificar los datos de un usuario ya registrado en el sistema
+    In: request
+    Out: vista modificar usuario
+    Autor: German Leon
+    Fecha: 7-11-12 Version 1.0
     """
     usuario = request.user
     nombre_usuario = usuario.username
@@ -265,6 +293,10 @@ def logout_view(request):
     """
     Metodo llamado cuando se quiere cerrar la sesion, crea un formulario unbound para el login
     y cierra la sesion del usuario
+    In: request
+    Out: vista del login
+    Autor: German Leon
+    Fecha 5-11-12 Version 1.0
     """
     form = LoginForm()
     
@@ -284,6 +316,10 @@ def registrar_visitante(request):
     """
     Metodo para crear un usuario con los datos debidamente validados 
     proporcionados por el usuario
+    In: request
+    Out: vista de registrar visitante
+    Autor: German Leon
+    Fecha 5-11-12 Version 1.0
     """
     if request.method == 'POST':
         form = CrearUsuarioForm(request.POST)
@@ -329,6 +365,13 @@ def registrar_visitante(request):
 @csrf_exempt
 @login_required
 def cambiar_contrasena(request):
+    """
+    Metodo que permite cambiar la contrasena de un usuario 
+    In: request 
+    Out: vista de cambiar contrasena
+    Autor: German Leon
+    Fecha 5-11-12 Version 1.0
+    """
     if request.method == 'POST':
         form = CambiarContrasenaForm(request.POST)
         if form.is_valid():

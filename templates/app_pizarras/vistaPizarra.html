@@ -79,7 +79,7 @@
 <div id="arbol">
   {% if not lista %}
   <center>
-    <p>No hay actividades</p>
+    <p>No hay actividades.</p>
   </center>
   {% endif %}
   <script>
@@ -98,19 +98,22 @@
     <tr>
       {% endif %}
       <td>
-        <div class="actividad"  >
+        <div class="actividad">
           <div id="actHead">
             {{object.nombreact}}
-            <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="confirmacionBorrar()">
+            <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
               {% csrf_token %}
               <input type="hidden" name="idact" value="{{object.idact}}"/>
               <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
               <input class="borrar" type="submit" value=""/>
             </form>
           </div>
-          <div class="mostrarActividad" id="actCont" onclick="Dajaxice.app_actividad.mostrarActividad(visualizarActividad, {'data': {{object.idact}}});">
+          <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)">
             {{object.descripcionact}}
-            {{object.idact}}
+            <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
+            </form>
           </div>
         </div>
       </td>
@@ -125,11 +128,5 @@
     $( ".actividad" ).draggable();
   });
 </script>
-<script>
-  function confirmacionBorrar() {
-    var r=confirm("¿Está seguro de que desea eliminar esta actividad?");
-    if (!r)
-    window.location = "http://127.0.0.1:8000/pizarras/visualizar_pizarra/";
-  }
-</script>
+
 {% endblock cuerpo%}

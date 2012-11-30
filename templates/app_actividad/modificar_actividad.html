@@ -1,20 +1,19 @@
-{% extends "app_usuarios/base.html" %}
+{% extends 'app_usuarios/template.html' %}
 {% load url from future %}
 {% load staticfiles %}
 {% load tags_pizarra %}
 {% block titulo %}Editar Información de una Actividad{% endblock %}
-{% load url from future }
-
+{% block css %}
 <link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
-
+<link href="{% static "css/modificar_usuario_style.css" %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
 {% block cuerpo %}
 {% if form.errors %}
 <h1> No se pudo modificar la actividad</h1>
 {% endif %}
       <!-- LOGIN BOX -->
-    <div id="loginBox">                
-      <br><br><br><br>
-      <form action="{% url 'app_actividad:modificar_actividad' %}" id="loginForm" method="post">
+    <div id="loginBox">
+      <form action="{% url 'app_actividad:modificar_actividad' %}" id="loginForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta actividad?')) return false">
 	{% csrf_token %}
 	    <fieldset id="body">
 		<input type="hidden" name="idact" value="{{idact}}" />

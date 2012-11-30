@@ -6,12 +6,12 @@ from django.template.loader import render_to_string
 
 @dajaxice_register
 def crearUsuarioAjax(request):
-    form = CrearUsuarioForm()
-    vista = render_to_string('app_usuarios/crear_usuario.html',{'form':form})
-    return simplejson.dumps({'vista': vista})
+	form = CrearUsuarioForm()
+	vista = render_to_string('app_usuarios/crear_usuario.html',{'form':form})
+	return simplejson.dumps({'vista': vista})
 
 @dajaxice_register
 def cambiarContrasenaAjax(request):
-    form = CambiarContrasenaForm()
-    vista = render_to_string('app_usuarios/cambiar_contrasena.html', {'form':form})
-    return simplejson.dumps({'vista': vista})
+	form = CambiarContrasenaForm()
+	vista = render_to_string('app_usuarios/cambiar_contrasena.html', {'form':form})
+	return simplejson.dumps({'vista': vista})

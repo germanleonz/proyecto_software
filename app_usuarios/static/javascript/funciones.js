@@ -99,7 +99,7 @@ function dialog(){
     })
     });
 
-  /*dialog de ver actividad*/
+  /*dialog de ver actividad
   $(".mostrarActividad").click(function(){
     $("#ventanaActividad").dialog({
       modal:true,
@@ -108,7 +108,7 @@ function dialog(){
       dialogClass: 'style_Dialog',
       title: 'Actividad',
     })
-  })
+  })*/
 
 
 }
