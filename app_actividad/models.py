@@ -131,3 +131,32 @@ def obtener_subactividades(idact):
         lista.append(elem)
     return lista    
 
+
+
+def orden_cronologico(idpiz, loginasignado):
+    #obtengo las actividades de un determinado usuario
+    act = Actividad.objects.filter(idpizactividad=idpiz, loginasignado=loginasignado).order_by('-fechaentrega')
+    lista = []
+    aux = []
+
+    for elem in act:
+        lista.append(elem)  
+
+    while (len(lista) >0):
+        aux.append(lista.pop())
+
+    return aux
+
+
+def orden_por_estados(idpiz, loginasignado):
+    #obtengo las actividades de un determinado usuario
+    act = Actividad.objects.filter(idpizactividad=idpiz, loginasignado=loginasignado).order_by('-estadoact')
+    lista = []
+
+    for elem in act:
+        lista.append(elem)  
+    return lista
+
+
+
+
