@@ -15,19 +15,29 @@
 <div id="ventanaActividad" style="display:none"></div>
 <div id="formActividad" style="display:none"></div>
 <style>
-#formActividad textarea, input[type="text"]{
-  width:92%;
-  border:1px solid #899caa;
-  border-radius:3px;
-  -moz-border-radius:3px;
-  color:#3a454d;
-  font-weight:bold;
-  padding:8px 8px;
-  box-shadow:inset 0px 1px 3px #bbb;
-  -webkit-box-shadow:inset 0px 1px 3px #bbb;
-  -moz-box-shadow:inset 0px 1px 3px #bbb;
-  font-size:10px;
-}
+  #formActividad textarea, input[type="text"]{
+    width:92%;
+    border:1px solid #899caa;
+    border-radius:3px;
+    -moz-border-radius:3px;
+    color:#3a454d;
+    font-weight:bold;
+    padding:8px 8px;
+    box-shadow:inset 0px 1px 3px #bbb;
+    -webkit-box-shadow:inset 0px 1px 3px #bbb;
+    -moz-box-shadow:inset 0px 1px 3px #bbb;
+    font-size:10px;
+  }
+
+  .participante{
+    background: transparent; 
+    border: none; 
+    cursor: pointer;"
+  }
+
+  .participante:hover{
+    color: white;
+  }
 </style>
 <div id="columna">
   <table>
@@ -52,12 +62,11 @@
       </td>
     </tr>
     <tr>
-      <tr>
-        <td>
-          <h>Fecha de inicio</h></br>
-          {{pizarra.fechacreacion}}
-        </td>
-      </tr>
+      <td>
+        <h>Fecha de inicio</h></br>
+        {{pizarra.fechacreacion}}
+      </td>
+    </tr>
       <td>
         <h>Fecha de finalizacion</h></br>
         {{pizarra.fechafinal}}
@@ -68,15 +77,17 @@
         <div id="lista">
           <h>Participantes</h></br>
           {%for elem in colaboradores %}
-          <a href="#">
-            {{elem}}
-          </a>
-        </br>
-        {%endfor%}
-      </div>
-    </td>
-  </tr>
-</table>
+          <form action="{% url 'app_usuarios:perfil_usuario' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{elem.username}}" name="usuario"/>
+            <input type="submit" class="participante" value="{{elem.first_name}} {{elem.last_name}}"/>
+          </form>
+          </br>
+          {%endfor%}
+        </div>
+      </td>
+    </tr>
+  </table>
 </div>
 <script>
 $(function(){
@@ -196,14 +207,9 @@ $(function(){
   </center>
   {% endif %}
   <script>
-  function divSubmit(div){
-    lista = div.getElementsByTagName("form");
-    for (var i = 0; i<lista.length; ++i){
-      var elem = lista[i]
-      if (elem.id == "visualizarActividad")
-        elem.submit();
-    }
-  }
+    $(function() {
+      $( ".actividad" ).draggable();
+    });
   </script>
   <table id="tablaActividad">
     {% for object in lista %}

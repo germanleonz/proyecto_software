@@ -111,9 +111,7 @@ def colaboradores(idpiz):
     for elem in act:   
         persona = elem.loginasignado
         usuario = User.objects.get(username= persona)
-        nombre = str(usuario.first_name)+" "+str(usuario.last_name)
-        colaboradores.append(nombre)
-        print nombre
+        colaboradores.append(usuario)
 
     return colaboradores
 
