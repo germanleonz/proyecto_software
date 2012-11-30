@@ -2,7 +2,7 @@ import datetime
 from django.shortcuts import render
 from app_pizarras.models import *
 from app_pizarras.forms import *
-from app_actividad.models import colaboradores, obtener_actividades
+from app_actividad.models import colaboradores, obtener_actividades, orden_cronologico, orden_por_estados
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from app_log.models import crearAccionUser
@@ -176,9 +176,13 @@ def visualizar_pizarra(request):
         pi = Pizarra.objects.get(idpiz=idpiz)
         colab = colaboradores(idpiz)
         lista = obtener_actividades(request.POST['idpiz'])
-        return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista})
+        #probando con ordenar cronologicamente
+        usuario = request.user
+        orden = orden_cronologico(idpiz, usuario)
+        ordenE = orden_por_estados(idpiz, usuario)
+        return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE})
     
+
     #no se que retornar si no es post asi que retorno la vista anterior y ya
-    lista = obtener_pizarras(request)
-    return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+    return listar_pizarra(request)
         

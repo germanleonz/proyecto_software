@@ -66,6 +66,15 @@ def login_usuario(request):
         form = LoginForm()  
     return render(request, 'app_usuarios/login.html', { 'form': form, })
 
+def perfil_usuario(request):
+    if request.method == 'POST':
+        id = request.POST['usuario']
+        usuario = User.objects.get(username=id)
+        user = UserProfile.objects.get(user=usuario)
+        print user.user
+        return render(request, 'app_usuarios/perfil.html', { 'usuario': usuario, 'userprofile':user })
+
+
 @csrf_exempt
 @login_required
 @permission_required('auth.create_user')
