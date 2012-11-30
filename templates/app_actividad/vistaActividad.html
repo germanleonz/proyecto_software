@@ -119,6 +119,11 @@
     </form>
   </div>
   </div>
-  <div id="subactividades"></div>
+  <div id="subactividades">
+  {% for elem in lista %}
+    <form action="{% url 'app_actividad:visualizar_subactividad' %}" id="visualizarSubactividad" method="post">{% csrf_token %}
+      <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+    </form>
+  </div>
 </div>
 {% endblock cuerpo%} 

@@ -66,6 +66,15 @@ def obtenerActividad(idpiz):
     actividad['fechaentrega'] = act.fechaentrega
     return actividad
 
+def obtenerSubactividad(idact,idpiz):
+    actividad = {}
+    act = Actividad.Objects.get(idpizactividad = idpiz, actividad_padre=idact)
+    actividad['nombre'] = act.nombreact
+    actividad['descripcion'] = act.descripcionact
+    actividad['fechainicial'] = act.fechainicial
+    actividad['fechaentrega'] = act.fechaentrega
+    return actividad
+ 
 def conseguirHijos(idpiz):
     """
     Metodo que consigue las subactividades inmediatas de una actividad padre
@@ -115,4 +124,11 @@ def obtener_actividades(idpiz):
     for elem in act:
         lista.append(elem)
     return lista
+    
+def obtener_subactividades(idpiz,idact):
+    act = Actividad.objects.filter(idpizactividad = idpiz, actividad_padre=idact)
+    lista = []
+    for elem in act:
+        lista.append(elem)
+    return lista    
 

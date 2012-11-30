@@ -113,6 +113,25 @@ def visualizar_actividad(request):
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, })
     
+    
+# SUBACTIVIDADES    
+
+def listar_subactividad(request):
+    lista = obtener_subactividades(request)
+    return render(request, 'app_actividad/listar.html', { 'lista' : lista, })	    
+    
+@csrf_exempt        
+def visualizar_subactividad(request):
+    if request.method== 'POST':
+        idact = request.POST['idact']
+        act = Actividad.objects.get(idact=idact)
+        lista = obtener_subactividad(idact)
+        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act, 'lista': lista})
+
+    lista = obtener_subactividades(request)
+    return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, })
+    
+###
 
 @csrf_exempt
 @login_required
