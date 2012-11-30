@@ -87,13 +87,15 @@
         </script>
 
         <div id="herramientas">
-          <a class="opcionesDer" href="{% url app_log:visualizar_log_user %}"> Visualizar Log</a>
           <a id="crearPizarra" onclick="Dajaxice.app_pizarras.crearPizarraForm(my_js_callbackPizarra);" class="opcionesDer" href="#">Nueva Pizarra</a>
           <a id="mis_pizarras" class="opcionesDer" href="{% url app_pizarras:listar_pizarra%}">Mis pizarras</a>
           <a id="listarUsuarios" class="opcionesDer" href="{% url app_usuarios:listar_usuarios%}">Listar usuarios</a>
           {% block botones %}{% endblock botones %}
         </div>
         <div id="opcionesUsuario">
+          <div class="opcionVer">
+            <a  href="{% url app_log:visualizar_log_user %}"> Visualizar Log</a>
+          </div>
           <div class="opcionVer"><a href="{% url app_pizarras:listar_pizarra %}">Mis pizarras</a></div>
           <div class="opcionVer">
             <form action="{% url app_usuarios:modificar_perfil %}" method="post">
