@@ -51,6 +51,12 @@
         {{actividad.fechaentrega}}
       </td>
     </tr>
+     <tr>
+      <td>
+        <h>Estado</h></br>
+        {{actividad.estadoact}}
+      </td>
+    </tr>
     <tr>
       <td>
         <!-- modificar actividad -->
@@ -80,6 +86,16 @@
           </select> 
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
           <input type="submit" value="Cambiar Estado" />
+        </form>
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <form action="{% url 'app_actividad:crear_subactividad' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+	  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
+          <input type="submit" id="modificarAct" value="Crear SubActividad" />
         </form>
       </td>
     </tr>
@@ -120,10 +136,7 @@
   </div>
   </div>
   <div id="subactividades">
-  {% for elem in lista %}
-    <form action="{% url 'app_actividad:visualizar_subactividad' %}" id="visualizarSubactividad" method="post">{% csrf_token %}
-      <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-    </form>
   </div>
 </div>
+
 {% endblock cuerpo%} 

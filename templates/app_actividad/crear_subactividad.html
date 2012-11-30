@@ -1,10 +1,38 @@
-<div id="errores_crear_actividad" class="errores">
-  *Todos los campos son requeridos
-</div>
-<form action="{% url app_actividad:crear_subactividad %}" id="actividadForm" method="post">
+{% extends 'app_usuarios/template.html' %}
+{% load url from future %}
+{% load staticfiles %}
+{% block titulo %}Crear SubActividad{% endblock %}
+{% block css %}
+<link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
+<link href="{% static "css/modificar_usuario_style.css" %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block cuerpo %}
+<div id="loginBox">                
+  <form action="{% url 'app_actividad:crear_subactividad' %}" id="loginForm" method="post" >
   {% csrf_token %}
-  <fieldset  id="body">
-    {{ form.as_p }}
-    <input type="hidden" name="idact" value="{{idact}}"/>
-  </fieldset>
-</form>
+    <fieldset id="body">
+      <fieldset>
+	  <label for="nombreact"> Nombre</label>
+	  <input type="text" name="nombre" id="nombreact" />
+      </fieldset>
+      <fieldset>
+	  <label for="descripcionact">Descripcion</label>
+	  <textarea type="text" name="descripcion" rows="5" id="descripcionact"></textarea>
+      </fieldset>
+      <fieldset>
+	  <label for="fechainicial">Fecha Inicio</label>
+	  <input type="text" name="fecha_inicio" id="fechainicial"/>
+      </fieldset>
+      <fieldset>
+	  <label for="fechaentrega">Fecha Entrega</label>
+	  <input type="text" name="fecha_final" id="fechaentrega" />
+      </fieldset>
+      <input id="idact" name="idact" type="hidden" value="{{idact}}"/>
+      <input id="idpiz" name="idpiz" type="hidden" value="{{idpiz}}"/>
+      <input type="submit" id="login" value="Crear SubActividad" />
+    </fieldset>
+      
+  </form>
+</div>
+{% endblock %}

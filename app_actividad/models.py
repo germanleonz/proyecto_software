@@ -10,8 +10,8 @@ class Actividad(models.Model):
     idpizactividad = models.ForeignKey(Pizarra,related_name='actividad_enPizarra')
     fechainicial = models.DateField(auto_now=False, auto_now_add=False)
     fechaentrega = models.DateField(auto_now=False, auto_now_add=False)
-    descripcionact = models.CharField(max_length=150)
-    ESTADOS=(('c', 'Completada'), ('r', 'Retrasada'),('e', 'En Ejecucion'), ('p', 'Postergada'),('s', 'Sin Asignar'))
+    descripcionact = models.CharField(max_length =150)
+    ESTADOS=(('c', 'Completada'), ('r', 'Retrasada'),('e', 'En Ejecucion'),('p', 'Postergada'),('s', 'Sin Asignar'))
     estadoact = models.CharField(max_length=15, choices=ESTADOS)
     avanceact = models.IntegerField()
     nombreact = models.CharField(max_length=50)
@@ -24,14 +24,13 @@ class seDivide(models.Model):
     idactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idAct')
     idsubactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idSubAct')    
 
-def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre=None):
+def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
 
     ult = Actividad.objects.all().aggregate(Max('idact'))
     if ult['idact__max'] == None:
         idact=0
     else:
         idact= ult['idact__max']+1
-
     a=Actividad(idact=idact, 
         nombreact=nombre,
         descripcionact=descript,
@@ -125,8 +124,8 @@ def obtener_actividades(idpiz):
         lista.append(elem)
     return lista
     
-def obtener_subactividades(idpiz,idact):
-    act = Actividad.objects.filter(idpizactividad = idpiz, actividad_padre=idact)
+def obtener_subactividades(idact):
+    act = Actividad.objects.filter(actividad_padre=idact)
     lista = []
     for elem in act:
         lista.append(elem)
