@@ -28,6 +28,16 @@
     -moz-box-shadow:inset 0px 1px 3px #bbb;
     font-size:10px;
   }
+
+  .participante{
+    background: transparent; 
+    border: none; 
+    cursor: pointer;"
+  }
+
+  .participante:hover{
+    color: white;
+  }
 </style>
 <div id="columna">
   <table>
@@ -52,7 +62,6 @@
       </td>
     </tr>
     <tr>
-    <tr>
       <td>
         <h>Fecha de inicio</h></br>
         {{pizarra.fechacreacion}}
@@ -68,9 +77,11 @@
         <div id="lista">
           <h>Participantes</h></br>
           {%for elem in colaboradores %}
-          <a href="#">
-            {{elem}}
-          </a>
+          <form action="{% url 'app_usuarios:perfil_usuario' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{elem.username}}" name="usuario"/>
+            <input type="submit" class="participante" value="{{elem.first_name}} {{elem.last_name}}"/>
+          </form>
           </br>
           {%endfor%}
         </div>

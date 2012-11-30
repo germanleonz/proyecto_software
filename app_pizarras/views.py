@@ -158,6 +158,5 @@ def visualizar_pizarra(request):
         return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista})
     
     #no se que retornar si no es post asi que retorno la vista anterior y ya
-    lista = obtener_pizarras(request)
-    return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+    return listar_pizarra(request)
         
