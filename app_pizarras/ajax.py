@@ -16,5 +16,7 @@ def buscarActividades(request):
     Metodo que busca las subactividades de una pizarra. Guarda los nombres de las actividades
     en un arreglo de nombres de subactividades y arma un arreglo de pares (actividades,)
     """
-    nombres, pares = conseguirSubactividades(request.idpiz) 
-    return simplejson.dumps({'nombres': nombres, 'pares': pares})
+    nombres = []
+    for i in range (0,5):
+        nombres.append(("string"+str(i),"string"+str(i+1)))
+    return simplejson.dumps({'nombres': nombres, })
