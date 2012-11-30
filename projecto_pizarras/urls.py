@@ -23,7 +23,7 @@ dajaxice_autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^account/', include('django.contrib.auth.urls')),
-    url(r'^$', views_usuarios.login_usuario, name='login_usuario'),
+    url(r'^$', views_usuarios.login_if, name='login_usuario'),
     url(r'^usuarios/', include('app_usuarios.urls', namespace="app_usuarios")),
     url(r'^pizarras/', include('app_pizarras.urls', namespace="app_pizarras")),
     url(r'^actividad/', include('app_actividad.urls', namespace="app_actividad")),

@@ -1,8 +1,9 @@
 /*cuadros de proyectos*/
 #pared {
 	overflow: auto;
+  margin: auto;
 	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }
 
 a {
@@ -19,9 +20,10 @@ a {
 
 /*Division de cuadro de proyectos y titulos*/
 .pizarra {
+  cursor: default;
   margin: 10px;
-  margin-top: 30px;
-  width: 408px;
+  margin-top: 20px;
+  width: 358px;
   height: 108px;
   border: 8px solid transparent;
   background-image: url("../images/pared/pizarra.png");
@@ -32,7 +34,7 @@ a {
   background-image: url("../images/pared/pizarraH.png");
 }
 
-.pizarra #titulo {
+.pizarra #cabeza {
   width: 100%;
   height: 25px;
   font-size: 20px;
@@ -46,68 +48,55 @@ a {
   text-overflow: ellipsis;
 }
 
+.pizarra #titulo {
+  width: 288px;
+  float: left;
+}
+
 .pizarra #content {
   color: white;
   margin: auto;
   padding: 0px 14px 0px 14px;
-  width: 380px;
+  width: 330px;
   height: 80px;
   text-align: justify;
   overflow-y: auto;
   font-family: Helvetica, fantasy;
 }
 
-.borrar{
+.borrar, .modi{
   float: right;
   cursor: pointer;
   width: 25px;
   height: 25px;
   background: transparent;
   border: none;
+}
+
+.borrar {
   background-image: url('../images/closePiz.png');
   background-repeat: no-repeat;
 }
 
 .modi{
-  cursor: pointer;
-  display: block;
-  margin-left: 383px;
-  width: 25px;
-  height: 25px;
-  background-image: url('../images/pencil.png') !important;
-  z-index: 1000;
+  background-image: url('../images/pencil.png');
+  background-size: 25px 25px;
+  background-repeat: no-repeat;
 }
 
-.formEliminar{
-  height: 25px;
-  margin-bottom: 0px;
+/*navegacion entre paredes*/
+.prevPage, .nextPage {
+  position: absolute;
+  top: 350px;
+  display: block !important;
 }
 
-/*Barra navegacion entre paredes*/
-#nav {
-	bottom: 60px;
-	position: absolute;
-	margin-left: 50px;
-	margin-right: 50px;
-	height: 25px;
-	width: 750px;
-	border-bottom: solid 1px #999;
+.prevPage{
+  left: 10px;
 }
 
-#nav .pestana {
-	float: left;
-	width: 50px;
-	height: 100%;
-	background-image: url('../images/pared/pestanaverdepequena.png');
-}
-
-#nav .pestana p {
-	margin-top: 5px;
-	margin-left: 20px;
-}
-
-#nav p {
-	color: black;
+.nextPage{
+  right: 10px;
 }
 
 /*forms*/

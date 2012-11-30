@@ -12,7 +12,17 @@ from django.views.decorators.csrf import csrf_exempt
 from app_usuarios.models import UserProfile
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
 from app_log.models import crearAccionUser
+from app_pizarras.views import listar_pizarra
 
+def login_if(request):
+    """
+    Metodo que veirifica si el usuario ya esta conectado al sistema, de manera 
+    que no le muestre la pagina de login, sino la de listar pizarras
+    """
+    if request.user.is_authenticated():
+        return listar_pizarra(request)
+    else:
+        return login_usuario(request)
 
 def login_usuario(request):
     """ 
