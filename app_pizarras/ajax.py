@@ -13,9 +13,9 @@ def crearPizarraForm(request):
 	Autor: Juan Arocha
 	Fecha: 15-11-12 Version 1.0
 	"""
-    form = CrearPizarraForm()
-    vista = render_to_string('app_pizarras/crear_pizarra.html',{'form':form})
-    return simplejson.dumps({'vista': vista})
+	form = CrearPizarraForm()
+	vista = render_to_string('app_pizarras/crear_pizarra.html',{'form':form})
+	return simplejson.dumps({'vista': vista})
 
 @dajaxice_register
 def buscarActividades(request):
