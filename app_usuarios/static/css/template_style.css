@@ -58,7 +58,8 @@ a {
 	position: relative;
 	margin: 0 auto;
 	width: 900px;
-        background-color: #FFFFFF;
+	height: 100%;
+    background-color: #FFFFFF;
 }
 
 /*Encabezado*/
@@ -106,8 +107,8 @@ a {
 #main {
 	padding: 50px 0px 0px 0px;
 	margin: 0 auto;
-        box-shadow: 6px 0px 50px -7px #888, -6px 0px 50px -7px #888;
-        min-height: 100%;
+    box-shadow: 6px 0px 50px -7px #888, -6px 0px 50px -7px #888;
+    height: 91.7%;
 }
 
 /*Si es una vista de trabajo*/
@@ -236,9 +237,9 @@ a {
   overflow: hidden !important;
   top: 0;
   right: 0;
-  margin-top: 50px;
-  margin-right: 10px;
-  width: 150px;
+  margin-top: 40px;
+  margin-right: 11px;
+  width: 153px;
   border: solid #696969;
   border-width: 0px 1px 1px 1px;
   background-color: #FFFFFF;
@@ -248,6 +249,7 @@ a {
   -moz-border-radius-bottomleft: 7px;
   border-bottom-right-radius: 7px;
   border-bottom-left-radius: 7px;
+  box-shadow: 1px 1px 1px #888;
 }
 
 .opcionVer{

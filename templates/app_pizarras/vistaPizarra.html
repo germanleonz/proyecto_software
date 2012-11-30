@@ -47,11 +47,17 @@
     </tr>
     <tr>
       <td>
+        <h>Descripcion</h></br>
+        {{pizarra.descripcionpiz}}
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <td>
         <h>Fecha de inicio</h></br>
         {{pizarra.fechacreacion}}
       </td>
     </tr>
-    <tr>
       <td>
         <h>Fecha de finalizacion</h></br>
         {{pizarra.fechafinal}}
@@ -104,6 +110,7 @@
           </div>
           <div class="mostrarActividad" id="actCont" onclick="Dajaxice.app_actividad.mostrarActividad(visualizarActividad, {'data': {{object.idact}}});">
             {{object.descripcionact}}
+            {{object.idact}}
           </div>
         </div>
       </td>
