@@ -129,9 +129,7 @@ def colaboradores(idpiz):
     for elem in act:   
         persona = elem.loginasignado
         usuario = User.objects.get(username= persona)
-        nombre = str(usuario.first_name)+" "+str(usuario.last_name)
-        colaboradores.append(nombre)
-        print nombre
+        colaboradores.append(usuario)
 
     return colaboradores
 
@@ -148,4 +146,33 @@ def obtener_subactividades(idact):
     for elem in act:
         lista.append(elem)
     return lista    
+
+
+
+def orden_cronologico(idpiz, loginasignado):
+    #obtengo las actividades de un determinado usuario
+    act = Actividad.objects.filter(idpizactividad=idpiz, loginasignado=loginasignado).order_by('-fechaentrega')
+    lista = []
+    aux = []
+
+    for elem in act:
+        lista.append(elem)  
+
+    while (len(lista) >0):
+        aux.append(lista.pop())
+
+    return aux
+
+
+def orden_por_estados(idpiz, loginasignado):
+    #obtengo las actividades de un determinado usuario
+    act = Actividad.objects.filter(idpizactividad=idpiz, loginasignado=loginasignado).order_by('-estadoact')
+    lista = []
+
+    for elem in act:
+        lista.append(elem)  
+    return lista
+
+
+
 
