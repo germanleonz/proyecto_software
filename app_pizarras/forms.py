@@ -11,16 +11,14 @@ def validate_descripcionpiz(value):
     if re.match('^\w+$',value)==None:
         raise ValidationError(u'agregue una descripcion')
 
-
-
 class CrearPizarraForm(forms.Form):
     """
     Form para crea pizarra
     """
     nombre = forms.CharField(max_length=50)
     descripcion = forms.CharField(max_length=100, widget=forms.Textarea)
-    fecha_inicio = forms.DateField(widget = AdminDateWidget)
-    fecha_final = forms.DateField(widget = AdminDateWidget)
+    fecha_inicio = forms.DateField(widget = AdminDateWidget())
+    fecha_final = forms.DateField(widget = AdminDateWidget())
 
 class ModificarPizarraForm(forms.Form):
     """
