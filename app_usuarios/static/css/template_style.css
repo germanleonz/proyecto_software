@@ -250,6 +250,7 @@ a {
   border-bottom-right-radius: 7px;
   border-bottom-left-radius: 7px;
   box-shadow: 1px 1px 1px #888;
+  z-index: 100;
 }
 
 .opcionVer{
