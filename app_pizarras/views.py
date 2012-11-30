@@ -1,20 +1,18 @@
+import datetime
 from django.shortcuts import render
 from app_pizarras.models import *
 from app_pizarras.forms import *
-from app_actividad.models import colaboradores, obtener_actividades
+from app_actividad.models import colaboradores, obtener_actividades, orden_cronologico, orden_por_estados
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from app_log.models import crearAccionUser
+from app_pizarras.arbol import *
+from app_actividad.models import generar_arbol
 
 @csrf_exempt
 @login_required
 def crear_pizarra(request):
-    """ 
-    Metodo que crea una nueva pizarra llamando a CreadorPizarra
-    In: request
-    Out: vista listar pizarras o ista de crear pizarra
-    Autor: Juan Arocha
-    Fecha: 4-11-12 Version 1.0
-    """
+
     if request.method == 'POST':
         #solucion temporal al problema del formato de fecha
         form = CrearPizarraForm(request.POST)
@@ -29,12 +27,19 @@ def crear_pizarra(request):
             usuario = request.user
             #Metodo que guarda la pizarra en la base de datos.
             CreadorPizarra(nombrepiz,descripcionpiz,fechaCreacion,fechaFinal,usuario)
+
+            #Se registra en el log la creacion de la nueva pizarra
+            fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            nombre_usuario = usuario.username            
+            crearAccionUser(usuario,"El usuario %s creo la pizarra %s en la fecha %s" % (nombre_usuario, str(nombrepiz), str(fechaYHora)), fechaYHora)
+
             lista = obtener_pizarras(request)
             return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
         else:
-            lista = obtener_pizarras(request)
-            return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+            print "NOO"
+            return listar_pizarra(request)
     
+    print "YAA"
     form = CrearPizarraForm()
     return render(request, 'app_pizarras/crear_pizarra.html', { 'form': form, })
 
@@ -77,10 +82,20 @@ def eliminar_pizarra(request):
     """
     if request.method == 'POST':
         idpiz = request.POST['idpiz']
+        pizarra = Pizarra.objects.get(idpiz=idpiz)
+        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+        usuario = request.user
+        nombre_usuario = usuario.username
+        nombrepiz = pizarra.nombrepiz
+
+        #Se registra en el log la creacion de la nueva pizarra
+        crearAccionUser(usuario,"El usuario %s elimino la pizarra %s en la fecha %s" % (nombre_usuario, str(nombrepiz), str(fechaYHora)), fechaYHora)        
         eliminar(idpiz)
         lista = obtener_pizarras(request)
         return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
+    
+    
     lista = obtener_pizarras(request)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
@@ -107,6 +122,15 @@ def modificar_pizarra(request):
                 fechaFinal = data['fecha_final']
                 #Metodo que guarda la pizarra en la base de datos.
                 modificar(idpiz,nombrepiz,descripcionpiz,fechaFinal)
+
+                fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                usuario = request.user
+                nombre_usuario = usuario.username
+
+                #Se registra en el log la creacion de la nueva pizarra
+                crearAccionUser(usuario,"El usuario %s modifico la informacion de la pizarra %s en la fecha %s" % (nombre_usuario, str(nombrepiz), str(fechaYHora)), fechaYHora)        
+
+
                 lista = obtener_pizarras(request)
                 return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
             else:
@@ -154,9 +178,13 @@ def visualizar_pizarra(request):
         pi = Pizarra.objects.get(idpiz=idpiz)
         colab = colaboradores(idpiz)
         lista = obtener_actividades(request.POST['idpiz'])
-        return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista})
+        #probando con ordenar cronologicamente
+        usuario = request.user
+        orden = orden_cronologico(idpiz, usuario)
+        ordenE = orden_por_estados(idpiz, usuario)
+        return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE})
     
+
     #no se que retornar si no es post asi que retorno la vista anterior y ya
-    lista = obtener_pizarras(request)
-    return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+    return listar_pizarra(request)
         

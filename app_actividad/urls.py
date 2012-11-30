@@ -2,7 +2,10 @@ from django.conf.urls import patterns, url
 from app_actividad import views
 
 urlpatterns = patterns('',
+	url(r'^crear_actividad/',views.crear_actividad, name='crear_actividad'),
+        url(r'^crear_subactividad/',views.crear_subactividad, name='crear_subactividad'), # CREAR SUBACTIVIDAD
         url(r'^crear_actividad/',views.crear_actividad, name='crear_actividad'),
+        url(r'^visualizar_subactividad/',views.visualizar_subactividad, name='visualizar_subactividad'),
         url(r'^listar_actividad/',views.listar_actividad, name='listar_actividad'),
         url(r'^modificar_actividad/',views.modificar_actividad, name='modificar_actividad'),
         url(r'^eliminar_actividad/',views.eliminar_actividad, name='eliminar_actividad'),

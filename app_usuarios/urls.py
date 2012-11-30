@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', views_admin.password_reset_confirm),
     url(r'^reset/done/$', views_admin.password_reset_complete),
     url(r'^cerrar_sesion/', views_usuarios.logout_view, name='logout_view'),
+    url(r'^perfil_usuario/',views_usuarios.perfil_usuario, name='perfil_usuario')
 )

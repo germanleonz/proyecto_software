@@ -71,7 +71,7 @@
         </form>
       </td>
     </tr>
-    <tr>
+    <tr>03.
       <td>
         <!-- cambiar estado -->
         <form name="CambiarEstadoForm" action="{% url 'app_actividad:cambiar_estado_actividad' %}" method="post"> 
@@ -91,7 +91,7 @@
     </tr>
     <tr>
       <td>
-        <form action="{% url 'app_actividad:crear_actividad' %}" method="post">
+        <form action="{% url 'app_actividad:crear_subactividad' %}" method="post">
           {% csrf_token %}
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
 	  <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>

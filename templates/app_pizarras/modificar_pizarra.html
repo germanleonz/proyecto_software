@@ -1,18 +1,18 @@
-{% extends "app_usuarios/base.html" %}
+{% extends "app_usuarios/template.html" %}
 {% load url from future %}
 {% load staticfiles %}
 {% load tags_pizarra %}
 {% block titulo %}Editar Información de una Pizarra{% endblock %}
 {% load url from future }
-
+{% block css %}
 <link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
- 
+ {% endblock css %}
 {% block cuerpo %}
 {% if form.errors %}
 <h1> No se pudo modificar la pizarra</h1>
 {% endif %}
 	<!-- LOGIN BOX -->
- 	<div id="loginBox">                
+ 	<div id="loginBox" style="float: left; margin: 120px 300px 20px 300px;">                
           <form action="{% url 'app_pizarras:modificar_pizarra' %}" id="loginForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta informacion?')) return false">
             {% csrf_token %}
 			<fieldset id="body">

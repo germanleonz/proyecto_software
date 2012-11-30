@@ -1,0 +1,47 @@
+{% extends "app_usuarios/template.html" %}
+{% load url from future %}
+{% load staticfiles %}
+{% block titulo %}"{{pizarra.nombrepiz}}"{% endblock titulo %}
+{% block css %}
+<link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
+{% endblock css %}
+{% block javascript %}
+{% endblock javascript %}
+
+{% block cuerpo %}
+<style>
+.elemPerf {
+	font-size: 15px;
+	color: black;
+}
+
+.elemPerf p1{
+	font-size: 20px;
+}
+
+#loginBox {
+	float: left;
+	width: 300px;
+	margin: 150px 300px 20px 300px;
+}
+</style>
+
+<div id="loginBox">
+	<div class="elemPerf">
+		<p1>Usuario</p1></br>
+		{{usuario.username}}</br></br>
+	</div>
+	<div class="elemPerf">
+		<p1>Nombre</p1></br>
+		{{usuario.first_name}} {{usuario.last_name}}</br></br>
+	</div>
+	<div class="elemPerf">
+		<p1>Correo electrónico</p1></br>
+		{{usuario.email}}</br></br>
+	</div>
+	<div class="elemPerf">
+		<p1>Teléfono</p1></br>
+		{{userprofile.telefono}}</br>
+	</div>
+</div>
+{% endblock cuerpo %}

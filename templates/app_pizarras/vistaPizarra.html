@@ -28,7 +28,27 @@
     -moz-box-shadow:inset 0px 1px 3px #bbb;
     font-size:10px;
   }
+
+  .participante{
+    background: transparent; 
+    border: none; 
+    cursor: pointer;
+  }
+
+  .participante:hover{
+    color: white;
+  }
 </style>
+<script>
+  function divSubmit(div){
+    lista = div.getElementsByTagName("form");
+    for (var i = 0; i<lista.length; ++i){
+      var elem = lista[i]
+      if (elem.id == "visualizarActividad")
+      elem.submit();
+    }
+  }
+</script>
 <div id="columna">
   <table>
     <tr>
@@ -52,7 +72,6 @@
       </td>
     </tr>
     <tr>
-    <tr>
       <td>
         <h>Fecha de inicio</h></br>
         {{pizarra.fechacreacion}}
@@ -68,7 +87,11 @@
         <div id="lista">
           <h>Participantes</h></br>
           {%for elem in colaboradores %}
-          {{elem}}
+          <form action="{% url 'app_usuarios:perfil_usuario' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{elem.username}}" name="usuario"/>
+            <input type="submit" class="participante" value="{{elem.first_name}} {{elem.last_name}}"/>
+          </form>
           </br>
           {%endfor%}
         </div>
@@ -76,21 +99,127 @@
     </tr>
   </table>
 </div>
+<script>
+$(function(){
+  $( "#arbol" ).tabs();
+});
+</script>
 <div id="arbol">
+  <ul>
+    <li><a href="#jerarquico">Pizarra</a></li>
+    <li><a href="#misActividades">Orden Cronologico</a></li>
+    <li><a href="#estado">Orden por Estados</a></li>
+  </ul>
+  <div id="estado">
+    <center>
+      <table id="tablaActividad" style="margin-left: 200px">
+        {%for object in ordenE %}
+        <tr>
+          <td>
+            <div class="actividad" style="
+            {%if object.estadoact == "c"%}
+            background: #378B6E;
+            {%endif%}
+            {%if object.estadoact == "r"%}
+            background: #FFCC00;
+            {%endif%}
+            {%if object.estadoact == "e"%}
+            background: #1947D1;
+            {%endif%}
+            {%if object.estadoact == "p"%}
+            background: #FF0000;
+            {%endif%}
+            {%if object.estadoact == "s"%}
+            background: #FFF;
+            color: black;
+            {%endif%}
+            ">
+            <div id="actHead">
+              {{object.nombreact}}
+              <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
+                {% csrf_token %}
+                <input type="hidden" name="idact" value="{{object.idact}}"/>
+                <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
+                <input class="borrar" type="submit" value=""/>
+              </form>
+            </div>
+            <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)">
+              {{object.descripcionact}}
+              <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
+              </form>
+            </div>
+          </div>
+        </td>
+      </tr>
+      {%endfor%}
+    </table>
+
+  </center>
+  </div>
+  <div id="misActividades">
+    <center>
+      <table id="tablaActividad" style="margin-left: 200px">
+        {%for object in orden %}
+        <tr>
+          <td>
+            <div class="actividad" style="
+            {%if object.estadoact == "c"%}
+            background: #378B6E;
+            {%endif%}
+            {%if object.estadoact == "r"%}
+            background: #FFCC00;
+            {%endif%}
+            {%if object.estadoact == "e"%}
+            background: #1947D1;
+            {%endif%}
+            {%if object.estadoact == "p"%}
+            background: #FF0000;
+            {%endif%}
+            {%if object.estadoact == "s"%}
+            background: #FFF;
+            color: black;
+            {%endif%}
+            ">
+            <div id="actHead">
+              {{object.nombreact}}
+              <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
+                {% csrf_token %}
+                <input type="hidden" name="idact" value="{{object.idact}}"/>
+                <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
+                <input class="borrar" type="submit" value=""/>
+              </form>
+            </div>
+            <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)">
+              {{object.fechaentrega}}
+              <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
+              </form>
+            </div>
+          </div>
+        </td>
+      </tr>
+      {%endfor%}
+    </table>
+
+  </center>
+</div>
+
+
+
+
+<div id="jerarquico">
   {% if not lista %}
   <center>
     <p>No hay actividades.</p>
   </center>
   {% endif %}
   <script>
-    function divSubmit(div){
-      lista = div.getElementsByTagName("form");
-      for (var i = 0; i<lista.length; ++i){
-        var elem = lista[i]
-        if (elem.id == "visualizarActividad")
-        elem.submit();
-      }
-    }
+    $(function() {
+      $( ".actividad" ).draggable();
+    });
   </script>
   <table id="tablaActividad">
     {% for object in lista %}
@@ -98,35 +227,52 @@
     <tr>
       {% endif %}
       <td>
-        <div class="actividad">
-          <div id="actHead">
-            {{object.nombreact}}
-            <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
-              {% csrf_token %}
-              <input type="hidden" name="idact" value="{{object.idact}}"/>
-              <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
-              <input class="borrar" type="submit" value=""/>
-            </form>
-          </div>
-          <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)">
-            {{object.descripcionact}}
-            <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
-              {% csrf_token %}
-              <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
-            </form>
-          </div>
+        <div class="actividad" style="
+        {%if object.estadoact == "c"%}
+        background: #378B6E;
+        {%endif%}
+        {%if object.estadoact == "r"%}
+        background: #FFCC00;
+        {%endif%}
+        {%if object.estadoact == "e"%}
+        background: #1947D1;
+        {%endif%}
+        {%if object.estadoact == "p"%}
+        background: #FF0000;
+        {%endif%}
+        {%if object.estadoact == "s"%}
+        background: #FFF;
+        color: black;
+        {%endif%}
+        ">
+        <div id="actHead">
+          {{object.nombreact}}
+          <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
+            {% csrf_token %}
+            <input type="hidden" name="idact" value="{{object.idact}}"/>
+            <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
+            <input class="borrar" type="submit" value=""/>
+          </form>
         </div>
-      </td>
-      {% if forloop.counter|divisibleby:"3"%}
-    </tr>
-    {% endif %}
-    {% endfor %}
-  </table>
+        <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)">
+          {{object.descripcionact}}
+          <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
+          </form>
+        </div>
+      </div>
+    </td>
+    {% if forloop.counter|divisibleby:"3"%}
+  </tr>
+  {% endif %}
+  {% endfor %}
+</table>
 </div>
 <script>
-  $(function() {
-    $( ".actividad" ).draggable();
-  });
+$(function() {
+  $( ".actividad" ).draggable();
+});
 </script>
-
+</div>
 {% endblock cuerpo%}

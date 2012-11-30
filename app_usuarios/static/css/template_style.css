@@ -24,8 +24,6 @@ html,body {
 .actividad{
   cursor: move;
   min-width: 150px;
-  border-radius: 4px;
-  background: #378B6E;
   box-shadow: 6px 0px 50px -7px #888, -6px 0px 50px -7px #888;
 }
 

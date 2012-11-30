@@ -1,8 +1,8 @@
 #columna {
 	float: left;
 	width: 180px;
-	height: 620px;
-	max-height: 620px;
+	height: 600px;
+	max-height: 600px;
 	border-right: solid 1px #bbb;
 	background: #bbb;
 }
@@ -89,7 +89,7 @@
   bottom: 0;
   left: 0;
   margin-left: -8px;
-  margin-bottom: 80px;
+  margin-bottom: 28px;
   background: #bbb;
   width: 100%;
   min-height: 150px !important;
