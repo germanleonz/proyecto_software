@@ -10,6 +10,10 @@ from django.views.decorators.csrf import csrf_exempt
 def crear_pizarra(request):
     """ 
     Metodo que crea una nueva pizarra llamando a CreadorPizarra
+    In: request
+    Out: vista listar pizarras o ista de crear pizarra
+    Autor: Juan Arocha
+    Fecha: 4-11-12 Version 1.0
     """
     if request.method == 'POST':
         #solucion temporal al problema del formato de fecha
@@ -38,6 +42,10 @@ def crear_pizarra(request):
 def obtener_pizarras(request):
     """
     Metodo que obtiene las pizarras del usuario logueado
+    In: request
+    Out: --
+    Autor: Juan Arocha
+    Fecha: 4-11-12 Version 1.0
     """
     usuario = request.user
     pi = Pizarra.objects.filter(logindueno=usuario)
@@ -48,9 +56,12 @@ def obtener_pizarras(request):
 
 @login_required
 def listar_pizarra(request):
-
     """
     Metodo que lista las pizarras en la pared 
+    In: request
+    Out: --
+    Autor: Juan Arocha
+    Fecha: 4-11-12 Version 1.0
     """
     lista = obtener_pizarras(request)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
@@ -59,6 +70,10 @@ def listar_pizarra(request):
 def eliminar_pizarra(request):
     """
     Metodo que elimina una pizarra de la base de datos
+    In: request
+    Out: vista de listar pizarras
+    Autor: Juan Arocha
+    Fecha: 4-11-12 Version 1.0
     """
     if request.method == 'POST':
         idpiz = request.POST['idpiz']
@@ -73,6 +88,10 @@ def eliminar_pizarra(request):
 def modificar_pizarra(request):
     """
     Metodo que sirve para modificar una pizarra de la base de datos
+    In: request
+    Out: vista listar pizarras o vista modificar perfil
+    Autor: Juan Arocha
+    Fecha: 4-11-12 Version 1.0
     """
     if request.method == 'POST':
         if request.POST.__contains__('nombre'):
@@ -104,6 +123,10 @@ def modificar_pizarra(request):
 def generar_form_modificar(request):
     """
     Metodo que genera el form de modificar
+    In: request
+    Out: vista modificar pizarras o visa de listar pizarras
+    Autor: Juan Arocha
+    Fecha: 4-11-12 Version 1.0
     """
     if request.method == 'POST':
         idpiz = request.POST['idpiz']
@@ -118,6 +141,14 @@ def generar_form_modificar(request):
 
 @login_required
 def visualizar_pizarra(request):
+    """
+    Metodo que permite consultar la pizarra y ver sus atributos
+    In: request
+    Out: vista pizarra o visra listar usuarios
+    Autor: Juan Arocha
+    Fecha: 4-11-12 Version 1.0
+    """
+    
     if request.method== 'POST':
         idpiz = request.POST['idpiz']
         pi = Pizarra.objects.get(idpiz=idpiz)

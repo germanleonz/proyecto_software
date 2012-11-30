@@ -6,6 +6,14 @@ from datetime import date
 from django.core.exceptions import ValidationError
 
 class Pizarra(models.Model):
+    """
+    Clase pizarra, representa a la tabla de pizarra en la base de datos
+    In: models.Model
+    Out: --
+    Autor: Oriana Gomez y Carla Urrea
+    Fecha: 27-10-12 Version 1.0
+    """
+
     idpiz = models.AutoField(primary_key = True)
     nombrepiz = models.CharField(max_length=50)
     descripcionpiz = models.CharField(max_length=150) 
@@ -25,6 +33,13 @@ class Pizarra(models.Model):
             super(Pizarra,self).save(*args,**kwargs)
 
 class PersonalizarPizarra(models.Model):
+    """
+    Metodo que permite guardar las posiciones de las pizarras dentro de la pared de un usuario
+    In: models.Model
+    Out: --
+    Autor: Oriana Gomez y Carla Urrea
+    Fecha: 27-10-12 Version 1.0
+    """
     login = models.ForeignKey(User, related_name='dueno_personalizar_pizarra')
     pizarra = models.ForeignKey(Pizarra, related_name='pizarra_personalizar_pizarra')
     posicion = models.IntegerField()
@@ -32,16 +47,13 @@ class PersonalizarPizarra(models.Model):
 def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario):
     """
     Metodo que guarda una pizarra en la base de datos generando la id como el siguiente al mas alto
+    In: nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
+    Out: --
+    Autor: Juan Arocha
+    Fecha: 27-10-12 Version 1.0
     """
     from app_actividad.models import crearActividad
-    #Obtengo el ultimo id creado y sumo 1 a su valor para el id de la nueva pizarra
-#    ultima = Pizarra.objects.all().aggregate(Max('idpiz'))
-    #if ultima['idpiz__max'] == None:
-        #idpiz=0
-    #else:
-        #idpiz= ultima['idpiz__max']+1
-
-    #instancio la pizarra a guardar   
+     #instancio la pizarra a guardar   
 
     nuevo = Pizarra(
         nombrepiz=nombrepiz, 
@@ -57,6 +69,10 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
 def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal):
     """
     Metodo que modifica una pizarra de la base de datos
+    In: idpiz, nombrepiz, descripcionpiz, fechafinal
+    Out: --
+    Autor: Juan Arocha
+    Fecha: 27-10-12 Version 1.0
     """
     nueva = Pizarra.objects.filter(idpiz = idpiz)
     nombreB = False
@@ -80,6 +96,10 @@ def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal):
 def eliminar(idpiz):
     """
     Metodo que elimina una pizarra de la base de datos
+    In: idpiz
+    Out: --
+    Autor: Juan Arocha
+    Fecha: 27-10-12 Version 1.0
     """
     elem = Pizarra.objects.filter(idpiz = idpiz)
 
@@ -88,6 +108,10 @@ def eliminar(idpiz):
 def obtenerPizarra(idpiz):
     """
     Metodo que retorna un diccionario con los datos de una pizarra asociada con el idpiz
+    In: idpiz
+    Out: pizarra
+    Autor: Juan Arocha
+    Fecha: 27-10-12 Version 1.0
     """
     pizarra = {}
     elem = Pizarra.objects.get(idpiz = idpiz)
