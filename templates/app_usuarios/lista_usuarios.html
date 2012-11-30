@@ -44,7 +44,7 @@
     </td>
     <td>
       {% if puede_eliminar %}
-      <form action="{% url app_usuarios:eliminar_usuario %}" method="post">
+      <form action="{% url app_usuarios:eliminar_usuario %}" method="post" onsubmit="if (!confirm('Seguro desea elimimar este usuario?')) return false">
         {% csrf_token %}
         <input name="nombre_usuario" type="hidden" value="{{object.username}}"/>
         <input type="submit" value="Eliminar"/>

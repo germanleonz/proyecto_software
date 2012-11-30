@@ -18,12 +18,13 @@ class Actividad(models.Model):
     logincreador = models.ForeignKey(User, related_name = 'actividad_loginCreador')
     loginjefe = models.ForeignKey(User, related_name = 'actividad_loginJefe')
     loginasignado = models.ForeignKey(User, related_name = 'actividad_loginAsignado')
+    actividad_padre = models.ForeignKey('self', related_name='sub_actividades', null=True) # Atributo que indica el padre de la actividad, en caso de que la actividad sea la raiz entonces el padre es null
 
 class seDivide(models.Model):
     idactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idAct')
     idsubactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idSubAct')    
 
-def crearActividad(nombre,descript,fechaini,fechaent,piz,creador):
+def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre=None):
 
     ult = Actividad.objects.all().aggregate(Max('idact'))
     if ult['idact__max'] == None:
@@ -40,7 +41,8 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador):
         idpizactividad=piz,
         logincreador=creador,
         loginjefe=creador,
-        loginasignado=creador)
+        loginasignado=creador,
+        actividad_padre= padre)
     a.save()
 
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):

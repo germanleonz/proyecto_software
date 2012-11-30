@@ -37,6 +37,41 @@ def crear_actividad(request):
     else:
       return render(request,'app_actividad/crear_actividad.html',{'form':form, 'idpiz':request.POST['idpiz']})
   
+@csrf_exempt
+def crear_subactividad(request):
+  if request.method == 'POST':
+    form = CrearActividadForm(request.POST)
+    if form.is_valid():
+      data = form.cleaned_data
+
+      nombreact = data['nombre'] # NOMBRE DE LA ACTIVIDAD
+      descripcionact = data['descripcion'] # DESCRIPCION DE LA ACTIVIDAD
+      fechainicial = data['fecha_inicio'] # FECHA INICIAL
+      fechaentrega = data['fecha_final'] # FECHA DE ENTREGA
+
+      padre=Actividad.objects.get(idact=request.POST['idact']) # IDACT.. ES OBTENER EL ID DE LA ACTIVIDAD.
+      user = request.user
+
+      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,padre.idpizactividad,user,padre)
+      lista = obtener_actividades(padre.idpizactividad.idpiz)
+      colab = colaboradores(padre.idpizactividad.idpiz)
+      return render(request,'app_pizarras/vistaPizarra.html', {'lista' : lista, 'pizarra': piz, 'colaboradores': colab })
+    else:
+      return render(request,'app_actividad/crear_subactividad.html',{'form':form, 'idact':request.POST['idact']})
+
+def form_crear_subactividad(request):
+    """
+    Metodo que genera el form crear subactividades
+    """
+    if request.method == 'POST':
+        idpiz = request.POST['idact']
+        form = CrearActividadForm() 
+        return render(request, 'app_actividad/crear_subactividad.html', { 'idact' : idact, 'form' : form })
+
+    lista = obtener_actividades(request)
+    return render(request, 'app_actividad/listar.html', { 'lista' : lista, })
+  
+  
 def form_crear(request):
     """
     Metodo que genera el form crear

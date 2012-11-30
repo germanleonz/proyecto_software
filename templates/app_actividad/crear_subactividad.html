@@ -1,0 +1,10 @@
+<div id="errores_crear_actividad" class="errores">
+  *Todos los campos son requeridos
+</div>
+<form action="{% url app_actividad:crear_subactividad %}" id="actividadForm" method="post">
+  {% csrf_token %}
+  <fieldset  id="body">
+    {{ form.as_p }}
+    <input type="hidden" name="idact" value="{{idact}}"/>
+  </fieldset>
+</form>

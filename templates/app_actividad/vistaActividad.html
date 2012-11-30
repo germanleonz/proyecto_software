@@ -96,7 +96,7 @@
       <tr>
         <td>
           {{elem.contenido}}
-          <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post">
+          <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post" onsubmit= "if (!confirm('Seguro desea eliminar este ccomentario ')) return false">
             {% csrf_token %}
             <input type="hidden" name="idcomentario" value="{{elem.idcomentario}}"/>
             <input type="submit" value="Eliminar"/>
