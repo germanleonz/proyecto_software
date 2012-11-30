@@ -51,12 +51,6 @@
         {{actividad.fechaentrega}}
       </td>
     </tr>
-     <tr>
-      <td>
-        <h>Estado</h></br>
-        {{actividad.estadoact}}
-      </td>
-    </tr>
     <tr>
       <td>
         <h>Estado</h></br>
@@ -167,6 +161,59 @@
   </div>
   </div>
   <div id="subactividades">
+    <script>
+      $(function() {
+        $( ".actividad" ).draggable();
+      });
+    </script>
+    <table id="tablaActividad">
+      {% for object in listasub %}
+      {% if forloop.counter0|divisibleby:"3"%}
+      <tr>
+        {% endif %}
+        <td>
+          <div class="actividad" style="
+            {%if object.estadoact == "c"%}
+            background: #378B6E;
+            {%endif%}
+            {%if object.estadoact == "r"%}
+            background: #FFCC00;
+            {%endif%}
+            {%if object.estadoact == "e"%}
+            background: #1947D1;
+            {%endif%}
+            {%if object.estadoact == "p"%}
+            background: #FF0000;
+            {%endif%}
+            {%if object.estadoact == "s"%}
+            background: #FFF;
+            color: black;
+            {%endif%}
+            ">
+            <div id="actHead">
+              {{object.nombreact}}
+            <!--  {# <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
+                {% csrf_token %}
+                <input type="hidden" name="idact" value="{{object.idact}}"/>
+                <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
+                <input class="borrar" type="submit" value=""/>
+              </form>#} -->
+            </div>
+            <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)">
+              {{object.descripcionact}}
+              <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
+              </form>
+            </div>
+          </div>
+        </td>
+        {% if forloop.counter|divisibleby:"3"%}
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+
   </div>
 </div>
 

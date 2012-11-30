@@ -6,6 +6,8 @@ from app_actividad.models import colaboradores, obtener_actividades, orden_crono
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from app_log.models import crearAccionUser
+from app_pizarras.arbol import *
+from app_actividad.models import generar_arbol
 
 @csrf_exempt
 @login_required

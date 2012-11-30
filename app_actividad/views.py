@@ -121,9 +121,10 @@ def visualizar_actividad(request):
     if request.method== 'POST':
         idact = request.POST['idact']
         act = Actividad.objects.get(idact=idact)
+        piz = act.idpizactividad
         lista = obtener_comentarios(idact)
         listasub = obtener_subactividades(idact)
-        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act, 'lista': lista, 'listasub':listasub,})
+        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act, 'lista': lista, 'listasub':listasub, 'pizarra':piz,})
 
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, })
