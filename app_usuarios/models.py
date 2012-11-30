@@ -8,6 +8,10 @@ class ManejadorUsuario(UserManager):
     def crear_colaborador(self, usuario, datos):
         """
         Crea un colaborador con los datos proporcionados
+        In: self, usuario, datos
+        Out: --
+        Autor: German Leon
+        Fecha: 4-11-12 Version 1.0
         """
         print "Entramos a crear_colaborador"
         up = UserProfile.objects.create(user=usuario, telefono= datos["telefono"])
@@ -17,6 +21,10 @@ class ManejadorUsuario(UserManager):
     def crear_administador(self, usuario, datos):
         """
         Metodo para crear un Administrador
+        In: self, usuario, datos
+        Out: --
+        Autor: German Leon
+        Fecha: 4-11-12 Version 1.0
         """
         #   Creamos un usuario como en crear_colaborador pero con privilegios de administador
         print "Asignandole privilegios de administrador al usuario recien creado ..."
@@ -27,6 +35,10 @@ class ManejadorUsuario(UserManager):
     def modificar(self, nombre_usuario, nombre, apellido, telefono, correo):
         """
         Crea un administrador con sus respectivos permisos
+        In: self, nombre_usuario, nombre, apellido, telefono, correo 
+        Out: --
+        Autor: German Leon
+        Fecha: 4-11-12 Version 1.0
         """
         nuevo = User.objects.filter(username = nombre_usuario)
         nuevoProfile = UserProfile.objects.filter(user=nuevo)
@@ -54,6 +66,8 @@ class UserProfile(models.Model):
     """
     Clase UserProfile que extiende los datos que se definen en la tabla User de Django
     Nota: Deprecado esta manera de extender User esta deprecada en Django 1.5
+    Autor: German Leon
+    Fecha: 4-11-12 Version 1.0
     """
     #   Campo obligatorio para poder extender
     user = models.OneToOneField(User)
