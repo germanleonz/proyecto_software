@@ -6,62 +6,62 @@ from django.contrib.auth.models import User
 import re
 
 def validate_user(value):
-    """
-    Metodo para validar el username. Expresion regular a cumplir: '^[a-zA-Z]+[a-zA-Z-_.0-9]+$'
-    In: value
-    Autor: Mary Ontiveros
-    Fecha: 8-11-12 Version 1.0
-    """
+	"""
+	Metodo para validar el username. Expresion regular a cumplir: '^[a-zA-Z]+[a-zA-Z-_.0-9]+$'
+	In: value
+	Autor: Mary Ontiveros
+	Fecha: 8-11-12 Version 1.0
+	"""
 	if re.match('^[a-zA-Z]+[a-zA-Z-_.0-9]+$',value)==None:
 		raise ValidationError(u'\"%s\"no es un usuario valido' % value)
 
 def validate_nombre(value):
-    """
-    Metodo para validar el nombre del usuario. Expresion regular a cumplir: '^[a-zA-Z]+$'
-    In: value
-    Autor: Mary Ontiveros
-    Fecha: 8-11-12 Version 1.0
-    """
+	"""
+	Metodo para validar el nombre del usuario. Expresion regular a cumplir: '^[a-zA-Z]+$'
+	In: value
+	Autor: Mary Ontiveros
+	Fecha: 8-11-12 Version 1.0
+	"""
 	if re.match('^[a-zA-Z]+$',value)==None:
 		raise ValidationError(u'\"%s\" no es un nombre valido, debe estar compuesto solo por letras.' % value)
 
 def validate_apellido(value):
-    """
-    Metodo para validar el apellido de un usuario. Expresion regular: '^[a-zA-Z]+$'
-    In: value
-    Autor: Mary Ontiveros
-    Fecha: 8-11-12 Version 1.0
-    """
+	"""
+	Metodo para validar el apellido de un usuario. Expresion regular: '^[a-zA-Z]+$'
+	In: value
+	Autor: Mary Ontiveros
+	Fecha: 8-11-12 Version 1.0
+	"""
 	if re.match('^[a-zA-Z]+$',value)==None:
 		raise ValidationError(u'\"%s\" no es un apellido valido, debe estar compuesto solo por letras' % value)
 
 def validate_telefono(value):
-    """
-    Metodo para validar el telefono de un usuario. Expresion regular: '^[0-9]+[-]?[0-9]+$'
-    In: value
-    Autor: Mary Ontiveros
-    Fecha: 8-11-12 Version 1.0
-    """
-   	if re.match('^[0-9]+[-]?[0-9]+$', value) == None:
+	"""
+	Metodo para validar el telefono de un usuario. Expresion regular: '^[0-9]+[-]?[0-9]+$'
+	In: value
+	Autor: Mary Ontiveros
+	Fecha: 8-11-12 Version 1.0
+	"""
+	if re.match('^[0-9]+[-]?[0-9]+$', value) == None:
 		raise ValidationError(u'\"%s\" no es un telefono valido' % value)
 
 def validate_password(value):
-    """
-    Metodo para validar la contraseña de un usuario. 
-    In: value
-    Autor: Mary Ontiveros
-    Fecha: 8-11-12 Version 1.0
-    """
+	"""
+	Metodo para validar la contrasena de un usuario. 
+	In: value
+	Autor: Mary Ontiveros
+	Fecha: 8-11-12 Version 1.0
+	"""
 	if len(value)<6:
 		raise ValidationError(u' Clave Invalida')
 	      
 def validate_unico(value):
-    """
-    Metodo para validar que solo exista un usuario con ese username
-    In: value
-    Autor: Mary Ontiveros
-    Fecha: 8-11-12 Version 1.0
-    """
+	"""
+	Metodo para validar que solo exista un usuario con ese username
+	In: value
+	Autor: Mary Ontiveros
+	Fecha: 8-11-12 Version 1.0
+	"""
 	if not User.objects.filter(username = value):
 		pass
 	else:

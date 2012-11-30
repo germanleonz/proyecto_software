@@ -7,47 +7,46 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-
 from app_usuarios.models import UserProfile
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
 
 
 def login_usuario(request):
-    """	
-    Metodo que verificar las credenciales del usuario y permite o no el acceso
-    sistema
-    In: request
-    Out: vista login
-    Autor: German Leon 
-    Fecha: 5-11-12 Version 1.0
-    """
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            nombre_usuario = form.cleaned_data['nombre_usuario']
-            password = form.cleaned_data['password']
-            usuario = authenticate(username=nombre_usuario, password=password)
-            if usuario is not None:
-                #   El usuario se autentico correctamente
-                if usuario.is_active:
-                    #   Redirigir a pagina de login correcto (ver pared)
-                    print "Acceso permitido para %s" % nombre_usuario
-                    login(request, usuario)
-                    lista = app_pizarras.views.obtener_pizarras(request)
-                    return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
-                else:
-                    #   Devolver un mensaje de cuenta deshabilitada
-                    pass
-            else:
-                #   Devolver un mensaje de usuario o contrasena incorrectas
-                print "Acceso denegado para %s" % nombre_usuario
-                print "-----" + str(User.objects.filter(username = nombre_usuario))
-                #   Aqui se deben levantar los errores
-                return render(request, 'app_usuarios/login.html', { 'form': form, })
-    else:
-        # An Unbound Form (formulario sin datos)
-        form = LoginForm()  
-    return render(request, 'app_usuarios/login.html', { 'form': form, })
+	"""	
+	Metodo que verificar las credenciales del usuario y permite o no el acceso
+	sistema
+	In: request
+	Out: vista login
+	Autor: German Leon 
+	Fecha: 5-11-12 Version 1.0
+	"""
+	if request.method == 'POST':
+		form = LoginForm(request.POST)
+		if form.is_valid():
+			nombre_usuario = form.cleaned_data['nombre_usuario']
+			password = form.cleaned_data['password']
+			usuario = authenticate(username=nombre_usuario, password=password)
+			if usuario is not None:
+				#   El usuario se autentico correctamente
+				if usuario.is_active:
+					#   Redirigir a pagina de login correcto (ver pared)
+					print "Acceso permitido para %s" % nombre_usuario
+					login(request, usuario)
+					lista = app_pizarras.views.obtener_pizarras(request)
+					return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+				else:
+					#   Devolver un mensaje de cuenta deshabilitada
+					pass
+			else:
+				#   Devolver un mensaje de usuario o contrasena incorrectas
+				print "Acceso denegado para %s" % nombre_usuario
+				print "-----" + str(User.objects.filter(username = nombre_usuario))
+				#   Aqui se deben levantar los errores
+				return render(request, 'app_usuarios/login.html', { 'form': form, })
+	else:
+		# An Unbound Form (formulario sin datos)
+		form = LoginForm()  
+	return render(request, 'app_usuarios/login.html', { 'form': form, })
 
 @csrf_exempt
 @login_required
@@ -318,9 +317,9 @@ def registrar_visitante(request):
 @login_required
 def cambiar_contrasena(request):
     """
-    Metodo que permite cambiar la contraseña de un usuario 
+    Metodo que permite cambiar la contrasena de un usuario 
     In: request 
-    Out: vista de cambiar contraseña
+    Out: vista de cambiar contrasena
     Autor: German Leon
     Fecha 5-11-12 Version 1.0
     """
