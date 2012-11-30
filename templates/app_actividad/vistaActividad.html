@@ -95,12 +95,17 @@
       {% for elem in lista %}
       <tr>
         <td>
-          {{elem.contenido}}
-          <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="idcomentario" value="{{elem.idcomentario}}"/>
-            <input type="submit" value="Eliminar"/>
-          </form>
+	    <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post">
+	      {% csrf_token %}
+	      {{elem.contenido}}
+	      <br>
+	      Fecha: {{elem.fechacomentario}}
+	      Hora: {{elem.horacomentario}}
+	      <br>
+	      Autor: {{elem.loginusuario}}
+	      <input type="hidden" name="idcomentario" value="{{elem.idcomentario}}"/>
+	      <input type="submit" value="Eliminar"/>
+	    </form>
         </td>
       </tr>
       {% endfor %}

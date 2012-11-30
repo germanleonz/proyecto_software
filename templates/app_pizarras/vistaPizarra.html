@@ -98,7 +98,7 @@
     <tr>
       {% endif %}
       <td>
-        <div class="actividad"  >
+        <div class="actividad">
           <div id="actHead">
             {{object.nombreact}}
             <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">

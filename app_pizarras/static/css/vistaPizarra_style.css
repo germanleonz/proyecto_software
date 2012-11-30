@@ -109,6 +109,9 @@
 
 #tablaComentarios{
   margin-top: 50px;
+  position: fixed;
+  overflow: scroll;
+  max-height: 100px;
 } 
 
 #tablaComentarios tr{
