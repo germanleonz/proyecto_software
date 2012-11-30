@@ -30,7 +30,7 @@
     <td>
       <div class="pizarra" onclick="divSubmit(this)" >
         <div id="titulo">
-          <form class="formEliminar" action="{% url app_pizarras:eliminar_pizarra %}" method="post" onsubmit="confirmacionBorrar()">
+          <form class="formEliminar" action="{% url app_pizarras:eliminar_pizarra %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta pizarra?')) return false">
             {{object.nombrepiz}}
             {% csrf_token %}
             <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>

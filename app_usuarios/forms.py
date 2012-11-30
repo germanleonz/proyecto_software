@@ -31,6 +31,7 @@ def validate_unico(value):
 	else:
 		raise ValidationError(u'Ya existe usuario con ese Nombre')
 
+
 class LoginForm (forms.Form):    
     class Meta:
             model = User
@@ -83,3 +84,4 @@ class CambiarContrasenaForm(forms.Form):
     """
     contrasena1 = forms.CharField(label = "Nueva contrasena", widget=forms.PasswordInput, max_length=15,validators=[validate_password])
     contrasena2 = forms.CharField(label = "Repita su nueva contrasena", widget=forms.PasswordInput, max_length=15,validators=[validate_password])
+

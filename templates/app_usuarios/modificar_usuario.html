@@ -9,7 +9,7 @@
 
 {% block cuerpo %}
  	<div id="loginBox">                
-    <form action="{% url 'app_usuarios:modificar_usuario' %}" id="loginForm" method="post">
+    <form action="{% url 'app_usuarios:modificar_usuario' %}" id="loginForm" method="post" onsubmit="if(!confirm('Seguro desea modificar este usuario?')) return false">
       {% csrf_token %}
 			<fieldset id="body">
         <input id="id_nombre_usuario" name="nombre_usuario" type="hidden" value="{{nombre_usuario}}"/>

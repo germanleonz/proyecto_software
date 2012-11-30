@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from app_usuarios.models import UserProfile
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
 
+
 def login_usuario(request):
     """	
     Metodo que verificar las credenciales del usuario y permite o no el acceso
@@ -295,3 +296,4 @@ def cambiar_contrasena(request):
     else:
         form = CambiarContrasenaForm()
     return render(request, 'app_usuarios/cambiar_contrasena.html', { 'form': form, })
+

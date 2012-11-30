@@ -14,7 +14,7 @@
       <!-- LOGIN BOX -->
     <div id="loginBox">                
       <br><br><br><br>
-      <form action="{% url 'app_actividad:modificar_actividad' %}" id="loginForm" method="post">
+      <form action="{% url 'app_actividad:modificar_actividad' %}" id="loginForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta actividad?')) return false">
 	{% csrf_token %}
 	    <fieldset id="body">
 		<input type="hidden" name="idact" value="{{idact}}" />
