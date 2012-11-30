@@ -1,7 +1,6 @@
 class Node(object):
-    def __init__(self, data, parent):
+    def __init__(self, data):
         self.data = data
-        self.parent = parent
         self.children = []
 
     def add_child(self, obj):
@@ -26,3 +25,21 @@ class Node(object):
                 lista.append((self.data,self.children[i]))
 
         return lista
+
+    def generate_list(self):
+        act = self.children
+        lista = []
+        lista.append(self.data)
+        while ( len(act)>0 ):
+            ady = act.pop()
+            if len(ady.children)>0:
+                for i in range (0,len(ady.children)):
+                    act.append(ady.children[i])
+            else:
+                lista.append(ady.data)
+        return lista
+
+           
+           
+
+

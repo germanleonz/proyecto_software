@@ -32,13 +32,23 @@
   .participante{
     background: transparent; 
     border: none; 
-    cursor: pointer;"
+    cursor: pointer;
   }
 
   .participante:hover{
     color: white;
   }
 </style>
+<script>
+  function divSubmit(div){
+    lista = div.getElementsByTagName("form");
+    for (var i = 0; i<lista.length; ++i){
+      var elem = lista[i]
+      if (elem.id == "visualizarActividad")
+      elem.submit();
+    }
+  }
+</script>
 <div id="columna">
   <table>
     <tr>
