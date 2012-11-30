@@ -107,7 +107,8 @@ def listar_usuarios(request):
     """
     Metodo para popular la lista de usuarios que se le mostrara al usuario
     """
-    lista = User.objects.all()
+    # Se omite el usuario actual de la lista
+    lista = User.objects.exclude(username = request.user.username)
     puede_eliminar = request.user.has_perm('auth.delete_user')
     puede_modificar = request.user.has_perm('auth.change_user')
     puede_crear = request.user.has_perm('auth.create_user')
@@ -150,7 +151,9 @@ def modificar_usuario(request):
             lista.append(request.POST['telefono'])
             return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario': nombre_usuario, 'lista': lista, })
 
-    lista = User.objects.all()
+    # Se debe excluir de la lista de todos los usuarios el
+    # usuario actual
+    lista = User.objects.exclude(username = request.user.username)
     puede_eliminar = request.user.has_perm('auth.delete_user')
     puede_modificar = request.user.has_perm('auth.change_user')
     puede_crear = request.user.has_perm('auth.add_user')
