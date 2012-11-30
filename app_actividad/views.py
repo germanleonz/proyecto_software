@@ -30,21 +30,48 @@ def crear_actividad(request):
 
       piz=Pizarra.objects.get(idpiz=request.POST['idpiz'])
       user = request.user
+      padre = None
 
-      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user)
+
+      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, padre)
 
       #Se registra en el log la creacion de la nueva actividad
       fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
       nombre_usuario = user.username            
       crearAccionUser(user,"El usuario %s creo la actividad %s" % (nombre_usuario, nombreact), fechaYHora)
-
-
-
       lista = obtener_actividades(request.POST['idpiz'])
       colab = colaboradores(request.POST['idpiz'])
       return render(request,'app_pizarras/vistaPizarra.html', {'lista' : lista, 'pizarra': piz, 'colaboradores': colab })
     else:
       return render(request,'app_actividad/crear_actividad.html',{'form':form, 'idpiz':request.POST['idpiz']})
+  
+@csrf_exempt
+def crear_subactividad(request):
+  if request.method == 'POST':
+    form = CrearActividadForm(request.POST)
+    if form.is_valid():
+      print "validoooooooooo "
+      data = form.cleaned_data
+
+      nombreact = data['nombre'] # NOMBRE DE LA ACTIVIDAD
+      descripcionact = data['descripcion'] # DESCRIPCION DE LA ACTIVIDAD
+      fechainicial = data['fecha_inicio'] # FECHA INICIAL
+      fechaentrega = data['fecha_final'] # FECHA DE ENTREGA
+      
+      idpizactividad = request.POST['idpiz']
+      pizarra = Pizarra.objects.get(idpiz=idpizactividad)
+      padre=Actividad.objects.get(idact=request.POST['idact']) # IDACT.. ES OBTENER EL ID DE LA ACTIVIDAD.
+      user = request.user
+      
+      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,pizarra,user,padre)
+      listasub = obtener_subactividades(request.POST['idact'])
+      lista = obtener_comentarios(request.POST['idact'])
+      colab = colaboradores(padre.idpizactividad.idpiz)
+      return render(request,'app_actividad/vistaActividad.html', {'actividad': padre,'lista' : lista, 'colaboradores': colab,'listasub':listasub })
+    else:
+      print "invalidooooooooooooooo!!!!!!!"
+      return render(request,'app_actividad/crear_subactividad.html',{'form': form, 'idact':request.POST['idact'],'idpiz':request.POST['idpiz']})
+
   
 def form_crear(request):
     """
@@ -91,11 +118,31 @@ def visualizar_actividad(request):
         idact = request.POST['idact']
         act = Actividad.objects.get(idact=idact)
         lista = obtener_comentarios(idact)
-        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act, 'lista': lista})
+        listasub = obtener_subactividades(idact)
+        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act, 'lista': lista, 'listasub':listasub,})
 
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, })
     
+    
+# SUBACTIVIDADES    
+
+def listar_subactividad(request):
+    lista = obtener_subactividades(request)
+    return render(request, 'app_actividad/listar.html', { 'lista' : lista, })	    
+    
+@csrf_exempt        
+def visualizar_subactividad(request):
+    if request.method== 'POST':
+        idact = request.POST['idact']
+        act = Actividad.objects.get(idact=idact)
+        lista = obtener_subactividad(idact)
+        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act, 'lista': lista})
+
+    lista = obtener_subactividades(request)
+    return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, })
+    
+
 
 @csrf_exempt
 @login_required
