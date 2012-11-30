@@ -72,7 +72,8 @@ def visualizar_actividad(request):
     if request.method== 'POST':
         idact = request.POST['idact']
         act = Actividad.objects.get(idact=idact)
-        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act})
+        lista = obtener_comentarios(idact)
+        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act, 'lista': lista})
 
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, })

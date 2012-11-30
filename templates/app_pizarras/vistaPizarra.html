@@ -108,9 +108,12 @@
               <input class="borrar" type="submit" value=""/>
             </form>
           </div>
-          <div class="mostrarActividad" id="actCont" onclick="Dajaxice.app_actividad.mostrarActividad(visualizarActividad, {'data': {{object.idact}}});">
+          <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)">
             {{object.descripcionact}}
-            {{object.idact}}
+            <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
+            </form>
           </div>
         </div>
       </td>

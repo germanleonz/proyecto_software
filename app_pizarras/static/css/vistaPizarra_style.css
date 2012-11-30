@@ -3,7 +3,7 @@
 	width: 180px;
 	height: 620px;
 	max-height: 620px;
-	border-right: solid 1px #999;
+	border-right: solid 1px #bbb;
 	background: #bbb;
 }
 
@@ -20,6 +20,45 @@
 	border-bottom: 1px solid #aaa;
 	height: 50px;
 	max-height: 50px;
+}
+
+#modificarAct{
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: white;
+  margin-top: 10px;
+  margin-left: 40px;
+  font-weight: bold;
+}
+
+#modificarAct:hover{
+  background: #aaa;
+}
+
+.ui-tabs { 
+  position: relative; padding: .2em; zoom: 1; 
+} /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+.ui-tabs .ui-tabs-nav { 
+  margin: 0; padding: .2em .2em 0; 
+}
+.ui-tabs .ui-tabs-nav li { 
+  list-style: none; float: left; position: relative; top: 0; margin: 1px .2em 0 0; border-bottom: 0; padding: 0; white-space: nowrap; 
+}
+.ui-tabs .ui-tabs-nav li a { 
+  float: left; padding: .5em 1em; text-decoration: none; 
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active { 
+  margin-bottom: -1px; padding-bottom: 1px; 
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-tabs-loading a { 
+  cursor: pointer; 
+}
+.ui-tabs .ui-tabs-nav li a, .ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a { 
+  cursor: pointer; 
+} /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+.ui-tabs .ui-tabs-panel { 
+  display: block; border-width: 0; padding: 1em 1.4em; background: none; 
 }
 
 #columna table h {
@@ -39,3 +78,64 @@
 	width: 700px;
 	height: 620px;
 }
+
+/*Comentarios de una actividad*/
+#comentarios{
+  margin-left: -13px;
+}
+
+#comentar{
+  position:absolute;
+  bottom: 0;
+  left: 0;
+  margin-left: -8px;
+  margin-bottom: 80px;
+  background: #bbb;
+  width: 100%;
+  min-height: 150px !important;
+}
+
+#comentar textarea{
+  border: #aaa;
+  min-height: 70px;
+  width:400px;
+  margin-top: 15px;
+  margin-left: 140px;
+}
+
+#comentar input[type="submit"]{
+  background: transparent;
+}
+
+#tablaComentarios{
+  margin-top: 50px;
+} 
+
+#tablaComentarios tr{
+  display: table;
+  text-align: left;
+  border-bottom: 1px solid #aaa;
+  padding: 10px;
+}
+
+#navegacionAct{
+  width: 100%;
+  background: #696969;
+  height:40px;
+}
+
+
+
+div.opcionesAct{
+  float: right; 
+  cursor: pointer;
+  color: #fff;
+  padding: 10px;
+}
+
+div.opcionesAct:hover{
+  background: #545454;
+}
+
+
+
