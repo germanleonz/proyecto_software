@@ -45,7 +45,11 @@ def crear_actividad(request):
         
       lista = obtener_actividades(request.POST['idpiz'])
       colab = colaboradores(request.POST['idpiz'])
-      return render(request,'app_pizarras/vistaPizarra.html', {'lista' : lista, 'pizarra': piz, 'colaboradores': colab })
+      usuario = request.user
+      orden = orden_cronologico(piz.idpiz, usuario)
+      ordenE = orden_por_estados(piz.idpiz, usuario)
+      return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : piz, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE, 'colaboradores': colab})
+
     else:
       return render(request,'app_actividad/crear_actividad.html',{'form':form, 'idpiz':request.POST['idpiz']})
   
@@ -71,9 +75,14 @@ def crear_subactividad(request):
       listasub = obtener_subactividades(request.POST['idact'])
       lista = obtener_comentarios(request.POST['idact'])
       colab = colaboradores(padre.idpizactividad.idpiz)
-      return render(request,'app_actividad/vistaActividad.html', {'actividad': padre,'lista' : lista, 'colaboradores': colab,'listasub':listasub })
+
+      usuario = request.user
+      orden = orden_cronologico(idpiz, usuario)
+      ordenE = orden_por_estados(idpiz, usuario)
+      return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE})
     else:
       print "invalidooooooooooooooo!!!!!!!"
+
       return render(request,'app_actividad/crear_subactividad.html',{'form': form, 'idact':request.POST['idact'],'idpiz':request.POST['idpiz']})
 
   
