@@ -77,9 +77,9 @@ def crear_subactividad(request):
       colab = colaboradores(padre.idpizactividad.idpiz)
 
       usuario = request.user
-      orden = orden_cronologico(idpiz, usuario)
-      ordenE = orden_por_estados(idpiz, usuario)
-      return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE})
+      orden = orden_cronologico(idpizactividad, usuario)
+      ordenE = orden_por_estados(idpizactividad, usuario)
+      return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pizarra, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE})
     else:
       print "invalidooooooooooooooo!!!!!!!"
 
