@@ -1,9 +1,8 @@
 import re
 import datetime 
-import app_pizarras
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib.auth import views as views_admin
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -12,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from app_usuarios.models import UserProfile
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
 from app_log.models import crearAccionUser
+import app_pizarras
 from app_pizarras.views import listar_pizarra
 
 def login_if(request):
@@ -67,6 +67,9 @@ def login_usuario(request):
     return render(request, 'app_usuarios/login.html', { 'form': form, })
 
 def perfil_usuario(request):
+    """
+    Metodo que consigue el perfil de un usuario
+    """
     if request.method == 'POST':
         id = request.POST['usuario']
         usuario = User.objects.get(username=id)

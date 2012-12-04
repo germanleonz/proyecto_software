@@ -1,11 +1,12 @@
-from django.shortcuts import render
-from app_comentarios.models import Comentario, CreadorComentario, eliminar, obtener_comentarios
-from app_actividad.models import Actividad
-from app_comentarios.forms import CrearComentarioForm
 from datetime import date
 from datetime import datetime
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
+from app_actividad.models import Actividad
+from app_comentarios.models import Comentario, CreadorComentario, eliminar, obtener_comentarios
+from app_comentarios.forms import CrearComentarioForm
 from app_log.models import crearAccionUser
 
 # Create your views here.
