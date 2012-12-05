@@ -252,9 +252,9 @@ def invitar_usuario(request):
     if request.method == 'POST':
         id_actividad = request.POST['idact']
         recipiente = request.POST['recipiente']
-        if User.objects.filter(email=recipiente).exists():
+        if not User.objects.filter(email=recipiente).exists():
             #   El usuario no estaba registrado se le crea un nombre de usuario y una contrasena
-            nombre_usuario = recipiente.partition("@")[0]  
+            nombre_usuario = recipiente.partition("@")[0]
             contrasena = User.objects.make_random_password()
             asunto = "Felicidades, usted ha sido invitado a participar como colaborador"
             mensaje = """
@@ -273,14 +273,12 @@ def invitar_usuario(request):
             tel = '000'
             usuario = UserProfile.objects.create(user= nuevo, telefono=tel)
 
-                  #Se regi	stra en el log la creacion de la nueva pizarra
+                  #Se registra en el log la invitacion del nuevo usuario
             fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
             user = request.user
             crearAccionUser(user,"El usuario %s invito a %s a unirse a la actividad %s" % (user.username, nombre_usuario, nombreact), fechaYHora)
 
-            datos = {}
-            datos['telefono'] = ""
-            crear_colaborador(usuario, datos)
+            # Acomodar el crear_colaborador con la logica del negocio 
         else:
             #   El usuario ya estaba registrado solo hace falta notificarle su asignacion por correo 
             usuario = User.objects.get(email=recipiente)
@@ -288,7 +286,8 @@ def invitar_usuario(request):
             mensaje = "El presente correo es para notificarle que a usted se la ha asignado una actividad de su empresa"
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
-        lista = app_pizarras.views.obtener_pizarras(request)
-        return render(request, 'app_pizarras/listar.html', { 'lista' : lista, }) #  Esta vista puede ser cualquier otra  
-    return render(request, 'app_pizarras/asignar_actividad.html', { 'idact' : idact, }) #  Esta vista puede ser cualquier otra  
+        lista = app_actividad.views.obtener_actividades(request)
+        return render(request, 'app_actividad/listar.html', { 'lista' : lista, }) #  Esta vista puede ser cualquier otra  
+  
+  return render(request, 'app_actividad/asignar_actividad.html', { 'idact' : idact, }) #  Esta vista puede ser cualquier otra  
     
