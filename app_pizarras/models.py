@@ -20,6 +20,7 @@ class Pizarra(models.Model):
     fechafinal = models.DateField(auto_now=False, auto_now_add=False)
     avancepiz = models.IntegerField()
     logindueno = models.ForeignKey(User, related_name='pizarra_dueno')
+    is_active = models.BooleanField(default = True)
 
     def save(self, *args, **kwargs):
         if self.fechacreacion < date.today():
@@ -102,7 +103,7 @@ def eliminar(idpiz):
     """
     elem = Pizarra.objects.filter(idpiz = idpiz)
 
-    elem.delete()
+    elem.update(is_active = False)
 
 def obtenerPizarra(idpiz):
     """

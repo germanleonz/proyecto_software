@@ -6,7 +6,7 @@ from app_pizarras.models import *
 from app_actividad.forms import *
 from app_actividad.models import *
 from app_comentarios.models import *
-from app_log.models import crearAccion
+from app_log.models import ManejadorAccion
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.template import RequestContext
@@ -39,7 +39,11 @@ def crear_actividad(request):
       #Se registra en el log la creacion de la nueva actividad
       fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
       nombre_usuario = user.username            
-      crearAccion(user,"El usuario %s creo la actividad %s" % (nombre_usuario, nombreact), fechaYHora, "c")
+      Accion.objects.crearAccion(
+        user,
+        "El usuario %s creo la actividad %s" % (nombre_usuario, nombreact), 
+        fechaYHora, 
+        'i')
 
       lista = obtener_actividades(request.POST['idpiz'])
       colab = colaboradores(request.POST['idpiz'])
@@ -114,7 +118,11 @@ def eliminar_actividad(request):
         
         eliminarActividad(idact)
         
-        crearAccion(user,"El usuario %s elimino la actividad %s" % (nombre_usuario, act.nombreact), fechaYHora)
+        Accion.objects.crearAccion(
+          user,
+          "El usuario %s elimino la actividad %s" % (nombre_usuario, act.nombreact), 
+          fechaYHora,
+          'i')
 
         colab = colaboradores(idpiz)
         lista = obtener_actividades(idpiz)
@@ -187,7 +195,11 @@ def modificar_actividad(request):
         modificarActividad(idact,nombreact,descripcionact,fechaInicial,fechaEntrega)
     	act = Actividad.objects.get(idact = idact)
 
-        crearAccion(user,"El usuario %s modifico la informacion de la actividad %s" % (user.username, nombreact), fechaYHora)
+        Accion.objects.crearAccion(
+          user,
+          "El usuario %s modifico la informacion de la actividad %s" % (user.username, nombreact), 
+          fechaYHora,
+          'i')
  
     	lista = obtener_comentarios(idact)
     	
@@ -274,11 +286,9 @@ def invitar_usuario(request):
                   #Se registra en el log la invitacion del nuevo usuario
             fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
             user = request.user
-            print "este es el id de la actividad en la que estoy",
-            print id_actividad
             act = Actividad.objects.get(idact = id_actividad)
             nombreActividad = act.nombreact
-            crearAccion(user,"El usuario %s invito a %s a unirse a la actividad %s" % (user.username, nombre_usuario, nombreActividad), fechaYHora, 'i')
+            Accion.objects.crearAccion(user,"El usuario %s invito a %s a unirse a la actividad %s" % (user.username, nombre_usuario, nombreActividad), fechaYHora,'i')
 
             # Acomodar el crear_colaborador con la logica del negocio 
         else:

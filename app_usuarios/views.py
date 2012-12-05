@@ -10,9 +10,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 from app_usuarios.models import UserProfile
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
-from app_log.models import crearAccion
+from app_log.models import ManejadorAccion, Accion
 import app_pizarras
 from app_pizarras.views import listar_pizarra
+
+
+
 
 def login_if(request):
     """
@@ -45,7 +48,11 @@ def login_usuario(request):
 
                     #Se registra la accion de login del usuario
                     fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %I:%M")
-                    crearAccion(usuario, "El usuario %s inicio sesion en la fecha %s" % (nombre_usuario, str(fechaYHora)), fechaYHora, 'i')
+                    Accion.objects.crearAccion(
+                        usuario, 
+                        "El usuario %s inicio sesion" % (nombre_usuario), 
+                        fechaYHora, 
+                        'i')
 
                     #   Redirigir a pagina de login correcto (ver pared)
                     print "Acceso permitido para %s" % nombre_usuario
@@ -98,27 +105,23 @@ def crear_usuario(request):
             if not User.objects.filter(username__exact = nombre_usuario):
                 #   Si el usuario no existe lo agregamos   
                 print "Agregando usuario %s" % nombre_usuario
-                u = User.objects.create_user(
-                    username = nombre_usuario,
-                    email = data['nuevo_correo'],
-                )
-                u.set_password(data['nueva_password'])
-                u.first_name = data['nuevo_nombre']
-                u.last_name = data['nuevo_apellido']
-                u.save()
-    
-                #   Creamos un UserProfile asociado al usuario que acabamos de crear
-                datos_perfil = {}
-                datos_perfil['telefono'] = data['nuevo_telefono']
+                # u = User.objects.create_user(
+                #     username = nombre_usuario,
+                #     email = data['nuevo_correo'],
+                # )1
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
-                UserProfile.objects.crear_colaborador(u, datos_perfil)
+                UserProfile.objects.crear_colaborador(data)
 
                 #Se obtiene al usuario que esta loggeado al momento de crear un nuevo usuario.
                 usuario = request.user
 
                 #Se registra en el log que "usuario" creo a un nuevo colaborador
                 fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-                crearAccion(usuario, "El usuario %s agrego a %s en la fecha %s" % (usuario.username, nombre_usuario, str(fechaYHora)), fechaYHora, 'i')  
+                Accion.objects.crearAccion(
+                    usuario, 
+                    "El usuario %s agrego a %s" % (usuario.username, nombre_usuario),
+                    fechaYHora,
+                    'i')  
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
@@ -196,7 +199,11 @@ def modificar_usuario(request):
 
             #Se agrega en el log que "usuario" modifico a nombre_usuario
             fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            crearAccion(usuario, "El usuario %s modifico la informacion de %s en la fecha %s" % (usuario.username, nombre_usuario, fechaYHora), fechaYHora, 'i')
+            Accion.objects.crearAccion(
+                usuario, 
+                "El usuario %s modifico la informacion de %s" % (usuario.username, nombre_usuario), 
+                fechaYHora,
+                 'i')
 
         else:
             #   Aqui se deben levantar los errores cuando los datos proporcionados no sean validos
@@ -267,10 +274,15 @@ def eliminar_usuario(request):
         #Se obtiene al usuario que realizo la eliminacion
         usuarioNew = request.user
         username = str(usuarioNew.username)
-
+        print usuarioNew
         #Se agrega en el log que "usuario" elimino a nombre_usuario
+
         fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        crearAccion(usuarioNew, "El usuario %s elimino a %s en la fecha %s" % (username, nombre_usuario, str(fechaYHora)), fechaYHora, 'i')
+        Accion.objects.crearAccion(
+            usuarioNew, 
+            "El usuario %s elimino a %s" % (username, nombre_usuario), 
+            fechaYHora,
+                'i')
 
     lista = User.objects.all()
     puede_eliminar = request.user.has_perm('auth.delete_user')
@@ -304,7 +316,11 @@ def modificar_perfil(request):
     #Se agrega en el log que "usuario" edito su perfil
 
     fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    crearAccion(usuario, "El usuario %s modifico la informacion de su perfil en la fecha %s" % (nombre_usuario, str(fechaYHora)),fechaYHora, 'i')
+    Accion.objects.crearAccion(
+        usuario, 
+        "El usuario %s modifico la informacion de su perfil" % (nombre_usuario),
+        fechaYHora, 
+        'i')
 
     return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario' : nombre_usuario, 'lista' : lista })
 
@@ -322,11 +338,15 @@ def logout_view(request):
     #Se obtiene al usuario que desea cerrar sesion
     usuario = request.user
     nombre_usuario = usuario.username
-    logout(request)
-
     #Se agrega en el log que "nombre_usuario cerro sesion
     fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    crearAccion(usuario, "El usuario %s cerro sesion en la fecha %s" % (nombre_usuario, str(fechaYHora)), fechaYHora, 'i')
+    Accion.objects.crearAccion(
+        usuario, 
+        "El usuario %s cerro sesion" % (nombre_usuario), 
+        fechaYHora, 
+        'i')
+    logout(request)
+
 
     
     return render(request, 'app_usuarios/login.html', { 'form': form, })
@@ -362,7 +382,7 @@ def registrar_visitante(request):
                 datos_perfil = {}
                 datos_perfil['telefono'] = data['nuevo_telefono']
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
-                UserProfile.objects.crear_colaborador(u, datos_perfil)
+                UserProfile.objects.crear_colaborador(datos_perfil)
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
