@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from app_usuarios.models import UserProfile
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
-from app_log.models import crearAccionUser
+from app_log.models import crearAccion
 import app_pizarras
 from app_pizarras.views import listar_pizarra
 
@@ -45,7 +45,7 @@ def login_usuario(request):
 
                     #Se registra la accion de login del usuario
                     fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %I:%M")
-                    crearAccionUser(usuario, "El usuario %s inicio sesion en la fecha %s" % (nombre_usuario, str(fechaYHora)), fechaYHora)
+                    crearAccion(usuario, "El usuario %s inicio sesion en la fecha %s" % (nombre_usuario, str(fechaYHora)), fechaYHora, 'i')
 
                     #   Redirigir a pagina de login correcto (ver pared)
                     print "Acceso permitido para %s" % nombre_usuario
@@ -76,7 +76,6 @@ def perfil_usuario(request):
         user = UserProfile.objects.get(user=usuario)
         print user.user
         return render(request, 'app_usuarios/perfil.html', { 'usuario': usuario, 'userprofile':user })
-
 
 @csrf_exempt
 @login_required
@@ -119,9 +118,7 @@ def crear_usuario(request):
 
                 #Se registra en el log que "usuario" creo a un nuevo colaborador
                 fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-                crearAccionUser(usuario, "El usuario %s agrego a %s en la fecha %s" % (usuario.username, nombre_usuario, str(fechaYHora)), fechaYHora)  
-
-
+                crearAccion(usuario, "El usuario %s agrego a %s en la fecha %s" % (usuario.username, nombre_usuario, str(fechaYHora)), fechaYHora, 'i')  
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
@@ -199,7 +196,7 @@ def modificar_usuario(request):
 
             #Se agrega en el log que "usuario" modifico a nombre_usuario
             fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            crearAccionUser(usuario, "El usuario %s modifico la informacion de %s en la fecha %s" % (usuario.username, nombre_usuario, fechaYHora), fechaYHora)
+            crearAccion(usuario, "El usuario %s modifico la informacion de %s en la fecha %s" % (usuario.username, nombre_usuario, fechaYHora), fechaYHora, 'i')
 
         else:
             #   Aqui se deben levantar los errores cuando los datos proporcionados no sean validos
@@ -273,7 +270,7 @@ def eliminar_usuario(request):
 
         #Se agrega en el log que "usuario" elimino a nombre_usuario
         fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        crearAccionUser(usuarioNew, "El usuario %s elimino a %s en la fecha %s" % (username, nombre_usuario, str(fechaYHora)), fechaYHora)
+        crearAccion(usuarioNew, "El usuario %s elimino a %s en la fecha %s" % (username, nombre_usuario, str(fechaYHora)), fechaYHora, 'i')
 
     lista = User.objects.all()
     puede_eliminar = request.user.has_perm('auth.delete_user')
@@ -307,7 +304,7 @@ def modificar_perfil(request):
     #Se agrega en el log que "usuario" edito su perfil
 
     fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    crearAccionUser(usuario, "El usuario %s modifico la informacion de su perfil en la fecha %s" % (nombre_usuario, str(fechaYHora)),fechaYHora)
+    crearAccion(usuario, "El usuario %s modifico la informacion de su perfil en la fecha %s" % (nombre_usuario, str(fechaYHora)),fechaYHora, 'i')
 
     return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario' : nombre_usuario, 'lista' : lista })
 
@@ -329,7 +326,7 @@ def logout_view(request):
 
     #Se agrega en el log que "nombre_usuario cerro sesion
     fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    crearAccionUser(usuario, "El usuario %s cerro sesion en la fecha %s" % (nombre_usuario, str(fechaYHora)), fechaYHora)
+    crearAccion(usuario, "El usuario %s cerro sesion en la fecha %s" % (nombre_usuario, str(fechaYHora)), fechaYHora, 'i')
 
     
     return render(request, 'app_usuarios/login.html', { 'form': form, })
