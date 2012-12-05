@@ -2,7 +2,7 @@
 {% load url from future %}
 {% load staticfiles %}
 {% load tags_pizarra %}
-{% block titulo %}Editar Información de una Actividad{% endblock %}
+{% block titulo %}Asignar actividad{% endblock %}
 {% load url from future %}
 
 <link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
@@ -11,15 +11,16 @@
   {% if form.errors %}
     <h1> No se pudo Asignar la actividad</h1>
   {% endif %}
-  <div id="loginBox">                
+  <div id="loginBox">
     <br><br><br><br>
-    <form action="{% url 'app_actividad:asignar_actividad' %}" id="loginForm" method="post">
+    <form action="{% url 'app_actividad:invitar_usuario' %}" id="loginForm" method="post">
       {% csrf_token %}
       <fieldset id="body">
         <input type="hidden" name="idact" value="{{idact}}" />
+        <input type="hidden" name="nombreact" value="{{nombreact}}" />
         <fieldset>
           <label for="correo"> Introduzca el correo del usuario al que desea asignar la actividad</label>
-          <input type="text" name="correo" id="correo"/>
+          <input type="text" name="recipiente" id="recipiente"/>
         </fieldset>
         <input type="submit" id="login" value="Asignar"/>
       </fieldset>
@@ -27,3 +28,4 @@
   </div>
 
 {% endblock %}
+    

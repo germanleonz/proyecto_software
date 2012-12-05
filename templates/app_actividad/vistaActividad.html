@@ -113,6 +113,17 @@
         </form>
       </td>
     </tr>
+    <tr>
+      <td>
+        <form action="{% url 'app_actividad:asignar_actividad' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+	  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
+	  <input type="hidden" name="nombreact" value="{{Actividad.nombreact}}" />
+          <input type="submit" id="modificarAct" value="Asignar a otro" />
+        </form>
+      </td>
+    </tr>
   </table>
 </div>
 <div id="arbol">

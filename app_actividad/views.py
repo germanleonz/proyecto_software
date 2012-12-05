@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
 
 #requiere permisos para agregar actividad
 #@permission_required('app_pizarras.add_actividad')
@@ -32,13 +33,16 @@ def crear_actividad(request):
       user = request.user
       padre = None
 
-
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, padre)
 
       #Se registra en el log la creacion de la nueva actividad
       fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
       nombre_usuario = user.username            
       crearAccionUser(user,"El usuario %s creo la actividad %s" % (nombre_usuario, nombreact), fechaYHora)
+
+
+
+        
       lista = obtener_actividades(request.POST['idpiz'])
       colab = colaboradores(request.POST['idpiz'])
       usuario = request.user
@@ -73,9 +77,9 @@ def crear_subactividad(request):
       colab = colaboradores(padre.idpizactividad.idpiz)
 
       usuario = request.user
-      orden = orden_cronologico(idpiz, usuario)
-      ordenE = orden_por_estados(idpiz, usuario)
-      return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE})
+      orden = orden_cronologico(idpizactividad, usuario)
+      ordenE = orden_por_estados(idpizactividad, usuario)
+      return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pizarra, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE})
     else:
       print "invalidooooooooooooooo!!!!!!!"
 
@@ -234,39 +238,44 @@ def generar_form_modificar(request):
     
 def asignar_actividad(request):
     print 'hola'
-    return render(request, 'app_actividad/asignar_actividad.html')
+    return render(request, 'app_actividad/asignar_actividad.html',{'idact':request.POST['idact'],'nombreact':request.POST['nombreact']})
+
 
 def invitar_usuario(request):
-    """
-    Metodo que invita a un colaborador a hacerse responsable de una actividad
-    parametros: id_actividad a la que se le esta asignando un responsable y correo 
-    de la persona a la que se le esta asignando 
-    """
+    ##
+    #Metodo que asigna una actividad a un derminado usuario
+    #@author German Leon
+    #@date 29-11-2012
+    #@version 1.0
+    #@param request
+    
     if request.method == 'POST':
-        id_actividad = request.post['idact']
-        recipiente = request.post['recipiente']
+        id_actividad = request.POST['idact']
+        recipiente = request.POST['recipiente']
         if User.objects.filter(email=recipiente).exists():
             #   El usuario no estaba registrado se le crea un nombre de usuario y una contrasena
             nombre_usuario = recipiente.partition("@")[0]  
-            contrasena = User.object.make_random_password()
+            contrasena = User.objects.make_random_password()
             asunto = "Felicidades, usted ha sido invitado a participar como colaborador"
             mensaje = """
                 Felicidades usted ha sido invitado a trabajar como colaborador en un actividad 
                 Su nombre de usuario es: {0} 
                 Su contrasena es: {1}
 
-                Por su seguridad le recomendamos cambiar la clave tan pronto como le sea posible
-            """.format(unicode(usuario), unicode(contrasena))
+                Por su seguridad le recomendamos cambiar la clave tan pronto como le sea posible"""
+	    #format(unicode(usuario), unicode(contrasena))
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
 
             #   Creamos el usuario con nombre de usuario y contrasena como unicos datos
-            usuario = User.objects.create(username=nombre_usuario)
-            usuario.set_password(contrasena)
-            usuario.save()
+            nuevo = User.objects.create(username = nombre_usuario, email = recipiente)
+            nuevo.set_password = contrasena
+            nuevo.save()
+            tel = '000'
+            usuario = UserProfile.objects.create(user= nuevo, telefono=tel)
 
-                  #Se registra en el log la creacion de la nueva pizarra
+                  #Se regi	stra en el log la creacion de la nueva pizarra
             fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
-            user = request.user          
+            user = request.user
             crearAccionUser(user,"El usuario %s invito a %s a unirse a la actividad %s" % (user.username, nombre_usuario, nombreact), fechaYHora)
 
             datos = {}
