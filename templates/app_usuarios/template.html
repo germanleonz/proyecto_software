@@ -75,14 +75,12 @@
           $(document).ready(function(){
             dialog();
             barraUsuario();
-            // Dajaxice.app_pizarras.buscarActividades(mifuncion)
+           // Dajaxice.app_pizarras.buscarActividades(mifuncion)
           });
 
           function mifuncion(data){
             var i;
-            for (i=0; i<data.nombres.length; ++i){
-              alert(data.nombres[i].length);
-            }
+            alert(data.nombres)
           }
         </script>
 
