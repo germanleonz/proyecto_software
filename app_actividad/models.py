@@ -173,6 +173,3 @@ def orden_por_estados(idpiz, loginasignado):
         lista.append(elem)  
     return lista
 
-
-
-

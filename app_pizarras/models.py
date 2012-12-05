@@ -13,7 +13,6 @@ class Pizarra(models.Model):
     Autor: Oriana Gomez y Carla Urrea
     Fecha: 27-10-12 Version 1.0
     """
-
     idpiz = models.AutoField(primary_key = True)
     nombrepiz = models.CharField(max_length=50)
     descripcionpiz = models.CharField(max_length=150) 
