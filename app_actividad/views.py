@@ -235,8 +235,8 @@ def generar_form_modificar(request):
     return render(request, 'app_actividad/listar.html', { 'lista' : lista, })
     
 def asignar_actividad(request):
-    print 'hola'
-    return render(request, 'app_actividad/asignar_actividad.html',{'idact':request.POST['idact'],'nombreact':request.POST['nombreact']})
+    
+    return render(request,'app_actividad/asignar_actividad.html',{'idact':request.POST['idact']})
 
 
 def invitar_usuario(request):
@@ -257,7 +257,7 @@ def invitar_usuario(request):
             asunto = "Felicidades, usted ha sido invitado a participar como colaborador"
             mensaje = """
                 Felicidades usted ha sido invitado a trabajar como colaborador en una actividad 
-                Su nombre de usuario es: {0} 
+                Su nombre de usuario es: {0}
                 Su contrasena es: {1}
 
                 Por su seguridad le recomendamos cambiar la clave tan pronto como le sea posible"""
@@ -265,7 +265,7 @@ def invitar_usuario(request):
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
 
             #   Creamos el usuario con nombre de usuario y contrasena como unicos datos
-            nuevo = User.objects.create(username = nombre_usuario, email = recipiente)
+            nuevo = User.objects.create(username=nombre_usuario, email=recipiente, first_name="", last_name="")
             nuevo.set_password = contrasena
             nuevo.save()
             tel = '000'
@@ -274,7 +274,11 @@ def invitar_usuario(request):
                   #Se registra en el log la invitacion del nuevo usuario
             fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
             user = request.user
-            crearAccion(user,"El usuario %s invito a %s a unirse a la actividad %s" % (user.username, nombre_usuario, nombreact), fechaYHora)
+            print "este es el id de la actividad en la que estoy",
+            print id_actividad
+            act = Actividad.objects.get(idact = id_actividad)
+            nombreActividad = act.nombreact
+            crearAccion(user,"El usuario %s invito a %s a unirse a la actividad %s" % (user.username, nombre_usuario, nombreActividad), fechaYHora, 'i')
 
             # Acomodar el crear_colaborador con la logica del negocio 
         else:

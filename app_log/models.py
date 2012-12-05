@@ -5,7 +5,8 @@ from app_pizarras.models import Pizarra
 
 class Accion(models.Model):
     idaccionuser = models.AutoField(primary_key=True)
-    tipo=(('d', 'DEBUG'), ('i', 'INFO'),('w', 'WARNING'),('e', 'ERROR'),('f', 'FATAL'))
+    tipo_errores=(('d', 'DEBUG'), ('i', 'INFO'),('w', 'WARNING'),('e', 'ERROR'),('f', 'FATAL'))
+    tipo_accion = models.CharField(max_length=7, choices=tipo_errores)
     accionloginuser = models.ForeignKey(User, related_name = 'accion_user_loginuser')
     contenidoaccionuser = models.CharField(max_length=200)
     fechahoraaccionuser = models.DateTimeField(auto_now=False, auto_now_add=False)

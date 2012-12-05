@@ -97,28 +97,6 @@ def obtenerSubactividad(idact,idpiz):
     actividad['fechainicial'] = act.fechainicial
     actividad['fechaentrega'] = act.fechaentrega
     return actividad
- 
-def conseguirHijos(idpiz):
-    """
-    Metodo que consigue las subactividades inmediatas de una actividad padre
-    """
-    hijos = list(SeDivide.objects.filter(idactividad= idpiz))
-    return hijos
-
-def conseguirSubactividades(idpiz):
-    """
-    Metodo que consigue todas las subactividades de una actividad principal(pizarra) y que consigue todos 
-    los arcos entre dos de esas actividades que esten relacionadas
-    """
-    subactividades = conseguirHijos(idpiz)
-    nodos_pendientes = subactividades
-    prox = nodos.pendientes.pop()
-    while (prox is not None):
-        subs += conseguirHijos
-        nodosPendientes += conseguirHijos
-        #prox = 
-        
-    return subactividades, pares
 
 def colaboradores(idpiz):
     """
@@ -146,7 +124,6 @@ def obtener_subactividades(idact):
     for elem in act:
         lista.append(elem)
     return lista    
-
 
 
 def orden_cronologico(idpiz, loginasignado):
