@@ -15,7 +15,7 @@ class ManejadorUsuario(UserManager):
         """
         print "Entramos a crear_colaborador"
         u = User.objects.create_user(
-            username = nombre_usuario,
+            username = data['nuevo_nombre_usuario'],
             email = data['nuevo_correo'],
         )
         u.set_password(data['nueva_password'])
@@ -23,7 +23,7 @@ class ManejadorUsuario(UserManager):
         u.last_name = data['nuevo_apellido']
         u.save()
 
-        up = UserProfile.objects.create(user=u, telefono= data["telefono"])
+        up = UserProfile.objects.create(user=u, telefono= data["nuevo_telefono"])
         #   Agregamos el usuario recien creado al grupo de los colaboradores
         u.groups.add(Group.objects.get(name="Colaboradores"))
 
@@ -37,7 +37,7 @@ class ManejadorUsuario(UserManager):
         """
         #   Creamos un usuario como en crear_colaborador pero con privilegios de administador
         print "Asignandole privilegios de administrador al usuario recien creado ..."
-        crear_colaborador(self, usuario, datos)
+        crear_colaborador(self, datos)
         #   Agregamos al usuario recien creado al grupo de administradores
         usuario.groups.add(Group.objects.get(name="Administradores"))
 
