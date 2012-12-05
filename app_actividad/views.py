@@ -1,5 +1,6 @@
 import datetime
 from django.shortcuts import render
+from app_usuarios.models import UserProfile
 from app_pizarras.forms import CrearPizarraForm
 from app_pizarras.models import *
 from app_actividad.forms import *
@@ -258,7 +259,7 @@ def invitar_usuario(request):
             contrasena = User.objects.make_random_password()
             asunto = "Felicidades, usted ha sido invitado a participar como colaborador"
             mensaje = """
-                Felicidades usted ha sido invitado a trabajar como colaborador en un actividad 
+                Felicidades usted ha sido invitado a trabajar como colaborador en una actividad 
                 Su nombre de usuario es: {0} 
                 Su contrasena es: {1}
 
@@ -286,8 +287,7 @@ def invitar_usuario(request):
             mensaje = "El presente correo es para notificarle que a usted se la ha asignado una actividad de su empresa"
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
-        lista = app_actividad.views.obtener_actividades(request)
-        return render(request, 'app_actividad/listar.html', { 'lista' : lista, }) #  Esta vista puede ser cualquier otra  
-  
-  return render(request, 'app_actividad/asignar_actividad.html', { 'idact' : idact, }) #  Esta vista puede ser cualquier otra  
-    
+        
+        return render(request, 'app_actividad/vistaActividad.html', { 'id_actividad' : id_actividad, }) #  Esta vista puede ser cualquier otra  
+    return render(request, 'app_actividad/asignar_actividad.html', { 'idact' : idact, }) #  Esta vista puede ser cualquier otra  
+
