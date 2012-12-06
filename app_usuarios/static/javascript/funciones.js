@@ -54,7 +54,7 @@ function dialog(){
   });
 
   /*dialog de modificar usuario*/
-  $("#modificarUsuario").click(function() {
+  $(".modificarUsuario").click(function() {
     $("#dialogModificarUsuario").dialog({
       modal:true,
       position: { my: "center", at: "top", of: window },
@@ -76,7 +76,7 @@ function dialog(){
     })
   });
 
-  /*dialog de modificar usuario*/
+  /*dialog de editar perfil*/
   $("#editarPerfil").click(function() {
     $("#dialogEditarPerfil").dialog({
       modal:true,

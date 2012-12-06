@@ -34,7 +34,7 @@
         <input id="id_apellido" name="apellido" type="hidden" value="{{objeto.last_name}}"/>
         <input id="id_correo" name="correo" type="hidden" value="{{objeto.email}}"/>
         {% if perms.app_usuarios.change_userprofile %}
-          <button type="submit" id="modificarUsuario" onclick="Dajaxice.app_usuarios.modificarUsuarioAjax(my_js_callbackModificarUsuario, {'nombre_usuario' : {{objeto.id}}});">Modificar</button>
+          <button type="submit" class="modificarUsuario" onclick="Dajaxice.app_usuarios.modificarUsuarioAjax(my_js_callbackModificarUsuario, {'nombre_usuario' : {{objeto.id}}});">Modificar</button>
         {% endif %}
       </form>
     </td>
