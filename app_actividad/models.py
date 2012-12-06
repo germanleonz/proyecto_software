@@ -9,7 +9,7 @@ import datetime
 # Create your models here.
 
 class Actividad(models.Model):
-    idact = models.IntegerField(primary_key=True)
+    idact = models.AutoField(primary_key=True)
     idpizactividad = models.ForeignKey(Pizarra,related_name='actividad_enPizarra')
     fechainicial = models.DateField(auto_now=False, auto_now_add=False)
     fechaentrega = models.DateField(auto_now=False, auto_now_add=False)

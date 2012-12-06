@@ -33,7 +33,7 @@ def crear_actividad(request):
       piz=Pizarra.objects.get(idpiz=request.POST['idpiz'])
       user = request.user
       padre = None
-
+      print "quitaaar"
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, padre,None)
 
       lista = obtener_actividades(request.POST['idpiz'])
