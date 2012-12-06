@@ -37,11 +37,24 @@ def crear_actividad(request):
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, padre,None)
 
       lista = obtener_actividades(request.POST['idpiz'])
+      lista = obtener_misActividades(request.POST['idpiz'], user)
+      #Lista de arboles de mis actividades   
+      root = []
+      for elem in lista:
+        root.append(Node(elem))
+
+      for i in range(0,len(root)):
+        root[i].generate_tree()
+        string = '{'
+        string += root[i].generate_json()
+        string += '}'
+        print string
+
       colab = colaboradores(request.POST['idpiz'])
       usuario = request.user
       orden = orden_cronologico(piz.idpiz, usuario)
       ordenE = orden_por_estados(piz.idpiz, usuario)
-      return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : piz, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE, 'colaboradores': colab})
+      return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : piz, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE, 'colaboradores': colab, 'arbol': string, })
 
     else:
       return render(request,'app_actividad/crear_actividad.html',{'form':form, 'idpiz':request.POST['idpiz']})

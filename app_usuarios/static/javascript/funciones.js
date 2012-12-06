@@ -54,7 +54,7 @@ function dialog(){
   });
 
   /*dialog de modificar usuario*/
-  $("#modificarUsuario").click(function() {
+  $(".modificarUsuario").click(function() {
     $("#dialogModificarUsuario").dialog({
       modal:true,
       position: { my: "center", at: "top", of: window },
@@ -76,8 +76,33 @@ function dialog(){
     })
   });
 
+  /*dialog de editar perfil*/
+  $("#editarPerfil").click(function() {
+    $("#dialogEditarPerfil").dialog({
+      modal:true,
+      position: { my: "center", at: "top", of: window },
+      dialogClass: 'style_Dialog',
+      title: "Editar Perfil",
+      buttons: {
+        "Editar perfil": function() {
+          bValid = validarModificacion();
+          if (bValid) {
+            // Agregar el usuario recien creado a la lista de usuarios
+            $("#modificarUsuarioForm").submit();
+            $(this).dialog("close");
+          } 
+        },
+      Cancel: function() {
+        $(this).dialog("close");
+      }
+      }
+    })
+  });
+
+
+
   /*dialog de cambiar contrasena*/
-  $("#cambiarContrasena").click(function(){
+  $("#cambiarContrasena").click(function() {
     $("#dialogCambiarContrasena").dialog({
       modal:true,
       position: { my: "center", at: "top", of: window },
@@ -169,6 +194,10 @@ function my_js_callbackModificarUsuario(data) {
   $("#dialogModificarUsuario").html(data.vista);
 };
 
+function my_js_callbackPerfil(data) {
+  $("#dialogEditarPerfil").html(data.vista);
+};
+
 function my_js_callbackActividad(data){
   $("#formActividad").html(data.vista);
 }
@@ -179,32 +208,4 @@ function visualizarActividad(data){
 
 function my_js_callbackContrasena(data){
   $("#dialogCambiarContrasena").html(data.vista);
-}
-
-function dibujarGrafo(Lados){
-  window.jsPlumbDemo = {
-    init : function() {
-      jsPlumb.importDefaults({
-      Connector : [ "Bezier", { curviness:50 } ],
-      DragOptions : { cursor: "pointer", zIndex:2000 },
-      PaintStyle : { strokeStyle:color, lineWidth:2 },
-      EndpointStyle : { radius:0, fillStyle:color },
-      HoverPaintStyle : {strokeStyle:"#ec9f2e" },
-      EndpointHoverStyle : {fillStyle:"#ec9f2e" },
-      Anchors :  [ "BottomCenter", "TopCenter" ]
-      });
-      var arrowCommon = { 
-        foldback:0.7, fillStyle:color, width:14},
-          overlays = [];
-
-      var i;
-      for (i=0; i<Lados.length; ++i){
-        jsPlumb.connect({
-          source:Lados[i][0], 
-          target:Lados[i][1], overlays:overlays, detachable:false, reattach:true});
-      }
-      jsPlumb.draggable(jsPlumb.getSelector(".window"));
-
-    }
-  }
 }

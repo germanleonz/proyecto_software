@@ -139,6 +139,7 @@ def listar_usuarios(request):
         'lista' : lista
     }, )
 
+@csrf_exempt
 @login_required
 @permission_required('auth.can_change_user')
 def modificar_usuario(request):
@@ -224,25 +225,6 @@ def eliminar_usuario(request):
 
     return listar_usuarios(request)
 
-@login_required
-def modificar_perfil(request):
-    """
-    Metodo para modificar los datos de un usuario ya registrado en el sistema
-    In: request
-    Out: vista modificar usuario
-    Autor: German Leon
-    Fecha: 7-11-12 Version 1.0
-    """
-    usuario = request.user
-    nombre_usuario = usuario.username
-    perfil_usuario = UserProfile.objects.get(user=usuario)
-    lista = []
-    lista.append(usuario.first_name)
-    lista.append(usuario.last_name)
-    lista.append(usuario.email)
-    lista.append(perfil_usuario.telefono)
-    return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario' : nombre_usuario, 'lista' : lista })
-
 def logout_view(request):
     """
     Metodo llamado cuando se quiere cerrar la sesion, crea un formulario unbound para el login
@@ -265,9 +247,6 @@ def logout_view(request):
         fechaYHora, 
         'i')
     logout(request)
-
-
-    
     return render(request, 'app_usuarios/login.html', { 'form': form, })
 
 def registrar_visitante(request):

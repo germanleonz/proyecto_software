@@ -5,9 +5,6 @@
 {% block css %}
 <link href="{% static "css/vistaPizarra_style.css" %}" rel="stylesheet" type="text/css"/>
 {% endblock css %}
-{% block javascript %}
-{% endblock javascript %}
-
 {% block botones %}
 <a id="crearActividad" onclick="Dajaxice.app_actividad.crearActividadForm(my_js_callbackActividad, {'data': {{pizarra.idpiz}}});" class="opcionesDer" href="#">Crear Actividad</a>
 {% endblock botones %}
@@ -40,14 +37,6 @@
   }
 </style>
 <script>
-  function divSubmit(div){
-    lista = div.getElementsByTagName("form");
-    for (var i = 0; i<lista.length; ++i){
-      var elem = lista[i]
-      if (elem.id == "visualizarActividad")
-      elem.submit();
-    }
-  }
 </script>
 <div id="columna">
   <table>
@@ -99,199 +88,11 @@
     </tr>
   </table>
 </div>
-<script>
-$(function(){
-  $( "#arbol" ).tabs();
-});
-</script>
 <div id="arbol">
-  <ul>
-    <li><a href="#jerarquico">Pizarra</a></li>
-    <li><a href="#misActividades">Orden Cronologico</a></li>
-    <li><a href="#estado">Orden por Estados</a></li>
-  </ul>
-  <div id="estado">
-    <center>
-      <table id="tablaActividad" style="margin-left: 200px">
-        {%for object in ordenE %}
-        <tr>
-          <td>
-            <div class="actividad" style="
-		    {%if object.estadoact == 'c'%}
-		    background: #378B6E;
-		    {%elif object.estadoact == 'r'%}
-		    background: #FFCC00;
-		    {%elif object.estadoact == 'e'%}
-		    background: #1947D1;
-		    {%elif object.estadoact == 'p'%}
-		    background: #FF0000;
-		    {%elif object.estadoact == 's'%}
-		    background: #FFF;
-		    color: black;
-		    {%endif%}
-            ">
-            <div id="actHead">
-              {{object.nombreact}}
-              <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
-                {% csrf_token %}
-                <input type="hidden" name="idact" value="{{object.idact}}"/>
-                <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
-                <input class="borrar" type="submit" value=""/>
-              </form>
-            </div>
-            <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)">
-          		{%if object.estadoact == "c"%}
-            		Completada
-	            {%elif object.estadoact == "r"%}
-    				Retrasada
-    	        {%elif object.estadoact == "e"%}
-    				En Ejecución
-    	        {%elif object.estadoact == "p"%}
-					Postergada
-    	        {%elif object.estadoact == "s"%}
-    		        Sin Asignar
-    	        {%endif%}
-              <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
-              </form>
-            </div>
-          </div>
-        </td>
-      </tr>
-      {%endfor%}
-    </table>
-
-  </center>
-  </div>
-  <div id="misActividades">
-    <center>
-      <table id="tablaActividad" style="margin-left: 200px">
-        {%for object in orden %}
-        <tr>
-          <td>
-            <div class="actividad" style="
-		     {%if object.estadoact == 'c'%}
-		    background: #378B6E;
-		    {%elif object.estadoact == 'r'%}
-		    background: #FFCC00;
-		    {%elif object.estadoact == 'e'%}
-		    background: #1947D1;
-		    {%elif object.estadoact == 'p'%}
-		    background: #FF0000;
-		    {%elif object.estadoact == 's'%}
-		    background: #FFF;
-		    color: black;
-		    {%endif%}
-            ">
-            <div id="actHead">
-              {{object.nombreact}}
-              <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
-                {% csrf_token %}
-                <input type="hidden" name="idact" value="{{object.idact}}"/>
-                <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
-                <input class="borrar" type="submit" value=""/>
-              </form>
-            </div>
-            <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)">
-                {%if object.estadoact == "c"%}
-            		Completada
-	            {%elif object.estadoact == "r"%}
-    				Retrasada
-    	        {%elif object.estadoact == "e"%}
-    				En Ejecución
-    	        {%elif object.estadoact == "p"%}
-					Postergada
-    	        {%elif object.estadoact == "s"%}
-    		        Sin Asignar
-    	        {%endif%}
-              {{object.fechaentrega}}
-              <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
-              </form>
-            </div>
-          </div>
-        </td>
-      </tr>
-      {%endfor%}
-    </table>
-
-  </center>
-</div>
-
-
-
-
-<div id="jerarquico">
-  {% if not lista %}
-  <center>
-    <p>No hay actividades.</p>
-  </center>
-  {% endif %}
-  <script>
-    $(function() {
-      $( ".actividad" ).draggable();
-    });
-  </script>
-  <table id="tablaActividad">
-    {% for object in lista %}
-    {% if forloop.counter0|divisibleby:"3"%}
-    <tr>
-      {% endif %}
-      <td>
-        <div class="actividad" style="
-        {%if object.estadoact == 'c'%}
-        background: #378B6E;
-        {%elif object.estadoact == 'r'%}
-        background: #FFCC00;
-        {%elif object.estadoact == 'e'%}
-        background: #1947D1;
-        {%elif object.estadoact == 'p'%}
-        background: #FF0000;
-        {%elif object.estadoact == 's'%}
-        background: #FFF;
-        color: black;
-        {%endif%}
-        ">
-        <div id="actHead">
-          {{object.nombreact}}
-          <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
-            {% csrf_token %}
-            <input type="hidden" name="idact" value="{{object.idact}}"/>
-            <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
-            <input class="borrar" type="submit" value=""/>
-          </form>
-        </div>
-        <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)"> 
-          		{%if object.estadoact == "c"%}
-            		Completada
-	            {%elif object.estadoact == "r"%}
-    				Retrasada
-    	        {%elif object.estadoact == "e"%}
-    				En Ejecución
-    	        {%elif object.estadoact == "p"%}
-					Postergada
-    	        {%elif object.estadoact == "s"%}
-    		        Sin Asignar
-    	        {%endif%}
-          <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
-          </form>
-        </div>
-      </div>
-    </td>
-    {% if forloop.counter|divisibleby:"3"%}
-  </tr>
-  {% endif %}
-  {% endfor %}
-</table>
-</div>
-<script>
-$(function() {
-  $( ".actividad" ).draggable();
-});
-</script>
+  <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
+    {% csrf_token %}
+    <input id="inputAct" type="hidden" value="abc" name="idact"/>
+  </form>
+  <div id="log"></div>
 </div>
 {% endblock cuerpo%}

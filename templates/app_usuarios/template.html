@@ -13,47 +13,32 @@
     <link href="{% static "css/template_style.css" %}" rel="stylesheet" type="text/css"/>
     <link href="{% static "css/pared_style.css" %}" rel="stylesheet" type="text/css"/>
     <link href="{% static "css/style_dialog.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "css/calendario.css" %}" rel="stylesheet" type="text/css"/>
     <!-- JAVASCRIPT -->
     <script type="text/javascript" src="{% static "javascript/jquery-1.8.2.min.js"%}"></script>
     <script type="text/javascript" src="{% static "javascript/jquery-ui-1.9.1.custom.min.js"%}"></script>
     <script type="text/javascript" src="{% static "javascript/jquery-ui-1.9.1.custom.js"%}"></script>
     <script type="text/javascript" src="{% static "javascript/validaciones.js"%}"></script>
     <script type="text/javascript" src="{% static "javascript/funciones.js"%}"></script>
-    <!-- support lib for bezier stuff -->
-    <script type="text/javascript" src="{% static "javascript/jsBezier-0.5.js" %}"></script>
-    <!-- jsplumb util -->
-    <script type="text/javascript" src="{% static "javascript/jsPlumb-util-1.4.0-RC1.js" %}"></script>
-    <!-- base DOM adapter -->
-    <script type="text/javascript" src="{% static "javascript/jsPlumb-dom-adapter-1.4.0-RC1.js" %}"></script>
-    <!-- main jsplumb engine -->
-    <script type="text/javascript" src="{% static "javascript/jsPlumb-1.4.0-RC1.js" %}"></script>
-    <!-- connectors, endpoint and overlays  -->
-    <script type="text/javascript" src="{% static "javascript/jsPlumb-defaults-1.4.0-RC1.js" %}"></script>
-    <!-- state machine connectors -->
-    <script type="text/javascript" src="{% static "javascript/jsPlumb-connectors-statemachine-1.4.0-RC1.js" %}"></script>
-    <!-- SVG renderer -->
-    <script type="text/javascript" src="{% static "javascript/jsPlumb-renderers-svg-1.4.0-RC1.js" %}"></script>
-    <!-- canvas renderer -->
-    <script type="text/javascript" src="{% static "javascript/jsPlumb-renderers-canvas-1.4.0-RC1.js" %}"></script>
-    <!-- vml renderer -->
-    <script type="text/javascript" src="{% static "javascript/jsPlumb-renderers-vml-1.4.0-RC1.js" %}"></script>
-    <!-- jquery jsPlumb adapter -->
-    <script type="text/javascript" src="{% static "javascript/jquery.jsPlumb-1.4.0-RC1.js" %}"></script>
-    <!-- /JS -->
-
-    <!--  demo code -->
-    <script type="text/javascript" src="{% static "javascript/chartDemo.js" %}"></script>
-
-    <!--  demo helper code -->
-    <script type="text/javascript" src="{% static "javascript/demo-list.js" %}"></script>
+    <script type="text/javascript" src="{% static "javascript/arbol.js"%}"></script>
+    <script type="text/javascript" src="{% static "javascript/jit.js"%}"></script>
     <!-- Bloques para javascript y css particulares-->
     {% block css %}
     {% endblock css %}
     {% block javascript %}
+    <script>
+      $(document).ready(function(){
+        dialog();
+        barraUsuario();
+      });
+    </script>
     {% endblock javascript %}
   </head>
 
-  <body>
+  <body onload="
+    var arbol = document.getElementById('stringJson').value;
+    init(arbol);" >
+    <input type="hidden" id="stringJson" value="{{arbol}}"/>
     <!-- borde es el contenedor de la pagina-->
     <div id="borde">
       <!-- Encabezado de la pagina-->
@@ -71,20 +56,6 @@
       <div id="main">
 
         {% block herramientas %}
-        <script>
-          $(document).ready(function(){
-            dialog();
-            barraUsuario();
-            // Dajaxice.app_pizarras.buscarActividades(mifuncion)
-          });
-
-          function mifuncion(data){
-            var i;
-            for (i=0; i<data.nombres.length; ++i){
-              alert(data.nombres[i].length);
-            }
-          }
-        </script>
 
         <div id="herramientas">
           <a id="crearPizarra" onclick="Dajaxice.app_pizarras.crearPizarraForm(my_js_callbackPizarra);" class="opcionesDer" href="#">Nueva Pizarra</a>
@@ -97,15 +68,7 @@
             <a  href="{% url app_log:visualizar_log_user %}"> Visualizar Log</a>
           </div>
           <div class="opcionVer"><a href="{% url app_pizarras:listar_pizarra %}">Mis pizarras</a></div>
-          <div class="opcionVer">
-            <form action="{% url app_usuarios:modificar_perfil %}" method="post">
-              {% csrf_token %}
-              <input type="hidden" name="nombre" value={{user.first_name}}/>
-              <input type="hidden" name="apellido" value={{user.last_name}}/>
-              <input type="hidden" name="correo" value={{user.email}}/>
-              <input class="submits" type="submit" value="Editar Perfil">
-            </form>
-          </div>
+          <div class="opcionVer"><a id="editarPerfil" onclick="Dajaxice.app_usuarios.editarPerfilAjax(my_js_callbackPerfil);" href="#">Editar Perfil</a></div>
           <div class="opcionVer"><a id="cambiarContrasena" onclick="Dajaxice.app_usuarios.cambiarContrasenaAjax(my_js_callbackContrasena);" href="#">Cambiar Contrasena</a></div>
           <div class="opcionVer"><a href="{% url app_usuarios:logout_view %}">Cerrar Sesion</a></div>
         </div>
@@ -113,6 +76,11 @@
         {%block dialogs %}
         <div id="formPizarra" style="display:none;"></div>
         <div id="dialogCambiarContrasena" style="display:none;"></div>
+        <div id="dialogModificarUsuario" style="display:none;"></div>
+        <div id="dialogEditarPerfil" style="display:none;"></div>
+        <div id="dialogModificarPizarra" style="display:none;"></div>
+        <div id="dialogModificarActividad" style="display:none;"></div>
+        <div id="dialogCrearUsuario"></div>
         {%endblock dialogs%}
         {% block cuerpo %}
         {% endblock cuerpo %}

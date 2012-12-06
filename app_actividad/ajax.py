@@ -27,7 +27,6 @@ def mostrarActividad(request,data):
 @csrf_exempt
 @dajaxice_register
 def crearComentario(request,form,data):
-    print "ENTREEEE"
     f= CrearComentarioForm(form)
     if f.is_valid():
         datos = f.cleaned_data

@@ -195,8 +195,8 @@ function validarModificacion(){
       valido = valido && checkLength(telefono,"Telefono", 1, 30, div);
       //valido = valido && checkRegex(correo,"Correo",formatoCorreo, div);
       valido = valido && checkRegex(nombre,"Nombre",formatoNombres, div);
-      valido = valido && checkRegex(telefono,"Telefono",formatoTelefono, div);
       valido = valido && checkRegex(apellido,"Apellido",formatoNombres, div);
+      valido = valido && checkRegex(telefono,"Telefono",formatoTelefono, div);
 
       return valido;
 }

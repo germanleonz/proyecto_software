@@ -124,10 +124,18 @@ def eliminar(idpiz):
     Autor: Juan Arocha
     Fecha: 27-10-12 Version 1.0
     """
+    from app_actividad.models import Actividad
+    
     elem = Pizarra.objects.get(idpiz = idpiz)
     elem.is_active = False
     elem.save()
     usuario = User.objects.get(username=elem.logindueno)
+    
+    act = Actividad.objects.filter(idpizactividad = idpiz, is_active = True)
+    lista = []
+    for elemAct in act:
+    	elemAct.is_active = False
+	elemAct.save()
 
     #Se registra en el log la creacion de la nueva pizarra
     fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
