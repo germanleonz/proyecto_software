@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Max
 from app_pizarras.models import Pizarra
 from django.contrib.auth.models import User
+from app_pizarras.arbol import *
 import re
 # Create your models here.
 
@@ -19,6 +20,7 @@ class Actividad(models.Model):
     loginjefe = models.ForeignKey(User, related_name = 'actividad_loginJefe')
     loginasignado = models.ForeignKey(User, related_name = 'actividad_loginAsignado')
     actividad_padre = models.ForeignKey('self', related_name='sub_actividades', null=True) # Atributo que indica el padre de la actividad, en caso de que la actividad sea la raiz entonces el padre es null
+    is_active = models.BooleanField(default = True)
 
 class seDivide(models.Model):
     idactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idAct')
@@ -54,7 +56,7 @@ def cambiarEstado(idactividad, newEstado):
 
 def eliminarActividad(idactividad):
     act = Actividad.objects.filter(idact = idactividad)
-    act.delete()
+    act.update(is_active = False)
 
 def obtenerActividad(idpiz):
     actividad = {}
@@ -65,6 +67,29 @@ def obtenerActividad(idpiz):
     actividad['fechaentrega'] = act.fechaentrega
     return actividad
 
+#pasar un nodo
+def generar_arbol(actual): 
+    """acts = Actividad.Objects.filter(actividad_padre = idact)
+    for i in range (0,len(acts)):
+        aux = Actividad.Objects.filter(actividad_padre = acts[i].idact)
+        if len(aux)>0:
+            hijo = Node(act[i].idact)
+            hijo.add_child(generar_arbol(acts[i].idact,hijo))
+            root.add_child(hijo)
+        else:
+            root.add_child(acts[i].idact)
+
+    return root
+    """
+    nodo = Node(actual)
+    actividades = Actividad.objects.filter(actividad_padre = actual)
+    
+    for i in actividades:
+        nodo.add_child(generar_arbol(i.idact))
+
+    return nodo
+
+
 def obtenerSubactividad(idact,idpiz):
     actividad = {}
     act = Actividad.Objects.get(idpizactividad = idpiz, actividad_padre=idact)
@@ -74,12 +99,6 @@ def obtenerSubactividad(idact,idpiz):
     actividad['fechaentrega'] = act.fechaentrega
     return actividad
  
-def conseguirHijos(idpiz):
-    """
-    Metodo que consigue las subactividades inmediatas de una actividad padre
-    """
-    pass
-
 def conseguirHijos(idpiz):
     """
     Metodo que consigue las subactividades inmediatas de una actividad padre
@@ -154,7 +173,4 @@ def orden_por_estados(idpiz, loginasignado):
     for elem in act:
         lista.append(elem)  
     return lista
-
-
-
 

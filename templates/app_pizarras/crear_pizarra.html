@@ -1,3 +1,26 @@
+<script type="text/javascript">
+  $(function() {    
+    $("#fecha_input input").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+
+    $( "#fecha_input input" ).datepicker(
+      "option", "dateFormat", "dd/mm/yy" 
+    );
+
+    $( "#fecha_input input" ).datepicker({
+        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    });   
+
+    var dayNamesMin = $( "#fecha_input input" ).datepicker( "option", "dayNames" );
+    $( "#fecha_input input" ).datepicker( 
+      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    );
+
+    $( "#fecha_input input" ).datepicker( "option", "yearRange", "1970:2012" );
+  })  
+</script>
 {% load i18n %}
 <div id="errores_crear_pizarra" class="errores">
   *Todos los campos son requeridos
