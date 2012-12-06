@@ -241,4 +241,3 @@ def orden_por_estados(idpiz, loginasignado):
     for elem in act:
         lista.append(elem)  
     return lista
-

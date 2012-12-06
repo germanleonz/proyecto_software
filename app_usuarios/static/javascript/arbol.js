@@ -50,8 +50,8 @@ function init(data){
         //set overridable=true for styling individual
         //nodes or edges
         Node: {
-            height: 50,
-            width: 100,
+            height: 70,
+            width: 120,
             type: 'rectangle',
             color: '#aaa',
             overridable: true
@@ -75,21 +75,30 @@ function init(data){
         //your node.
         onCreateLabel: function(label, node){
             label.id = node.id;            
-            label.innerHTML = node.name+"<form id ='visualizarActividad'"
-              +"action='{% url app_actividad:visualizar_actividad %}'>"
-              +"<input type='hidden' value='"+node.id+"'/></form>";
+            label.innerHTML = node.name
             label.onclick = function(){
               st.onClick(node.id);
             };
+            label.ondblclick = function(){
+              var form = document.getElementById("visualizarActividad");
+              var input = form.getElementsByTagName("input");
+              for (var i = 0; i < input.length; ++i){
+                if (input[i].id == "inputAct"){
+                  input[i].value = label.id;
+                  form.submit();
+                }
+              }
+            }
             //set label styles
             var style = label.style;
-            style.width = 100 + 'px';
-            style.height = 30 + 'px';            
+            style.width = 120 + 'px';
+            style.height = 60 + 'px';            
             style.cursor = 'pointer';
             style.color = '#333';
             style.fontSize = '0.8em';
             style.textAlign= 'center';
             style.paddingTop = '10px';
+            style.border = '1px solid #e0e0f0';
         },
         
         //This method is called right before plotting
@@ -100,7 +109,7 @@ function init(data){
         onBeforePlotNode: function(node){
             //add some color to the nodes in the path between the
             //root node and the selected node.
-            if (node.selected) {
+         /*   if (node.selected) {
                 node.data.$color = "#ff7";
             }
             else {
@@ -114,7 +123,7 @@ function init(data){
                     //how many children it has
                     node.data.$color = ['#aaa', '#baa', '#caa', '#daa', '#eaa', '#faa'][count];                    
                 }
-            }
+            }*/
         },
         
         //This method is called right before plotting
@@ -144,6 +153,3 @@ function init(data){
     //end
 }
 
-function submit(algo){
-  alert(algo);
-}

@@ -65,7 +65,19 @@ class Node(object):
 
         string = '"id": "'+str(self.data.idact)+'",'
         string += '"name": "'+self.data.nombreact+'",'
-        string += '"data": {},'
+        string += '"data": { "$color" : '
+        if (self.data.estadoact == 'c'):
+            string += ' "#19AC19" }'
+        elif (self.data.estadoact == 'r'):
+            string += ' "#FFCC00" }'
+        elif (self.data.estadoact == 'e'):
+            string += ' "#3399FF" }'
+        elif (self.data.estadoact == 'p'):
+            string += ' "#FF0000" }'
+        elif (self.data.estadoact == 's'):
+            string += ' "#FFFFFF" }'
+
+        string += ','
         string += '"children": ['
         
         if (len(self.children)>0):

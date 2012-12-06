@@ -88,12 +88,11 @@
     </tr>
   </table>
 </div>
-<script>
-$(function(){
-  $( "#arbol" ).tabs();
-});
-</script>
-<div id="arbol"  >
+<div id="arbol">
+  <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
+    {% csrf_token %}
+    <input id="inputAct" type="hidden" value="abc" name="idact"/>
+  </form>
   <div id="log"></div>
 </div>
 {% endblock cuerpo%}
