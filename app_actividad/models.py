@@ -49,6 +49,14 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):
     act = Actividad.objects.filter(idact = idactividad)
     act.update(nombreact=nombre,descripcionact=descript, fechainicial=fechaini, fechaentrega=fechaent)
+    
+def editarAsignado(idactividad, idAsignado):
+    act = Actividad.objects.filter(idact = idactividad)
+    act.update(loginasignado = idAsignado)
+    
+def editarJefe(idactividad, idJefe):
+    act = Actividad.objects.filter(idact = idactividad)
+    act.update(loginjefe = idJefe)
 
 def cambiarEstado(idactividad, newEstado):
     act = Actividad.objects.filter(idact = idactividad)
@@ -58,15 +66,10 @@ def eliminarActividad(idactividad):
     act = Actividad.objects.filter(idact = idactividad)
     act.update(is_active = False)
 
-def obtenerActividad(idpiz):
-    actividad = {}
-    act = Actividad.Objects.get(idpizactividad = idpiz)
-    actividad['nombre'] = act.nombreact
-    actividad['descripcion'] = act.descripcionact
-    actividad['fechainicial'] = act.fechainicial
-    actividad['fechaentrega'] = act.fechaentrega
-    return actividad
-
+def obtenerActividadPrincipal(idPizarra):
+    act = Actividad.objects.filter(idpizactividad = idPizarra, actividad_padre = None)
+    return act
+    
 #pasar un nodo
 def generar_arbol(actual): 
     """acts = Actividad.Objects.filter(actividad_padre = idact)
@@ -89,15 +92,6 @@ def generar_arbol(actual):
 
     return nodo
 
-
-def obtenerSubactividad(idact,idpiz):
-    actividad = {}
-    act = Actividad.Objects.get(idpizactividad = idpiz, actividad_padre=idact)
-    actividad['nombre'] = act.nombreact
-    actividad['descripcion'] = act.descripcionact
-    actividad['fechainicial'] = act.fechainicial
-    actividad['fechaentrega'] = act.fechaentrega
-    return actividad
 
 def colaboradores(idpiz):
     """

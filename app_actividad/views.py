@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import permission_required
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
+from app_log.models import ManejadorAccion, Accion
 
 #requiere permisos para agregar actividad
 #@permission_required('app_pizarras.add_actividad')
@@ -32,9 +33,12 @@ def crear_actividad(request):
 
       piz=Pizarra.objects.get(idpiz=request.POST['idpiz'])
       user = request.user
-      padre = None
-
-      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, padre)
+      
+      act = Actividad.objects.get(idpizactividad = piz, actividad_padre = None)
+      print "este es el nombre de la actividad que estoy creando ",
+      print act.nombreact
+      
+      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, act)
 
       #Se registra en el log la creacion de la nueva actividad
       fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -269,8 +273,8 @@ def invitar_usuario(request):
             asunto = "Felicidades, usted ha sido invitado a participar como colaborador"
             mensaje = """
                 Felicidades usted ha sido invitado a trabajar como colaborador en una actividad 
-                Su nombre de usuario es: {0}
-                Su contrasena es: {1}
+                Su nombre de usuario es: {nombre_usuario}
+                Su contrasena es: {contrasena}
 
                 Por su seguridad le recomendamos cambiar la clave tan pronto como le sea posible"""
 	    #format(unicode(usuario), unicode(contrasena))
@@ -289,6 +293,11 @@ def invitar_usuario(request):
             act = Actividad.objects.get(idact = id_actividad)
             nombreActividad = act.nombreact
             Accion.objects.crearAccion(user,"El usuario %s invito a %s a unirse a la actividad %s" % (user.username, nombre_usuario, nombreActividad), fechaYHora,'i')
+            
+            editarAsignado(id_actividad,nuevo)
+            editarJefe(id_actividad,request.user)
+            cambiarEstado(id_actividad, 'e')
+            
 
             # Acomodar el crear_colaborador con la logica del negocio 
         else:
@@ -299,6 +308,11 @@ def invitar_usuario(request):
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
         
-        return render(request, 'app_actividad/vistaActividad.html', { 'id_actividad' : id_actividad, }) #  Esta vista puede ser cualquier otra  
+        act = Actividad.objects.get(idact=id_actividad)
+        piz = act.idpizactividad
+        lista = obtener_comentarios(id_actividad)
+        listasub = obtener_subactividades(id_actividad)
+        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act, 'lista': lista, 'listasub':listasub, 'pizarra':piz,})
+
     return render(request, 'app_actividad/asignar_actividad.html', { 'idact' : idact, }) #  Esta vista puede ser cualquier otra  
 
