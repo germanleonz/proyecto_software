@@ -40,8 +40,9 @@ def crear_pizarra(request):
                 fechaYHora,
                 'i')
 
-            lista = obtener_pizarras(request)
-            return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+            return listar_pizarra(request)
+            #lista = obtener_pizarras(usuario)
+            #return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
         else:
             print "NOO"
             return listar_pizarra(request)
@@ -49,22 +50,6 @@ def crear_pizarra(request):
     print "YAA"
     form = CrearPizarraForm()
     return render(request, 'app_pizarras/crear_pizarra.html', { 'form': form, })
-
-@login_required
-def obtener_pizarras(request):
-    """
-    Metodo que obtiene las pizarras del usuario logueado
-    In: request
-    Out: --
-    Autor: Juan Arocha
-    Fecha: 4-11-12 Version 1.0
-    """
-    usuario = request.user
-    pi = Pizarra.objects.filter(logindueno=usuario)
-    lista = []
-    for elem in pi:
-        lista.append(elem)
-    return lista
 
 @login_required
 def listar_pizarra(request):
@@ -75,7 +60,8 @@ def listar_pizarra(request):
     Autor: Juan Arocha
     Fecha: 4-11-12 Version 1.0
     """
-    lista = obtener_pizarras(request)
+    usuario = request.user
+    lista = obtener_pizarras(usuario)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
         
 @login_required
@@ -102,13 +88,13 @@ def eliminar_pizarra(request):
             fechaYHora,
             'i')        
         eliminar(idpiz)
-        lista = obtener_pizarras(request)
+        print "elimino pizarra"
+        lista = obtener_pizarras(usuario)
         return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
-    
-    
-    lista = obtener_pizarras(request)
-    return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+    return listar_pizarra(request)
+    #lista = obtener_pizarras(request)
+    #return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
 @login_required
 def modificar_pizarra(request):

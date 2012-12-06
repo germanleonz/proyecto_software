@@ -48,8 +48,16 @@ def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):
     act.update(nombreact=nombre,descripcionact=descript, fechainicial=fechaini, fechaentrega=fechaent)
 
 def cambiarEstado(idactividad, newEstado):
-    act = Actividad.objects.filter(idact = idactividad)
-    act.update(estadoact=newEstado)
+	act = Actividad.objects.filter(idact = idactividad)
+#    if newEstado == "c":
+	print "es hoja ",
+	print esHoja(idactividad)
+    	
+	act.update(estadoact=newEstado)
+    
+def esHoja(idact):
+	act = Actividad.objects.filter(actividad_padre = idact)
+	return act.count() == 0
 
 def eliminarActividad(idactividad):
     act = Actividad.objects.filter(idact = idactividad)
