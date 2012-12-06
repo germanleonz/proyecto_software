@@ -132,7 +132,7 @@ def colaboradores(idpiz):
     return colaboradores
 
 def obtener_actividades(idpiz):
-    act = Actividad.objects.filter(idpizactividad = idpiz)
+    act = Actividad.objects.filter(idpizactividad = idpiz, is_active = True)
     lista = []
     for elem in act:
         lista.append(elem)

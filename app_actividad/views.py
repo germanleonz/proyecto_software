@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import permission_required
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
+from app_log.models import ManejadorAccion, Accion
 
 #requiere permisos para agregar actividad
 #@permission_required('app_pizarras.add_actividad')
