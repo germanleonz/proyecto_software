@@ -23,7 +23,7 @@
     <tr>
       <td>
         <h>Nombre</h></br>
-        {{data}}
+		{{data}}
         {{actividad.nombreact}}
       </td>
     </tr>
@@ -54,7 +54,17 @@
     <tr>
       <td>
         <h>Estado</h></br>
-        {{actividad.estadoact}}
+		{%if actividad.estadoact == "c"%}
+			Completada
+		{%elif actividad.estadoact == "r"%}
+			Retrasada
+		{%elif actividad.estadoact == "e"%}
+			En Ejecución
+		{%elif actividad.estadoact == "p"%}
+			Postergada
+		{%elif actividad.estadoact == "s"%}
+			Sin Asignar
+		{%endif%}
       </td>
     </tr>
     <tr>
@@ -71,7 +81,7 @@
         </form>
       </td>
     </tr>
-    <tr>03.
+    <tr>
       <td>
         <!-- cambiar estado -->
         <form name="CambiarEstadoForm" action="{% url 'app_actividad:cambiar_estado_actividad' %}" method="post"> 

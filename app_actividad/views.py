@@ -33,7 +33,7 @@ def crear_actividad(request):
       user = request.user
       padre = None
 
-      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, padre)
+      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, padre,None)
 
       #Se registra en el log la creacion de la nueva actividad
       fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -68,10 +68,10 @@ def crear_subactividad(request):
       
       idpizactividad = request.POST['idpiz']
       pizarra = Pizarra.objects.get(idpiz=idpizactividad)
-      padre=Actividad.objects.get(idact=request.POST['idact']) # IDACT.. ES OBTENER EL ID DE LA ACTIVIDAD.
+      padre = Actividad.objects.get(idact=request.POST['idact']) # IDACT.. ES OBTENER EL ID DE LA ACTIVIDAD.
       user = request.user
       
-      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,pizarra,user,padre)
+      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,pizarra,user,padre,None)
       listasub = obtener_subactividades(request.POST['idact'])
       lista = obtener_comentarios(request.POST['idact'])
       colab = colaboradores(padre.idpizactividad.idpiz)
@@ -212,10 +212,10 @@ def cambiar_estado_actividad(request):
         estado = request.POST['estadoact']
         print "holaaaaaaaaaa soy idact",
         print idact
-        act = Actividad.objects.get(idact = idact)
         if estado != "null":
             cambiarEstado(idact,estado)
         lista = obtener_comentarios(idact)
+        act = Actividad.objects.get(idact = idact)
         return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, 'actividad': act})
 
 @csrf_exempt

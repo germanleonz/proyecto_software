@@ -7,7 +7,7 @@ import re
 # Create your models here.
 
 class Actividad(models.Model):
-    idact = models.IntegerField(primary_key=True)
+    idact = models.AutoField(primary_key=True)
     idpizactividad = models.ForeignKey(Pizarra,related_name='actividad_enPizarra')
     fechainicial = models.DateField(auto_now=False, auto_now_add=False)
     fechaentrega = models.DateField(auto_now=False, auto_now_add=False)
@@ -25,25 +25,22 @@ class seDivide(models.Model):
     idactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idAct')
     idsubactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idSubAct')    
 
-def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
+def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre, asignado):
 
-    ult = Actividad.objects.all().aggregate(Max('idact'))
-    if ult['idact__max'] == None:
-        idact=0
-    else:
-        idact= ult['idact__max']+1
-    a=Actividad(idact=idact, 
-        nombreact=nombre,
-        descripcionact=descript,
-        fechainicial=fechaini,
-        fechaentrega=fechaent,
-        avanceact=0.00,estadoact='s',
-        idpizactividad=piz,
-        logincreador=creador,
-        loginjefe=creador,
-        loginasignado=creador,
-        actividad_padre= padre)
-    a.save()
+	if asignado == None: # Si es una actividad nueva, el asignado es el creador
+		asignado = creador
+	a=Actividad(nombreact = nombre,
+        descripcionact = descript,
+        fechainicial = fechaini,
+        fechaentrega = fechaent,
+        avanceact = 0.00,
+        estadoact = 's',
+        idpizactividad = piz,
+        logincreador = creador,
+        loginjefe = creador,
+        loginasignado = asignado,
+        actividad_padre = padre)
+	a.save()
 
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):
     act = Actividad.objects.filter(idact = idactividad)

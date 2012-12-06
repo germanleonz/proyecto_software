@@ -188,7 +188,7 @@ def modificar_usuario(request):
             correo = data['correo']
             #   Datos del UserProfile   
             telefono = data['telefono']
-    
+
             UserProfile.objects.modificar(nombre_usuario, nombre, apellido, telefono, correo)
 
             #Se obtiene al usuario que realizo la modificacion
