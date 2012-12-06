@@ -6,6 +6,7 @@
 {% endblock javascript %}
 
 <div id="dialogCrearUsuario"></div>
+<div id="dialogModificarUsuario"></div>
 <table class="tabla">
   <tr>
     <th style="width:200px !important;">Nombre de usuario</th>
@@ -17,7 +18,6 @@
     {% if perms.app_usuarios.delete_userprofile %}
     <th>Eliminar</th>
     {% endif %}
-
   </tr>
   {% for object in lista%}
   <tr>
@@ -31,14 +31,14 @@
       {{object.last_name}}
     </td>
     <td>
-      <form action="{% url app_usuarios:modificar_form %}" method="post">
+      <form action="{% url app_usuarios:modificar_form %}" method="post" onSubmit="Dajaxice.app_usuarios.modificarUsuarioAjax(my_js_callbackModificarUsuario); return false;">
         {% csrf_token %}
         <input id="id_nombre_usuario" name="nombre_usuario" type="hidden" value="{{object.username}}"/>
         <input id="id_nombre" name="nombre" type="hidden" value="{{object.first_name}}"/>
         <input id="id_apellido" name="apellido" type="hidden" value="{{object.last_name}}"/>
         <input id="id_correo" name="correo" type="hidden" value="{{object.email}}"/>
         {% if perms.app_usuarios.change_userprofile %}
-        <input type="submit" value="Modificar"/>
+        <input type="submit"  value="Modificar"/>
         {% endif %}
       </form>
     </td>
@@ -55,5 +55,7 @@
   {% endfor %}
 </table>
 </br>
+{% if perms.app_usuarios.change_userprofile %}
 <button id="crearUsuario" onclick="Dajaxice.app_usuarios.crearUsuarioAjax(my_js_callbackUsuario);" style="cursor:pointer;">Crear Usuario</button>
+{% endif %}
 {% endblock cuerpo %}

@@ -3,7 +3,9 @@ from django.db.models import Max
 from app_pizarras.models import Pizarra
 from django.contrib.auth.models import User
 from app_pizarras.arbol import *
+from app_log.models import ManejadorAccion, Accion
 import re
+import datetime
 # Create your models here.
 
 class Actividad(models.Model):
@@ -43,34 +45,89 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre, asignad
         actividad_padre = padre)
 	a.save()
 
-def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):
+    #Se registra en el log la creacion de la nueva actividad
+	fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")          
+	Accion.objects.crearAccion(
+        creador,
+        "El usuario %s creo la actividad %s" % (creador.username, nombre), 
+        fechaYHora, 
+        'i')
+
+def modificarActividad(idactividad, nombre, descript, fechaini, fechaent, user):
     act = Actividad.objects.filter(idact = idactividad)
     act.update(nombreact=nombre,descripcionact=descript, fechainicial=fechaini, fechaentrega=fechaent)
+    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    Accion.objects.crearAccion(
+      user,
+      "El usuario %s modifico la informacion de la actividad %s" % (user.username, nombre), 
+      fechaYHora,
+      'i')
+    
+def editarAsignado(idactividad, idAsignado):
+    act = Actividad.objects.filter(idact = idactividad)
+    act.update(loginasignado = idAsignado)
+    
+def editarJefe(idactividad, idJefe):
+    act = Actividad.objects.filter(idact = idactividad)
+    act.update(loginjefe = idJefe)
 
 def cambiarEstado(idactividad, newEstado):
-	act = Actividad.objects.filter(idact = idactividad)
-#    if newEstado == "c":
-	print "es hoja ",
-	print esHoja(idactividad)
-    	
-	act.update(estadoact=newEstado)
-    
+	act = Actividad.objects.get(idact = idactividad)
+	if newEstado == "c" and act.estadoact != "c":
+		act.estadoact = "c"
+		act.avanceact = 100
+		act.save()
+		calcularAvance(act.actividad_padre.idact)
+	else:
+		act.estadoact = newEstado
+		act.save()
+   
 def esHoja(idact):
 	act = Actividad.objects.filter(actividad_padre = idact)
 	return act.count() == 0
 
-def eliminarActividad(idactividad):
-    act = Actividad.objects.filter(idact = idactividad)
-    act.update(is_active = False)
+def cantidadHijos(idact):
+	act = Actividad.objects.filter(actividad_padre = idact)
+	return act.count()
+	
+def calcularAvance(idact):
+	"""
+	Actua sobre el padre
+	"""
+	act = Actividad.objects.get(idact = idact)
+	hijos = Actividad.objects.filter(actividad_padre = idact)
+	completadas = 0
+	total = 0
+	for elem in hijos:
+		print "entraaa",elem.nombreact
+		total+= 1
+		if elem.estadoact == "c":
+			completadas+=1
+	print "son:",
+	print completadas
+	if total==1:
+		for elem in hijos:
+			nuevoAvance = elem.avanceact
+	else:
+		nuevoAvance =  ((completadas+0.00) / (total+0.00)) * 100.00
+	if nuevoAvance == 100.00:
+		act.estadoact = "c"
+	act.avanceact = nuevoAvance
+	act.save()
+	if act.actividad_padre != None:
+		calcularAvance(act.actividad_padre.idact)
+	
+def eliminarActividad(idactividad, usuario):
+    act = Actividad.objects.get(idact = idactividad)
+    act.is_active = False
+    act.save()
 
-def obtenerActividad(idpiz):
-    actividad = {}
-    act = Actividad.Objects.get(idpizactividad = idpiz)
-    actividad['nombre'] = act.nombreact
-    actividad['descripcion'] = act.descripcionact
-    actividad['fechainicial'] = act.fechainicial
-    actividad['fechaentrega'] = act.fechaentrega
-    return actividad
+    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    Accion.objects.crearAccion(
+      usuario,
+      "El usuario %s elimino la actividad %s" % (usuario.username, act.nombreact), 
+      fechaYHora,
+      'i')
 
 #pasar un nodo
 def generar_arbol(actual): 
@@ -94,37 +151,6 @@ def generar_arbol(actual):
 
     return nodo
 
-
-def obtenerSubactividad(idact,idpiz):
-    actividad = {}
-    act = Actividad.Objects.get(idpizactividad = idpiz, actividad_padre=idact)
-    actividad['nombre'] = act.nombreact
-    actividad['descripcion'] = act.descripcionact
-    actividad['fechainicial'] = act.fechainicial
-    actividad['fechaentrega'] = act.fechaentrega
-    return actividad
- 
-def conseguirHijos(idpiz):
-    """
-    Metodo que consigue las subactividades inmediatas de una actividad padre
-    """
-    hijos = list(SeDivide.objects.filter(idactividad= idpiz))
-    return hijos
-
-def conseguirSubactividades(idpiz):
-    """
-    Metodo que consigue todas las subactividades de una actividad principal(pizarra) y que consigue todos 
-    los arcos entre dos de esas actividades que esten relacionadas
-    """
-    subactividades = conseguirHijos(idpiz)
-    nodos_pendientes = subactividades
-    prox = nodos.pendientes.pop()
-    while (prox is not None):
-        subs += conseguirHijos
-        nodosPendientes += conseguirHijos
-        #prox = 
-        
-    return subactividades, pares
 
 def colaboradores(idpiz):
     """
@@ -152,7 +178,6 @@ def obtener_subactividades(idact):
     for elem in act:
         lista.append(elem)
     return lista    
-
 
 
 def orden_cronologico(idpiz, loginasignado):

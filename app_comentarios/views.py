@@ -1,5 +1,5 @@
+import datetime
 from datetime import date
-from datetime import datetime
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -26,19 +26,11 @@ def crear_comentario(request):
       contenido = data['contenido']
       idact = request.POST['idact']
       act = Actividad.objects.get(idact = idact)
-      hora = datetime.time(datetime.now())
+      hora = datetime.datetime.time(datetime.datetime.now())
       fecha = date.today()
       usuario = request.user
       
       CreadorComentario(hora, fecha, contenido, act, usuario)
-
-      fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
-      Accion.objects.crearAccion(
-        usuario,
-        "El usuario %s hizo un comentario en la actividad %s" % (usuario.username, act.nombreact),
-        fechaYHora,
-        'i')
-
 
       print idact
       lista = obtener_comentarios(idact)
@@ -64,14 +56,8 @@ def eliminar_comentario(request):
     print "idActComentario "+str(comentario.idactcomentario.idact)
     idActividad = comentario.idactcomentario.idact
     actividad = Actividad.objects.get(idact = idActividad)
+    
     if actividad.loginjefe == request.user or actividad.loginasignado == request.user or actividad.logincreador == request.user or comentario.loginusuario == request.user:
-      fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
-      usuario = request.user
-      Accion.objects.crearAccion(
-        usuario,
-        "El usuario %s elimino un comentario en la actividad %s" % (usuario.username, actividad.nombreact),
-        fechaYHora,
-        'i')
-      eliminar(idComentario)
+      eliminar(idComentario, request.user, actividad)
     lista = obtener_comentarios(idActividad)
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, 'actividad': actividad,})

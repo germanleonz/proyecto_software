@@ -11,6 +11,12 @@ def crearUsuarioAjax(request):
 	return simplejson.dumps({'vista': vista})
 
 @dajaxice_register
+def modificarUsuarioAjax(request):
+	form = ModificarUsuarioForm()
+	vista = render_to_string('app_usuarios/modificar_usuario.html',{'form':form})
+	return simplejson.dumps({'vista': vista})
+
+@dajaxice_register
 def cambiarContrasenaAjax(request):
 	form = CambiarContrasenaForm()
 	vista = render_to_string('app_usuarios/cambiar_contrasena.html', {'form':form})

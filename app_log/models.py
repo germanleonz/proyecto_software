@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
-from app_pizarras.models import Pizarra
 
 class ManejadorAccion(models.Manager):
     def crearAccion(self,accionloginuser, contenidoaccionuser, fechahoraaccionuser, tipo_accion):

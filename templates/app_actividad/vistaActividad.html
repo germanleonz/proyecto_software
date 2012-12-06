@@ -95,7 +95,9 @@
           <select name="estadoact">
             <option value="null"> Estado </option>
             <option value="s"> Sin Asignar </option>
+            {% if actEsHoja %}
             <option value="c"> Completada </option>
+            {% endif %}
             <option value="r"> Retrasada </option>
             <option value="e"> En Ejecucion </option>
             <option value="p"> Postergada </option>
@@ -121,7 +123,6 @@
           {% csrf_token %}
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
 	  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
-	  <input type="hidden" name="nombreact" value="{{Actividad.nombreact}}" />
           <input type="submit" id="modificarAct" value="Asignar a otro" />
         </form>
       </td>

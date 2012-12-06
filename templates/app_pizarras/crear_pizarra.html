@@ -1,24 +1,24 @@
 <script type="text/javascript">
   $(function() {    
-    $("#fecha_input input").datepicker({
+    $("#id_fecha_inicio input").datepicker({
         changeMonth: true,
         changeYear: true
     });
 
-    $( "#fecha_input input" ).datepicker(
+    $( "#id_fecha_inicio input" ).datepicker(
       "option", "dateFormat", "dd/mm/yy" 
     );
 
-    $( "#fecha_input input" ).datepicker({
+    $( "#id_fecha_inicio input" ).datepicker({
         dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
     });   
 
-    var dayNamesMin = $( "#fecha_input input" ).datepicker( "option", "dayNames" );
-    $( "#fecha_input input" ).datepicker( 
+    var dayNamesMin = $( "#id_fecha_inicio input" ).datepicker( "option", "dayNames" );
+    $( "#id_fecha_inicio input" ).datepicker( 
       "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
     );
 
-    $( "#fecha_input input" ).datepicker( "option", "yearRange", "1970:2012" );
+    $( "#id_fecha_inicio input" ).datepicker( "option", "yearRange", "1970:2012" );
   })  
 </script>
 {% load i18n %}
