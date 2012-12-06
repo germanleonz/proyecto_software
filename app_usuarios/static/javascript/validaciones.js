@@ -38,6 +38,7 @@ function isDate(obj,div) {
   var valido = true;
   var fecha = obj.val(), dia, mes, anio;
   if (fecha.length !== 10) { 
+      print ("error longitud");
     valido = false;
   } 
   // third and sixth character should be '/' 
@@ -198,6 +199,30 @@ function validarModificacion(){
       valido = valido && checkRegex(apellido,"Apellido",formatoNombres, div);
       valido = valido && checkRegex(telefono,"Telefono",formatoTelefono, div);
 
+      return valido;
+}
+
+function validarModificarPizarra() {
+  var nombre = $("#id_nombre"),
+      descripcion = $("#id_descripcion"),
+      fechacreacion = $("#id_fecha_creacion"),
+      fechafin = $("#id_fecha_final"),
+      formato = /^[A-Za-z0-9\?\¿\!\¡\:\,\.\-\ç\ñáéíóú\(\)\"\'\äëïöüàèìòù\s]*$/,
+      div = "#errores_modificar_pizarra",
+      valido = true;
+
+      valido = valido && checkLength(nombre,"Nombre",1,50,div);
+      valido = valido && checkLength(descripcion,"Descripcion",1,150,div);
+      valido = valido && checkLength(fechafin, "Fecha final",10,10,div);
+    
+      if (valido && compareDates(fechacreacion.val(),fechafin.val())==-1){
+        valido = false;
+        $("#errores_modificar_pizarra").html("*La fecha final debe ser mayor a la de creacion");
+      }
+
+      valido = valido && checkRegex(descripcion,"Descripcion",formato,div);
+
+      valido = valido && isDate(fechafin,div);
       return valido;
 }
 
