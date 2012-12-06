@@ -53,8 +53,56 @@ function dialog(){
     })
   });
 
+  /*dialog de modificar usuario*/
+  $("#modificarUsuario").click(function() {
+    $("#dialogModificarUsuario").dialog({
+      modal:true,
+      position: { my: "center", at: "top", of: window },
+      dialogClass: 'style_Dialog',
+      title: "Modificar usuario",
+      buttons: {
+        "Modificar usuario": function() {
+          bValid = validarModificacion();
+          if (bValid) {
+            // Agregar el usuario recien creado a la lista de usuarios
+            $("#modificarUsuarioForm").submit();
+            $(this).dialog("close");
+          } 
+        },
+      Cancel: function() {
+        $(this).dialog("close");
+      }
+      }
+    })
+  });
+
+  /*dialog de modificar usuario*/
+  $("#editarPerfil").click(function() {
+    $("#dialogEditarPerfil").dialog({
+      modal:true,
+      position: { my: "center", at: "top", of: window },
+      dialogClass: 'style_Dialog',
+      title: "Editar Perfil",
+      buttons: {
+        "Editar perfil": function() {
+          bValid = validarModificacion();
+          if (bValid) {
+            // Agregar el usuario recien creado a la lista de usuarios
+            $("#modificarUsuarioForm").submit();
+            $(this).dialog("close");
+          } 
+        },
+      Cancel: function() {
+        $(this).dialog("close");
+      }
+      }
+    })
+  });
+
+
+
   /*dialog de cambiar contrasena*/
-  $("#cambiarContrasena").click(function(){
+  $("#cambiarContrasena").click(function() {
     $("#dialogCambiarContrasena").dialog({
       modal:true,
       position: { my: "center", at: "top", of: window },
@@ -140,6 +188,14 @@ function my_js_callbackPizarra(data){
 
 function my_js_callbackUsuario(data) {
   $("#dialogCrearUsuario").html(data.vista);
+};
+
+function my_js_callbackModificarUsuario(data) {
+  $("#dialogModificarUsuario").html(data.vista);
+};
+
+function my_js_callbackPerfil(data) {
+  $("#dialogEditarPerfil").html(data.vista);
 };
 
 function my_js_callbackActividad(data){

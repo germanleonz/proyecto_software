@@ -1,40 +1,27 @@
-{% extends 'app_usuarios/template.html' %}
-{% load url from future %}
-{% load staticfiles %}
-{% block titulo %}Editar Información de un Usuario{% endblock %}
-{% block css %}
-<link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
-<link href="{% static "css/modificar_usuario_style.css" %}" rel="stylesheet" type="text/css"/>
-{% endblock %}
-
-{% block cuerpo %}
- 	<div id="loginBox">                
-    <form action="{% url 'app_usuarios:modificar_usuario' %}" id="loginForm" method="post" onsubmit="if(!confirm('Seguro desea modificar este usuario?')) return false">
-      {% csrf_token %}
-			<fieldset id="body">
-        <input id="id_nombre_usuario" name="nombre_usuario" type="hidden" value="{{nombre_usuario}}"/>
-   	   	<fieldset>
-    		<label for="nombre"> Nombre</label>
-        {{ form.nombre.errors }}
-        <input type="text" name="nombre" id="id_nombre" value="{{lista.0}}" />
-				</fieldset>
-				<fieldset>
-        {{ form.apellido.errors }}
-				<label for="apellido">Apellido</label>
-        <input type="text" name="apellido" id="id_apellido" value="{{lista.1}}" />
-				</fieldset>
-        <fieldset>
-				<label for="correo">Correo</label>
-        {{ form.correo.errors }}
-        <input type="text" name="correo" id="id_correo" value="{{lista.2}}"/>
-				</fieldset>
-        <fieldset>
-				<label for="telefono">Telefono</label>
-        {{ form.telefono.errors }}
-        <input type="text" name="telefono" id="id_telefono" value="{{lista.3}}" />
-				</fieldset>
-    		<input type="submit" id="login" value="Editar Información" />
-			</fieldset>
-		</form>
-	</div>
-{% endblock %}
+<div id ="errores_modificar_usuario" class="errores">Todos los campos son requeridos</div>
+<form action="{% url app_usuarios:modificar_usuario %}" id="modificarUsuarioForm" method="post">
+  {% csrf_token %}
+  <fieldset id="body">
+    <input id="id_nombre_usuario" name="nombre_usuario" type="hidden" value="{{nombre_usuario}}"/>
+    <fieldset>
+      <label for="nombre"> Nombre</label>
+      {{ form.nombre.errors }}
+      <input type="text" name="nombre" id="id_nombre" value="{{lista.0}}" />
+    </fieldset>
+    <fieldset>
+      {{ form.apellido.errors }}
+      <label for="apellido">Apellido</label>
+      <input type="text" name="apellido" id="id_apellido" value="{{lista.1}}" />
+    </fieldset>
+    <fieldset>
+      <label for="correo">Correo</label>
+      {{ form.correo.errors }}
+      <input type="text" name="correo" id="id_correo" value="{{lista.2}}"/>
+    </fieldset>
+    <fieldset>
+      <label for="telefono">Telefono</label>
+      {{ form.telefono.errors }}
+      <input type="text" name="telefono" id="id_telefono" value="{{lista.3}}" />
+    </fieldset>
+  </fieldset>
+</form>

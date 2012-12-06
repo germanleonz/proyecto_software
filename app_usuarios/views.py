@@ -1,17 +1,17 @@
 import re
 import datetime 
-import app_pizarras
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib.auth import views as views_admin
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from app_usuarios.models import UserProfile
+import app_pizarras
+from app_usuarios.models import UserProfile, ManejadorUsuario
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
-from app_log.models import crearAccionUser
+from app_log.models import ManejadorAccion, Accion
 from app_pizarras.views import listar_pizarra
 
 def login_if(request):
@@ -42,23 +42,26 @@ def login_usuario(request):
             if usuario is not None:
                 #   El usuario se autentico correctamente
                 if usuario.is_active:
-
                     #Se registra la accion de login del usuario
                     fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %I:%M")
-                    crearAccionUser(usuario, "El usuario %s inicio sesion en la fecha %s" % (nombre_usuario, str(fechaYHora)), fechaYHora)
+                    Accion.objects.crearAccion(
+                        usuario, 
+                        "El usuario %s inicio sesion" % (nombre_usuario), 
+                        fechaYHora, 
+                        'i')
 
                     #   Redirigir a pagina de login correcto (ver pared)
                     print "Acceso permitido para %s" % nombre_usuario
                     login(request, usuario)
-                    lista = app_pizarras.views.obtener_pizarras(request)
-                    return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+                    return app_pizarras.views.listar_pizarra(request)
                 else:
                     #   Devolver un mensaje de cuenta deshabilitada
+                    print "La cuenta del usuario esta deshabilitada"
                     pass
             else:
                 #   Devolver un mensaje de usuario o contrasena incorrectas
                 print "Acceso denegado para %s" % nombre_usuario
-                print "-----" + str(User.objects.filter(username = nombre_usuario))
+                print "-----" + str(User.objects.get(username = nombre_usuario))
                 #   Aqui se deben levantar los errores
                 return render(request, 'app_usuarios/login.html', { 'form': form, })
     else:
@@ -67,13 +70,14 @@ def login_usuario(request):
     return render(request, 'app_usuarios/login.html', { 'form': form, })
 
 def perfil_usuario(request):
+    """
+    Metodo que consigue el perfil de un usuario
+    """
     if request.method == 'POST':
         id = request.POST['usuario']
         usuario = User.objects.get(username=id)
-        user = UserProfile.objects.get(user=usuario)
-        print user.user
-        return render(request, 'app_usuarios/perfil.html', { 'usuario': usuario, 'userprofile':user })
-
+        perfil = UserProfile.objects.get(user=usuario)
+        return render(request, 'app_usuarios/perfil.html', { 'usuario': usuario, 'userprofile': perfil })
 
 @csrf_exempt
 @login_required
@@ -92,48 +96,21 @@ def crear_usuario(request):
         if form.is_valid():
             data = form.cleaned_data
             nombre_usuario = data['nuevo_nombre_usuario']
-   
             if not User.objects.filter(username__exact = nombre_usuario):
+                up = None
+                if data["nuevo_administrador"] == True:
+                    up = UserProfile.objects.crear_administrador(request.user,data)
+                else:
+                    up = UserProfile.objects.crear_colaborador(data, request.user)
                 #   Si el usuario no existe lo agregamos   
                 print "Agregando usuario %s" % nombre_usuario
-                u = User.objects.create_user(
-                    username = nombre_usuario,
-                    email = data['nuevo_correo'],
-                )
-                u.set_password(data['nueva_password'])
-                u.first_name = data['nuevo_nombre']
-                u.last_name = data['nuevo_apellido']
-                u.save()
-    
-                #   Creamos un UserProfile asociado al usuario que acabamos de crear
-                datos_perfil = {}
-                datos_perfil['telefono'] = data['nuevo_telefono']
-                #   En caso de agregar algun dato extra al perfil se agregan aqui   
-                UserProfile.objects.crear_colaborador(u, datos_perfil)
-
-                #Se obtiene al usuario que esta loggeado al momento de crear un nuevo usuario.
-                usuario = request.user
-
-                #Se registra en el log que "usuario" creo a un nuevo colaborador
-                fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-                crearAccionUser(usuario, "El usuario %s agrego a %s en la fecha %s" % (usuario.username, nombre_usuario, str(fechaYHora)), fechaYHora)  
-
 
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
-                pass
-            #Redirigir a pagina de creacion correcta de usuario
-            lista = User.objects.all()
-            puede_eliminar = request.user.has_perm('auth.delete_user')
-            puede_modificar = request.user.has_perm('auth.change_user')
-            puede_crear = request.user.has_perm('auth.create_user')
-            return render(request, 'app_usuarios/lista_usuarios.html', {
-                'lista' : lista,
-                'puede_eliminar' : puede_eliminar,
-                'puede_modificar' : puede_modificar,
-                'puede_crear' : puede_crear,
-            }, )
+                print "Usuario ya registrado"
+            #Redirigir a pagina de creacion correcta de usuario (listar de los usuarios)
+            return listar_usuarios(request)
         else:
             #   Aqui se deben levantar los errores cuando los datos proporcionados no sean validos
             print "No se pudo crear el usuario"
@@ -154,18 +131,14 @@ def listar_usuarios(request):
     Autor: German Leon
     Fecha: 5-11-12
     """
-    # Se omite el usuario actual de la lista
+    #   Se consigue la lista de usuarios excluyendo al usuario que solicita la lista
     lista = User.objects.exclude(username = request.user.username)
-    puede_eliminar = request.user.has_perm('auth.delete_user')
-    puede_modificar = request.user.has_perm('auth.change_user')
-    puede_crear = request.user.has_perm('auth.create_user')
+    lista = lista.filter(is_active = True)
     return render(request, 'app_usuarios/lista_usuarios.html', {
-        'lista' : lista,
-        'puede_eliminar' : puede_eliminar,
-        'puede_modificar' : puede_modificar,
-        'puede_crear' : puede_crear,
+        'lista' : lista
     }, )
 
+@csrf_exempt
 @login_required
 @permission_required('auth.can_change_user')
 def modificar_usuario(request):
@@ -188,15 +161,9 @@ def modificar_usuario(request):
             correo = data['correo']
             #   Datos del UserProfile   
             telefono = data['telefono']
-    
-            UserProfile.objects.modificar(nombre_usuario, nombre, apellido, telefono, correo)
-
-            #Se obtiene al usuario que realizo la modificacion
             usuario = request.user
-
-            #Se agrega en el log que "usuario" modifico a nombre_usuario
-            fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            crearAccionUser(usuario, "El usuario %s modifico la informacion de %s en la fecha %s" % (usuario.username, nombre_usuario, fechaYHora), fechaYHora)
+        
+            UserProfile.objects.modificar(nombre_usuario, nombre, apellido, telefono, correo, usuario)
 
         else:
             #   Aqui se deben levantar los errores cuando los datos proporcionados no sean validos
@@ -212,18 +179,7 @@ def modificar_usuario(request):
 
     # Se debe excluir de la lista de todos los usuarios el
     # usuario actual
-    lista = User.objects.exclude(username = request.user.username)
-    puede_eliminar = request.user.has_perm('auth.delete_user')
-    puede_modificar = request.user.has_perm('auth.change_user')
-    puede_crear = request.user.has_perm('auth.add_user')
-    return render(request, 'app_usuarios/lista_usuarios.html', {
-        'lista' : lista,
-        'puede_eliminar' : puede_eliminar,
-        'puede_modificar' : puede_modificar,
-        'puede_crear' : puede_crear,
-    }, )
-
-    return render(request, 'app_usuarios/lista_usuarios.html', { 'lista' : lista, }, )
+    return listar_usuarios(request)
 
 @login_required
 @permission_required('auth.can_change_user')
@@ -241,8 +197,7 @@ def modificar_form(request):
         lista.append(request.POST['correo'])
         lista.append(User.objects.get(username=nombre_usuario).get_profile().telefono)
         return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario' : nombre_usuario, 'lista' : lista })
-    listar_usuarios(request)
-    return render(request, 'app_usuarios/lista_usuarios.html', { 'lista' : lista, }, )
+    return listar_usuarios(request)
 
 @login_required
 def eliminar_usuario(request):
@@ -260,28 +215,14 @@ def eliminar_usuario(request):
         nombre_usuario = request.POST['nombre_usuario']
         print "Eliminando a %s" % nombre_usuario
         usuario = User.objects.filter(username=nombre_usuario)
-        #usuario.update(is_active = False)
-        usuario.delete()
+        usuario.update(is_active = False)
         print "Usuario eliminado"
 
         #Se obtiene al usuario que realizo la eliminacion
         usuarioNew = request.user
         username = str(usuarioNew.username)
 
-        #Se agrega en el log que "usuario" elimino a nombre_usuario
-        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        crearAccionUser(usuarioNew, "El usuario %s elimino a %s en la fecha %s" % (username, nombre_usuario, str(fechaYHora)), fechaYHora)
-
-    lista = User.objects.all()
-    puede_eliminar = request.user.has_perm('auth.delete_user')
-    puede_modificar = request.user.has_perm('auth.change_user')
-    puede_crear = request.user.has_perm('auth.create_user')
-    return render(request, 'app_usuarios/lista_usuarios.html', {
-        'lista' : lista,
-        'puede_eliminar' : puede_eliminar,
-        'puede_modificar' : puede_modificar,
-        'puede_crear' : puede_crear,
-    }, )
+    return listar_usuarios(request)
 
 @login_required
 def modificar_perfil(request):
@@ -300,12 +241,6 @@ def modificar_perfil(request):
     lista.append(usuario.last_name)
     lista.append(usuario.email)
     lista.append(perfil_usuario.telefono)
-
-    #Se agrega en el log que "usuario" edito su perfil
-
-    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    crearAccionUser(usuario, "El usuario %s modifico la informacion de su perfil en la fecha %s" % (nombre_usuario, str(fechaYHora)),fechaYHora)
-
     return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario' : nombre_usuario, 'lista' : lista })
 
 def logout_view(request):
@@ -322,11 +257,15 @@ def logout_view(request):
     #Se obtiene al usuario que desea cerrar sesion
     usuario = request.user
     nombre_usuario = usuario.username
-    logout(request)
-
     #Se agrega en el log que "nombre_usuario cerro sesion
     fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    crearAccionUser(usuario, "El usuario %s cerro sesion en la fecha %s" % (nombre_usuario, str(fechaYHora)), fechaYHora)
+    Accion.objects.crearAccion(
+        usuario, 
+        "El usuario %s cerro sesion" % (nombre_usuario), 
+        fechaYHora, 
+        'i')
+    logout(request)
+
 
     
     return render(request, 'app_usuarios/login.html', { 'form': form, })
@@ -345,28 +284,15 @@ def registrar_visitante(request):
         if form.is_valid():
             data = form.cleaned_data
             nombre_usuario = data['nuevo_nombre_usuario']
-   
             if not User.objects.filter(username__exact = nombre_usuario):
                 #   Si el usuario no existe lo agregamos   
                 print "Agregando usuario %s" % nombre_usuario
-                u = User.objects.create_user(
-                    username = nombre_usuario,
-                    email = data['nuevo_correo'],
-                )
-                u.set_password(data['nueva_password'])
-                u.first_name = data['nuevo_nombre']
-                u.last_name = data['nuevo_apellido']
-                u.save()
-    
-                #   Creamos un UserProfile asociado al usuario que acabamos de crear
-                datos_perfil = {}
-                datos_perfil['telefono'] = data['nuevo_telefono']
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
-                UserProfile.objects.crear_colaborador(u, datos_perfil)
+                UserProfile.objects.crear_colaborador(data, request.user)
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
-                pass
+                print "Ya habia un usuario registado con ese nombre"
             #Redirigir a pagina de creacion correcta de usuario
             form = LoginForm()  
             return render(request, 'app_usuarios/login.html', { 'form': form, })
@@ -396,14 +322,11 @@ def cambiar_contrasena(request):
         if form.is_valid():
             #   Cambiando la contrasena   
             data = form.cleaned_data
-            contrasena = data['contrasena1']
             usuario = request.user
-            print usuario.email
-            usuario.set_password(contrasena)
+            usuario.set_password(data['contrasena1'])
             usuario.save()
 
-            lista = app_pizarras.views.obtener_pizarras(request)
-            return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+            return app_pizarras.views.listar_pizarra(request)
     else:
         form = CambiarContrasenaForm()
     return render(request, 'app_usuarios/cambiar_contrasena.html', { 'form': form, })

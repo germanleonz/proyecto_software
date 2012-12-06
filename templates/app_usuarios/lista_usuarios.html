@@ -3,48 +3,46 @@
 {% block titulo %}Listar usuarios{% endblock titulo %}
 {% block cuerpo %}
 
-<div id="dialogCrearUsuario"></div>
 <table class="tabla">
   <tr>
     <th style="width:200px !important;">Nombre de usuario</th>
     <th>Nombre</th>
     <th>Apellido</th>
-    {% if puede_modificar %} 
+    {% if perms.app_usuarios.change_userprofile %} 
     <th>Modificar</th>
     {% endif %}
-    {% if puede_eliminar %}
+    {% if perms.app_usuarios.delete_userprofile %}
     <th>Eliminar</th>
     {% endif %}
-
   </tr>
-  {% for object in lista%}
+  {% for objeto in lista%}
   <tr>
     <td>
-      {{object.username}}
+      {{objeto.username}}
     </td>
     <td>
-      {{object.first_name}}
+      {{objeto.first_name}}
     </td>
     <td>
-      {{object.last_name}}
+      {{objeto.last_name}}
     </td>
     <td>
-      <form action="{% url app_usuarios:modificar_form %}" method="post">
+      <form action="{% url app_usuarios:modificar_form %}" onsubmit="return false;" method="post">
         {% csrf_token %}
-        <input id="id_nombre_usuario" name="nombre_usuario" type="hidden" value="{{object.username}}"/>
-        <input id="id_nombre" name="nombre" type="hidden" value="{{object.first_name}}"/>
-        <input id="id_apellido" name="apellido" type="hidden" value="{{object.last_name}}"/>
-        <input id="id_correo" name="correo" type="hidden" value="{{object.email}}"/>
-        {% if puede_modificar %}
-        <input type="submit" value="Modificar"/>
+        <input id="id_nombre_usuario" name="nombre_usuario" type="hidden" value="{{objeto.username}}"/>
+        <input id="id_nombre" name="nombre" type="hidden" value="{{objeto.first_name}}"/>
+        <input id="id_apellido" name="apellido" type="hidden" value="{{objeto.last_name}}"/>
+        <input id="id_correo" name="correo" type="hidden" value="{{objeto.email}}"/>
+        {% if perms.app_usuarios.change_userprofile %}
+          <button type="submit" id="modificarUsuario" onclick="Dajaxice.app_usuarios.modificarUsuarioAjax(my_js_callbackModificarUsuario, {'nombre_usuario' : {{objeto.id}}});">Modificar</button>
         {% endif %}
       </form>
     </td>
     <td>
-      {% if puede_eliminar %}
+      {% if perms.app_usuarios.delete_userprofile %}
       <form action="{% url app_usuarios:eliminar_usuario %}" method="post" onsubmit="if (!confirm('Seguro desea elimimar este usuario?')) return false">
         {% csrf_token %}
-        <input name="nombre_usuario" type="hidden" value="{{object.username}}"/>
+        <input name="nombre_usuario" type="hidden" value="{{objeto.username}}"/>
         <input type="submit" value="Eliminar"/>
       </form>
       {% endif %}
@@ -53,5 +51,7 @@
   {% endfor %}
 </table>
 </br>
+{% if perms.app_usuarios.change_userprofile %}
 <button id="crearUsuario" onclick="Dajaxice.app_usuarios.crearUsuarioAjax(my_js_callbackUsuario);" style="cursor:pointer;">Crear Usuario</button>
+{% endif %}
 {% endblock cuerpo %}

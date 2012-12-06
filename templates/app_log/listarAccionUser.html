@@ -5,23 +5,37 @@
 
 <table class="tabla" style="width: 800px;margin-bottom: 0px;">
   <tr>
-    <th style="width:100px !important; text-align: center; font-size: 15px;"><b>Nombre de Usuario</b></th>
-    <th style="text-align: center; font-size: 15px"><b>Descripcion</b></th>
-    <th style="text-align: center; font-size: 15px"><b>Fecha</b></th>
+    <th style="width: 150px !important; text-align: center; font-size: 15px;"><b>Nombre de Usuario</b></th>
+    <th style="width: 350px; text-align: center; font-size: 15px"><b>Descripcion</b></th>
+    <th style="width: 200px; text-align: center; font-size: 15px"><b>Fecha</b></th>
+    <th style="width: 100px; text-align: center; font-size: 15px"><b>Tipo</b></th>
   </tr>
 </table>
 <div style="max-height: 300px; overflow: auto;">
   <table class="tabla" style="width: 800px; max-height:400px !important; overflow: scroll !important; margin-top: 0px; margin-bottom: 0px; border-bottom: transparent;">
     {% for object in lista%}
     <tr>
-      <td style="text-align: center;">
+      <td style="text-align: center; width: 150px;">
         {{object.accionloginuser}}
       </td>
-      <td style="text-align: center;">
+      <td style="text-align: center; width:350px; ">
         {{object.contenidoaccionuser}}
       </td>
-      <td   style="text-align: center;">
+      <td   style="text-align: center; width: 200px;">
         {{object.fechahoraaccionuser}}
+      </td>
+      <td   style="text-align: center !important; width: 100px;">
+        {%if object.tipo_accion == "i" %}
+        INFO
+        {%elif object.tipo_accion == "w" %}
+        WARNING
+        {%elif object.tipo_accion == "d" %}
+        DEBUG
+        {%elif object.tipo_accion == "f" %}
+        FATAL
+        {%elif object.tipo_accion == "e"%}
+        ERROR
+        {%endif%}
       </td>
     </tr>
     {% endfor %}

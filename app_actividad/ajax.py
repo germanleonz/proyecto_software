@@ -1,14 +1,15 @@
-from django.utils import simplejson
-from dajaxice.decorators import dajaxice_register
-from django.template.loader import render_to_string
-from app_actividad.forms import CrearActividadForm
-from app_comentarios.models import CreadorComentario, obtener_comentarios
-from app_actividad.models import Actividad
-from app_comentarios.forms import CrearComentarioForm
-from datetime import date
 from datetime import datetime
+from datetime import date
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import simplejson
 from django.http import HttpResponse
+from django.template.loader import render_to_string
+
+from dajaxice.decorators import dajaxice_register
+from app_actividad.forms import CrearActividadForm
+from app_actividad.models import Actividad
+from app_comentarios.models import CreadorComentario, obtener_comentarios
+from app_comentarios.forms import CrearComentarioForm
 
 @dajaxice_register
 def crearActividadForm(request,data):
@@ -26,7 +27,6 @@ def mostrarActividad(request,data):
 @csrf_exempt
 @dajaxice_register
 def crearComentario(request,form,data):
-    print "ENTREEEE"
     f= CrearComentarioForm(form)
     if f.is_valid():
         datos = f.cleaned_data
