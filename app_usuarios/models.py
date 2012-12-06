@@ -5,7 +5,7 @@ from django.utils.encoding import smart_str
 from django.core.exceptions import ValidationError
 
 class ManejadorUsuario(UserManager):
-    def crear_colaborador(self, usuario, datos):
+    def crear_colaborador(self, data):
         """
         Crea un colaborador con los datos proporcionados
         In: self, usuario, datos
@@ -14,9 +14,18 @@ class ManejadorUsuario(UserManager):
         Fecha: 4-11-12 Version 1.0
         """
         print "Entramos a crear_colaborador"
-        up = UserProfile.objects.create(user=usuario, telefono= datos["telefono"])
+        u = User.objects.create_user(
+            username = data['nuevo_nombre_usuario'],
+            email = data['nuevo_correo'],
+        )
+        u.set_password(data['nueva_password'])
+        u.first_name = data['nuevo_nombre']
+        u.last_name = data['nuevo_apellido']
+        u.save()
+
+        up = UserProfile.objects.create(user=u, telefono= data["nuevo_telefono"])
         #   Agregamos el usuario recien creado al grupo de los colaboradores
-        usuario.groups.add(Group.objects.get(name="Colaboradores"))
+        u.groups.add(Group.objects.get(name="Colaboradores"))
 
     def crear_administador(self, usuario, datos):
         """
@@ -28,7 +37,7 @@ class ManejadorUsuario(UserManager):
         """
         #   Creamos un usuario como en crear_colaborador pero con privilegios de administador
         print "Asignandole privilegios de administrador al usuario recien creado ..."
-        crear_colaborador(self, usuario, datos)
+        crear_colaborador(self, datos)
         #   Agregamos al usuario recien creado al grupo de administradores
         usuario.groups.add(Group.objects.get(name="Administradores"))
 

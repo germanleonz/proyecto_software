@@ -13,7 +13,6 @@ class Pizarra(models.Model):
     Autor: Oriana Gomez y Carla Urrea
     Fecha: 27-10-12 Version 1.0
     """
-
     idpiz = models.AutoField(primary_key = True)
     nombrepiz = models.CharField(max_length=50)
     descripcionpiz = models.CharField(max_length=150) 
@@ -21,6 +20,7 @@ class Pizarra(models.Model):
     fechafinal = models.DateField(auto_now=False, auto_now_add=False)
     avancepiz = models.IntegerField()
     logindueno = models.ForeignKey(User, related_name='pizarra_dueno')
+    is_active = models.BooleanField(default = True)
 
     def save(self, *args, **kwargs):
         if self.fechacreacion < date.today():
@@ -103,7 +103,7 @@ def eliminar(idpiz):
     """
     elem = Pizarra.objects.filter(idpiz = idpiz)
 
-    elem.delete()
+    elem.update(is_active = False)
 
 def obtenerPizarra(idpiz):
     """

@@ -1,8 +1,8 @@
-from app_usuarios.forms import CrearUsuarioForm, CambiarContrasenaForm
-
 from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from django.template.loader import render_to_string
+
+from app_usuarios.forms import CrearUsuarioForm, CambiarContrasenaForm
 
 @dajaxice_register
 def crearUsuarioAjax(request):
