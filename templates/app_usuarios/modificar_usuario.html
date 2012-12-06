@@ -1,5 +1,5 @@
 <div id ="errores_modificar_usuario" class="errores">Todos los campos son requeridos</div>
-<form action="{% url app_usuarios:modificar_usuario %}" id="modificarUsuarioForm" method="post" onsubmit="if(!confirm('Seguro desea modificar este usuario?')) return false">
+<form action="{% url app_usuarios:modificar_usuario %}" id="modificarUsuarioForm" method="post">
   {% csrf_token %}
   <fieldset id="body">
     <input id="id_nombre_usuario" name="nombre_usuario" type="hidden" value="{{nombre_usuario}}"/>
@@ -23,6 +23,5 @@
       {{ form.telefono.errors }}
       <input type="text" name="telefono" id="id_telefono" value="{{lista.3}}" />
     </fieldset>
-    <input type="submit" id="login" value="Editar Información" />
   </fieldset>
 </form>
