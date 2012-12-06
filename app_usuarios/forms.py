@@ -111,6 +111,7 @@ class CrearUsuarioForm(forms.Form):
     nuevo_nombre = forms.CharField(label="Introduzca un nombre", max_length=80,validators=[validate_nombre])
     nuevo_apellido = forms.CharField(label="Introduzca un apellido", max_length=20,validators=[validate_apellido])
     nuevo_telefono = forms.CharField(label="Introduzca un numero de telefono", max_length=15,validators=[validate_telefono])
+    nuevo_administrador = forms.BooleanField(label="Administrador", initial=False)
 
 class ModificarUsuarioForm(forms.Form):
     """

@@ -7,7 +7,7 @@ import re
 # Create your models here.
 
 class Actividad(models.Model):
-    idact = models.IntegerField(primary_key=True)
+    idact = models.AutoField(primary_key=True)
     idpizactividad = models.ForeignKey(Pizarra,related_name='actividad_enPizarra')
     fechainicial = models.DateField(auto_now=False, auto_now_add=False)
     fechaentrega = models.DateField(auto_now=False, auto_now_add=False)
@@ -28,11 +28,11 @@ class seDivide(models.Model):
 def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
 
     ult = Actividad.objects.all().aggregate(Max('idact'))
-    if ult['idact__max'] == None:
-        idact=0
-    else:
-        idact= ult['idact__max']+1
-    a=Actividad(idact=idact, 
+    #if ult['idact__max'] == None:
+        #idact=0
+    #else:
+        #idact= ult['idact__max']+1
+    a=Actividad(
         nombreact=nombre,
         descripcionact=descript,
         fechainicial=fechaini,

@@ -47,22 +47,6 @@ def crear_pizarra(request):
     return render(request, 'app_pizarras/crear_pizarra.html', { 'form': form, })
 
 @login_required
-def obtener_pizarras(request):
-    """
-    Metodo que obtiene las pizarras del usuario logueado
-    In: request
-    Out: --
-    Autor: Juan Arocha
-    Fecha: 4-11-12 Version 1.0
-    """
-    usuario = request.user
-    pi = Pizarra.objects.filter(logindueno=usuario)
-    lista = []
-    for elem in pi:
-        lista.append(elem)
-    return lista
-
-@login_required
 def listar_pizarra(request):
     """
     Metodo que lista las pizarras en la pared 

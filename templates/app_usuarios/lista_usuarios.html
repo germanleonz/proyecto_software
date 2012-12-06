@@ -11,10 +11,10 @@
     <th style="width:200px !important;">Nombre de usuario</th>
     <th>Nombre</th>
     <th>Apellido</th>
-    {% if puede_modificar %} 
+    {% if perms.app_usuarios.change_userprofile %} 
     <th>Modificar</th>
     {% endif %}
-    {% if puede_eliminar %}
+    {% if perms.app_usuarios.delete_userprofile %}
     <th>Eliminar</th>
     {% endif %}
 
@@ -37,13 +37,13 @@
         <input id="id_nombre" name="nombre" type="hidden" value="{{object.first_name}}"/>
         <input id="id_apellido" name="apellido" type="hidden" value="{{object.last_name}}"/>
         <input id="id_correo" name="correo" type="hidden" value="{{object.email}}"/>
-        {% if puede_modificar %}
+        {% if perms.app_usuarios.change_userprofile %}
         <input type="submit" value="Modificar"/>
         {% endif %}
       </form>
     </td>
     <td>
-      {% if puede_eliminar %}
+      {% if perms.app_usuarios.delete_userprofile %}
       <form action="{% url app_usuarios:eliminar_usuario %}" method="post" onsubmit="if (!confirm('Seguro desea elimimar este usuario?')) return false">
         {% csrf_token %}
         <input name="nombre_usuario" type="hidden" value="{{object.username}}"/>

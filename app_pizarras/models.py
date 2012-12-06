@@ -43,7 +43,7 @@ class PersonalizarPizarra(models.Model):
     pizarra = models.ForeignKey(Pizarra, related_name='pizarra_personalizar_pizarra')
     posicion = models.IntegerField()
 
-def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario):
+def crear_pizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario):
     """
     Metodo que guarda una pizarra en la base de datos generando la id como el siguiente al mas alto
     In: nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
@@ -91,7 +91,6 @@ def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal):
         nuevapiz.fechafinal = fechafinal
         nuevapiz.save()
 
-
 def eliminar(idpiz):
     """
     Metodo que elimina una pizarra de la base de datos
@@ -102,7 +101,7 @@ def eliminar(idpiz):
     """
     elem = Pizarra.objects.filter(idpiz = idpiz)
 
-    elem.delete()
+    elem.update(is_active=False)
 
 def obtenerPizarra(idpiz):
     """
@@ -120,4 +119,19 @@ def obtenerPizarra(idpiz):
     pizarra['fechafinal'] = elem.fechafinal
     
     return pizarra
+
+def obtener_pizarras(usuario):
+    """
+    Metodo que obtiene las pizarras del usuario logueado
+    In: usuario
+    Out: lista
+    Autor: Juan Arocha
+    Fecha: 4-11-12 Version 1.0
+    """
+    pi = Pizarra.objects.filter(logindueno=usuario)
+    lista = []
+    for elem in pi:
+        lista.append(elem)
+    return lista
+
 
