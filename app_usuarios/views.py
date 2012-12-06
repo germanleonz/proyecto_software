@@ -110,18 +110,9 @@ def crear_usuario(request):
                 #     email = data['nuevo_correo'],
                 # )1
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
-                UserProfile.objects.crear_colaborador(data)
-
-                #Se obtiene al usuario que esta loggeado al momento de crear un nuevo usuario.
                 usuario = request.user
+                UserProfile.objects.crear_colaborador(data, usuario)
 
-                #Se registra en el log que "usuario" creo a un nuevo colaborador
-                fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-                Accion.objects.crearAccion(
-                    usuario, 
-                    "El usuario %s agrego a %s" % (usuario.username, nombre_usuario),
-                    fechaYHora,
-                    'i')  
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
@@ -191,19 +182,9 @@ def modificar_usuario(request):
             correo = data['correo']
             #   Datos del UserProfile   
             telefono = data['telefono']
-    
-            UserProfile.objects.modificar(nombre_usuario, nombre, apellido, telefono, correo)
-
-            #Se obtiene al usuario que realizo la modificacion
             usuario = request.user
-
-            #Se agrega en el log que "usuario" modifico a nombre_usuario
-            fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            Accion.objects.crearAccion(
-                usuario, 
-                "El usuario %s modifico la informacion de %s" % (usuario.username, nombre_usuario), 
-                fechaYHora,
-                 'i')
+        
+            UserProfile.objects.modificar(nombre_usuario, nombre, apellido, telefono, correo, usuario)
 
         else:
             #   Aqui se deben levantar los errores cuando los datos proporcionados no sean validos
@@ -266,23 +247,11 @@ def eliminar_usuario(request):
         #form = EliminarUsuarioForm(request.POST)
         nombre_usuario = request.POST['nombre_usuario']
         print "Eliminando a %s" % nombre_usuario
-        usuario = User.objects.filter(username=nombre_usuario)
-        #usuario.update(is_active = False)
-        usuario.delete()
+        usuarioNew = request.user
+        UserProfile.objects.eliminar(nombre_usuario, usuarioNew.username)
         print "Usuario eliminado"
 
-        #Se obtiene al usuario que realizo la eliminacion
-        usuarioNew = request.user
-        username = str(usuarioNew.username)
-        print usuarioNew
-        #Se agrega en el log que "usuario" elimino a nombre_usuario
 
-        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        Accion.objects.crearAccion(
-            usuarioNew, 
-            "El usuario %s elimino a %s" % (username, nombre_usuario), 
-            fechaYHora,
-                'i')
 
     lista = User.objects.all()
     puede_eliminar = request.user.has_perm('auth.delete_user')
@@ -312,16 +281,6 @@ def modificar_perfil(request):
     lista.append(usuario.last_name)
     lista.append(usuario.email)
     lista.append(perfil_usuario.telefono)
-
-    #Se agrega en el log que "usuario" edito su perfil
-
-    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    Accion.objects.crearAccion(
-        usuario, 
-        "El usuario %s modifico la informacion de su perfil" % (nombre_usuario),
-        fechaYHora, 
-        'i')
-
     return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario' : nombre_usuario, 'lista' : lista })
 
 def logout_view(request):
@@ -382,7 +341,8 @@ def registrar_visitante(request):
                 datos_perfil = {}
                 datos_perfil['telefono'] = data['nuevo_telefono']
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
-                UserProfile.objects.crear_colaborador(datos_perfil)
+                usuario = request.user
+                UserProfile.objects.crear_colaborador(datos_perfil, usuario)
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')

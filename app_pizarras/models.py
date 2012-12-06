@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models import Max
 from django.contrib.auth.models import User
 #from app_actividad.models import crearActividad
+from app_log.models import ManejadorAccion, Accion
+import datetime
 from datetime import date
 from django.core.exceptions import ValidationError
 
@@ -63,10 +65,20 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
         avancepiz=0,
         logindueno =  usuario)
     nuevo.save()
+
+    #Se registra en el log la creacion de la nueva pizarra
+    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    nombre_usuario = usuario.username            
+    Accion.objects.crearAccion(
+        usuario,
+        "El usuario %s creo la pizarra %s" % (nombre_usuario, str(nombrepiz)),
+        fechaYHora,
+        'i')
+
     #   Creamos la actividad que representa a la pizarra dentro de la pizarra   
     crearActividad(nombrepiz,descripcionpiz,fechacreacion, fechafinal, nuevo, usuario, None)
 
-def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal):
+def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal, usuario):
     """
     Metodo que modifica una pizarra de la base de datos
     In: idpiz, nombrepiz, descripcionpiz, fechafinal
@@ -92,6 +104,17 @@ def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal):
         nuevapiz.fechafinal = fechafinal
         nuevapiz.save()
 
+        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+        nombre_usuario = usuario.username
+
+        #Se registra en el log la creacion de la nueva pizarra
+        Accion.objects.crearAccion(
+            usuario,
+            "El usuario %s modifico la informacion de la pizarra %s" % (nombre_usuario, str(nombrepiz)), 
+            fechaYHora,
+            'i')   
+
+
 
 def eliminar(idpiz):
     """
@@ -101,9 +124,19 @@ def eliminar(idpiz):
     Autor: Juan Arocha
     Fecha: 27-10-12 Version 1.0
     """
-    elem = Pizarra.objects.filter(idpiz = idpiz)
+    elem = Pizarra.objects.get(idpiz = idpiz)
+    elem.is_active = False
+    elem.save()
+    usuario = User.objects.get(username=elem.logindueno)
 
-    elem.update(is_active = False)
+    #Se registra en el log la creacion de la nueva pizarra
+    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    Accion.objects.crearAccion(
+        usuario,
+        "El usuario %s elimino la pizarra %s" % (usuario.username, str(elem.nombrepiz)), 
+        fechaYHora,
+        'w')       
+    
 
 def obtenerPizarra(idpiz):
     """
@@ -121,4 +154,20 @@ def obtenerPizarra(idpiz):
     pizarra['fechafinal'] = elem.fechafinal
     
     return pizarra
+
+
+def obtener_pizarras(usuario):
+    """
+    Metodo que obtiene las pizarras del usuario logueado
+    In: usuario
+    Out: lista
+    Autor: Juan Arocha
+    Fecha: 4-11-12 Version 1.0
+    """
+    pi = Pizarra.objects.filter(logindueno=usuario, is_active=True)
+    lista = []
+    for elem in pi:
+        lista.append(elem)
+    return lista
+
 

@@ -3,7 +3,9 @@ from django.db.models import Max
 from app_pizarras.models import Pizarra
 from django.contrib.auth.models import User
 from app_pizarras.arbol import *
+from app_log.models import ManejadorAccion, Accion
 import re
+import datetime
 # Create your models here.
 
 class Actividad(models.Model):
@@ -46,17 +48,39 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
         actividad_padre= padre)
     a.save()
 
-def modificarActividad(idactividad, nombre, descript, fechaini, fechaent):
+    #Se registra en el log la creacion de la nueva actividad
+    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")          
+    Accion.objects.crearAccion(
+        creador,
+        "El usuario %s creo la actividad %s" % (creador.username, nombre), 
+        fechaYHora, 
+        'i')
+
+def modificarActividad(idactividad, nombre, descript, fechaini, fechaent, user):
     act = Actividad.objects.filter(idact = idactividad)
     act.update(nombreact=nombre,descripcionact=descript, fechainicial=fechaini, fechaentrega=fechaent)
+    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    Accion.objects.crearAccion(
+      user,
+      "El usuario %s modifico la informacion de la actividad %s" % (user.username, nombre), 
+      fechaYHora,
+      'i')
 
 def cambiarEstado(idactividad, newEstado):
     act = Actividad.objects.filter(idact = idactividad)
     act.update(estadoact=newEstado)
 
-def eliminarActividad(idactividad):
-    act = Actividad.objects.filter(idact = idactividad)
-    act.update(is_active = False)
+def eliminarActividad(idactividad, usuario):
+    act = Actividad.objects.get(idact = idactividad)
+    act.is_active = False
+    act.save()
+
+    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    Accion.objects.crearAccion(
+      usuario,
+      "El usuario %s elimino la actividad %s" % (usuario.username, act.nombreact), 
+      fechaYHora,
+      'i')
 
 def obtenerActividad(idpiz):
     actividad = {}

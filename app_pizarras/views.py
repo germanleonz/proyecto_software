@@ -8,7 +8,6 @@ from app_pizarras.forms import *
 from app_pizarras.arbol import *
 from app_actividad.models import colaboradores, obtener_actividades, orden_cronologico, orden_por_estados
 from app_actividad.models import generar_arbol
-from app_log.models import ManejadorAccion, Accion
 
 @csrf_exempt
 @login_required
@@ -31,16 +30,7 @@ def crear_pizarra(request):
             #Metodo que guarda la pizarra en la base de datos.
             CreadorPizarra(nombrepiz,descripcionpiz,fechaCreacion,fechaFinal,usuario)
 
-            #Se registra en el log la creacion de la nueva pizarra
-            fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            nombre_usuario = usuario.username            
-            Accion.objects.crearAccion(
-                usuario,
-                "El usuario %s creo la pizarra %s" % (nombre_usuario, str(nombrepiz)),
-                fechaYHora,
-                'i')
-
-            lista = obtener_pizarras(request)
+            lista = obtener_pizarras(usuario)
             return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
         else:
             print "NOO"
@@ -50,21 +40,6 @@ def crear_pizarra(request):
     form = CrearPizarraForm()
     return render(request, 'app_pizarras/crear_pizarra.html', { 'form': form, })
 
-@login_required
-def obtener_pizarras(request):
-    """
-    Metodo que obtiene las pizarras del usuario logueado
-    In: request
-    Out: --
-    Autor: Juan Arocha
-    Fecha: 4-11-12 Version 1.0
-    """
-    usuario = request.user
-    pi = Pizarra.objects.filter(logindueno=usuario)
-    lista = []
-    for elem in pi:
-        lista.append(elem)
-    return lista
 
 @login_required
 def listar_pizarra(request):
@@ -75,7 +50,8 @@ def listar_pizarra(request):
     Autor: Juan Arocha
     Fecha: 4-11-12 Version 1.0
     """
-    lista = obtener_pizarras(request)
+    usuario = request.user
+    lista = obtener_pizarras(usuario)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
         
 @login_required
@@ -87,27 +63,17 @@ def eliminar_pizarra(request):
     Autor: Juan Arocha
     Fecha: 4-11-12 Version 1.0
     """
+    usuario = request.user
     if request.method == 'POST':
         idpiz = request.POST['idpiz']
         pizarra = Pizarra.objects.get(idpiz=idpiz)
-        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        usuario = request.user
         nombre_usuario = usuario.username
         nombrepiz = pizarra.nombrepiz
-
-        #Se registra en el log la creacion de la nueva pizarra
-        Accion.objects.crearAccion(
-            usuario,
-            "El usuario %s elimino la pizarra %s" % (nombre_usuario, str(nombrepiz)), 
-            fechaYHora,
-            'i')        
+ 
         eliminar(idpiz)
-        lista = obtener_pizarras(request)
-        return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
-
     
     
-    lista = obtener_pizarras(request)
+    lista = obtener_pizarras(usuario)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
 @login_required
@@ -132,21 +98,10 @@ def modificar_pizarra(request):
                 descripcionpiz = data['descripcion']
                 fechaFinal = data['fecha_final']
                 #Metodo que guarda la pizarra en la base de datos.
-                modificar(idpiz,nombrepiz,descripcionpiz,fechaFinal)
-
-                fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
                 usuario = request.user
-                nombre_usuario = usuario.username
+                modificar(idpiz,nombrepiz,descripcionpiz,fechaFinal,usuario)
 
-                #Se registra en el log la creacion de la nueva pizarra
-                Accion.objects.crearAccion(
-                    usuario,
-                    "El usuario %s modifico la informacion de la pizarra %s" % (nombre_usuario, str(nombrepiz)), 
-                    fechaYHora,
-                    'i')        
-
-
-                lista = obtener_pizarras(request)
+                lista = obtener_pizarras(usuario)
                 return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
             else:
                 print "form no valido"
@@ -175,7 +130,8 @@ def generar_form_modificar(request):
         lista.append(request.POST['fechafinal'])
         return render(request, 'app_pizarras/modificar_pizarra.html', { 'idpiz' : idpiz, 'lista' : lista })
 
-    lista = obtener_pizarras(request)
+    usuario = request.user
+    lista = obtener_pizarras(usuario)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
 @login_required
