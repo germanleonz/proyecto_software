@@ -88,7 +88,7 @@ def eliminar_pizarra(request):
             fechaYHora,
             'i')        
         eliminar(idpiz)
-        lista = obtener_pizarras(request)
+        lista = obtener_pizarras(usuario)
         return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
     return listar_pizarra(request)
@@ -131,7 +131,7 @@ def modificar_pizarra(request):
                     'i')        
 
 
-                lista = obtener_pizarras(request)
+                lista = obtener_pizarras(request.user)
                 return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
             else:
                 print "form no valido"
@@ -160,7 +160,7 @@ def generar_form_modificar(request):
         lista.append(request.POST['fechafinal'])
         return render(request, 'app_pizarras/modificar_pizarra.html', { 'idpiz' : idpiz, 'lista' : lista })
 
-    lista = obtener_pizarras(request)
+    lista = obtener_pizarras(request.user)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
 @login_required
