@@ -6,32 +6,31 @@
 {% load url from future }
 {% block css %}
 <link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
- {% endblock css %}
+{% endblock css %}
 {% block cuerpo %}
 {% if form.errors %}
 <h1> No se pudo modificar la pizarra</h1>
 {% endif %}
-	<!-- LOGIN BOX -->
- 	<div id="loginBox" style="float: left; margin: 120px 300px 20px 300px;">                
-          <form action="{% url 'app_pizarras:modificar_pizarra' %}" id="loginForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta informacion?')) return false">
-            {% csrf_token %}
-			<fieldset id="body">
-                                <input type="hidden" name="idpiz" value="{{idpiz}}" />
-   				<fieldset>
-    				<label for="nombrepiz"> Nombre Pizarra</label>
-                                <input type="text" name="nombre" id="id_nombre" value="{{lista.0}}"/>
-				</fieldset>
-				<fieldset>
-				<label for="descripcion">Descripción Pizarra</label>
-                                <textarea class="input-large" rows= "5" type="text" name="descripcion" id="id_descripcion">{{lista.1}} </textarea>
-				</fieldset>
-				<fieldset>
-				<label for="fechafinal">Fecha de Finalización</label>
-                                <input type="text" name="fecha_final" id="id_fecha_final" value="{{ lista.2 }}"/>
-				</fieldset>
-         			<input type="submit" id="login" value="Editar Información" />
-			</fieldset>
-		</form>
-	</div>
-	
+<!-- LOGIN BOX -->
+<div id="loginBox" style="float: left; margin: 120px 300px 20px 300px;">                
+  <form action="{% url 'app_pizarras:modificar_pizarra' %}" id="loginForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta informacion?')) return false">
+    {% csrf_token %}
+    <fieldset id="body">
+      <input type="hidden" name="idpiz" value="{{idpiz}}" />
+      <fieldset>
+        <label for="nombrepiz"> Nombre Pizarra</label>
+        <input type="text" name="nombre" id="id_nombre" value="{{lista.0}}"/>
+      </fieldset>
+      <fieldset>
+        <label for="descripcion">Descripción Pizarra</label>
+        <textarea class="input-large" rows= "5" type="text" name="descripcion" id="id_descripcion">{{lista.1}} </textarea>
+      </fieldset>
+      <fieldset>
+        <label for="fechafinal">Fecha de Finalización</label>
+        <input type="text" name="fecha_final" id="id_fecha_final" value="{{ lista.2 }}"/>
+      </fieldset>
+      <input type="submit" id="login" value="Editar Información" />
+    </fieldset>
+  </form>
+</div>
 {% endblock %}

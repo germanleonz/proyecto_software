@@ -31,3 +31,10 @@ def buscarActividades(request):
     for i in range (0,5):
         nombres.append(("string"+str(i),"string"+str(i+1)))
     return simplejson.dumps({'nombres': nombres, })
+
+@dajaxice_register
+def modificarPizarraAjax(request):
+    """
+    Metodo para modificar los datos de una pizarra
+    """
+    return simplejson.dumps({'vista': nombres, })
