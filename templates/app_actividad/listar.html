@@ -31,7 +31,7 @@
             <input type="hidden" name="idact" value="{{object.idact}}"/>
           </form>
           {{object.nombreact}}
-          <form action="{% url app_actividad:eliminar_actividad %}" method="post" onsubmit="confirmacionBorrar()">
+          <form action="{% url app_actividad:eliminar_actividad %}" method="post" onsubmit="if (!confirm('Seguro desea eliminar esta actividad?') return false">
             {% csrf_token %}
             <input type="hidden" name="idact" value="{{object.idact}}"/>
             <input class="borrar" type="submit" value=""/>
@@ -56,11 +56,4 @@
   {% endif %}
   {% endfor %}
 </table>
-<script>
-  function confirmacionBorrar() {
-    var r=confirm("¿Está seguro de que desea eliminar esta actividad?");
-    if (!r)
-      window.location = "http://127.0.0.1:8000/actividad/listar_actividad/";
-    }
-  </script>
 {% endblock cuerpo %}

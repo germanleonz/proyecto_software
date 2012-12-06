@@ -32,6 +32,7 @@ def crear_pizarra(request):
 
             lista = obtener_pizarras(usuario)
             return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+
         else:
             print "NOO"
             return listar_pizarra(request)
@@ -39,7 +40,6 @@ def crear_pizarra(request):
     print "YAA"
     form = CrearPizarraForm()
     return render(request, 'app_pizarras/crear_pizarra.html', { 'form': form, })
-
 
 @login_required
 def listar_pizarra(request):
@@ -72,9 +72,9 @@ def eliminar_pizarra(request):
  
         eliminar(idpiz)
     
-    
     lista = obtener_pizarras(usuario)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+
 
 @login_required
 def modificar_pizarra(request):

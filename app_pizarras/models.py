@@ -155,7 +155,6 @@ def obtenerPizarra(idpiz):
     
     return pizarra
 
-
 def obtener_pizarras(usuario):
     """
     Metodo que obtiene las pizarras del usuario logueado
