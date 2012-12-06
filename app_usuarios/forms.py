@@ -105,12 +105,12 @@ class CrearUsuarioForm(forms.Form):
     Autor: German Leon
     Fecha: 8-11-12 Version 1.0
     """
-    nuevo_nombre_usuario = forms.CharField(label="Introduzca un nombre de usuario",max_length=30, validators=[validate_unico,validate_user])	
-    nueva_password = forms.CharField(label="Introduzca una contrasena", widget=forms.PasswordInput, max_length=15,validators=[validate_password])
-    nuevo_correo = forms.EmailField(label="Introduzca una direccion de correo electronico", max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})
-    nuevo_nombre = forms.CharField(label="Introduzca un nombre", max_length=80,validators=[validate_nombre])
-    nuevo_apellido = forms.CharField(label="Introduzca un apellido", max_length=20,validators=[validate_apellido])
-    nuevo_telefono = forms.CharField(label="Introduzca un numero de telefono", max_length=15,validators=[validate_telefono])
+    nuevo_nombre_usuario = forms.CharField(label="Nombre de usuario",max_length=30, validators=[validate_unico,validate_user])	
+    nueva_password = forms.CharField(label="Contrasena", widget=forms.PasswordInput, max_length=15,validators=[validate_password])
+    nuevo_correo = forms.EmailField(label="Direccion de correo electronico", max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})
+    nuevo_nombre = forms.CharField(label="Nombre", max_length=80,validators=[validate_nombre])
+    nuevo_apellido = forms.CharField(label="Apellido", max_length=20,validators=[validate_apellido])
+    nuevo_telefono = forms.CharField(label="Numero de telefono", max_length=15,validators=[validate_telefono])
 
 class ModificarUsuarioForm(forms.Form):
     """
