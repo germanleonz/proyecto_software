@@ -23,12 +23,12 @@ class ManejadorUsuario(UserManager):
         u.last_name = data['nuevo_apellido']
         u.save()
 
-        up = UserProfile.objects.create(user=u, telefono= data["telefono"])
+        up = UserProfile.objects.create(user=u, telefono= data["nuevo_telefono"])
         #   Agregamos el usuario recien creado al grupo de los colaboradores
         u.groups.add(Group.objects.get(name="Colaboradores"))
-        return true
+        return up
 
-    def crear_administador(self, usuario, datos):
+    def crear_administrador(self, datos):
         """
         Metodo para crear un Administrador
         In: self, usuario, datos
@@ -38,9 +38,9 @@ class ManejadorUsuario(UserManager):
         """
         #   Creamos un usuario como en crear_colaborador pero con privilegios de administador
         print "Asignandole privilegios de administrador al usuario recien creado ..."
-        crear_colaborador(self, usuario, datos)
+        up = self.crear_colaborador(datos)
         #   Agregamos al usuario recien creado al grupo de administradores
-        usuario.groups.add(Group.objects.get(name="Administradores"))
+        up.user.groups.add(Group.objects.get(name="Administradores"))
 
     def modificar(self, nombre_usuario, nombre, apellido, telefono, correo):
         """

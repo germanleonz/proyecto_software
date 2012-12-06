@@ -20,6 +20,7 @@ class Pizarra(models.Model):
     fechafinal = models.DateField(auto_now=False, auto_now_add=False)
     avancepiz = models.IntegerField()
     logindueno = models.ForeignKey(User, related_name='pizarra_dueno')
+    is_active = models.BooleanField(default = True)
 
     def save(self, *args, **kwargs):
         if self.fechacreacion < date.today():
@@ -43,7 +44,7 @@ class PersonalizarPizarra(models.Model):
     pizarra = models.ForeignKey(Pizarra, related_name='pizarra_personalizar_pizarra')
     posicion = models.IntegerField()
 
-def crear_pizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario):
+def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario):
     """
     Metodo que guarda una pizarra en la base de datos generando la id como el siguiente al mas alto
     In: nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
@@ -101,7 +102,7 @@ def eliminar(idpiz):
     """
     elem = Pizarra.objects.filter(idpiz = idpiz)
 
-    elem.update(is_active=False)
+    elem.update(is_active = False)
 
 def obtenerPizarra(idpiz):
     """
