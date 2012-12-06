@@ -133,9 +133,9 @@ def eliminar(idpiz):
     
     act = Actividad.objects.filter(idpizactividad = idpiz, is_active = True)
     lista = []
-    for elem in act:
-    	elem.is_active = False
-	elem.save()
+    for elemAct in act:
+    	elemAct.is_active = False
+	elemAct.save()
 
     #Se registra en el log la creacion de la nueva pizarra
     fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
