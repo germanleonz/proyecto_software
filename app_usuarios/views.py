@@ -99,22 +99,12 @@ def crear_usuario(request):
             if not User.objects.filter(username__exact = nombre_usuario):
                 up = None
                 if data["nuevo_administrador"] == True:
-                    up = UserProfile.objects.crear_administrador(data)
+                    up = UserProfile.objects.crear_administrador(request.user,data)
                 else:
-                    up = UserProfile.objects.crear_colaborador(data)
+                    up = UserProfile.objects.crear_colaborador(data, request.user)
                 #   Si el usuario no existe lo agregamos   
                 print "Agregando usuario %s" % nombre_usuario
 
-                #Se obtiene al usuario que esta loggeado al momento de crear un nuevo usuario.
-                usuario = request.user
-
-                #Se registra en el log que "usuario" creo a un nuevo colaborador
-                fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-                Accion.objects.crearAccion(
-                    usuario, 
-                    "El usuario %s agrego a %s" % (usuario.username, nombre_usuario),
-                    fechaYHora,
-                    'i')  
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
@@ -170,19 +160,9 @@ def modificar_usuario(request):
             correo = data['correo']
             #   Datos del UserProfile   
             telefono = data['telefono']
-    
-            UserProfile.objects.modificar(nombre_usuario, nombre, apellido, telefono, correo)
-
-            #Se obtiene al usuario que realizo la modificacion
             usuario = request.user
-
-            #Se agrega en el log que "usuario" modifico a nombre_usuario
-            fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            Accion.objects.crearAccion(
-                usuario, 
-                "El usuario %s modifico la informacion de %s" % (usuario.username, nombre_usuario), 
-                fechaYHora,
-                 'i')
+        
+            UserProfile.objects.modificar(nombre_usuario, nombre, apellido, telefono, correo, usuario)
 
         else:
             #   Aqui se deben levantar los errores cuando los datos proporcionados no sean validos
@@ -241,14 +221,6 @@ def eliminar_usuario(request):
         usuarioNew = request.user
         username = str(usuarioNew.username)
 
-        #Se agrega en el log que "usuario" elimino a nombre_usuario
-
-        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        Accion.objects.crearAccion(
-            usuarioNew, 
-            "El usuario %s elimino a %s" % (username, nombre_usuario), 
-            fechaYHora,
-                'i')
     return listar_usuarios(request)
 
 @login_required
@@ -268,16 +240,6 @@ def modificar_perfil(request):
     lista.append(usuario.last_name)
     lista.append(usuario.email)
     lista.append(perfil_usuario.telefono)
-
-    #Se agrega en el log que "usuario" edito su perfil
-
-    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    Accion.objects.crearAccion(
-        usuario, 
-        "El usuario %s modifico la informacion de su perfil" % (nombre_usuario),
-        fechaYHora, 
-        'i')
-
     return render(request, 'app_usuarios/modificar_usuario.html', { 'nombre_usuario' : nombre_usuario, 'lista' : lista })
 
 def logout_view(request):
@@ -325,7 +287,7 @@ def registrar_visitante(request):
                 #   Si el usuario no existe lo agregamos   
                 print "Agregando usuario %s" % nombre_usuario
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
-                UserProfile.objects.crear_colaborador(data)
+                UserProfile.objects.crear_colaborador(data, request.user)
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')

@@ -1,4 +1,3 @@
-import datetime
 from django.shortcuts import render
 from app_usuarios.models import UserProfile
 from app_pizarras.forms import CrearPizarraForm
@@ -6,7 +5,7 @@ from app_pizarras.models import *
 from app_actividad.forms import *
 from app_actividad.models import *
 from app_comentarios.models import *
-from app_log.models import ManejadorAccion
+from app_log.models import ManejadorAccion, Accion
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.template import RequestContext
@@ -39,15 +38,6 @@ def crear_actividad(request):
       print act.nombreact
       
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, act)
-
-      #Se registra en el log la creacion de la nueva actividad
-      fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
-      nombre_usuario = user.username            
-      Accion.objects.crearAccion(
-        user,
-        "El usuario %s creo la actividad %s" % (nombre_usuario, nombreact), 
-        fechaYHora, 
-        'i')
 
       lista = obtener_actividades(request.POST['idpiz'])
       colab = colaboradores(request.POST['idpiz'])
@@ -114,19 +104,9 @@ def eliminar_actividad(request):
         idact = request.POST['idact']
         idpiz = request.POST['idpiz']
         piz = Pizarra.objects.get(idpiz = idpiz)
-        act = Actividad.objects.get(idact = idact)
-
-        fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
-        user = request.user
-        nombre_usuario = user.username            
-        
-        eliminarActividad(idact)
-        
-        Accion.objects.crearAccion(
-          user,
-          "El usuario %s elimino la actividad %s" % (nombre_usuario, act.nombreact), 
-          fechaYHora,
-          'i')
+        act = Actividad.objects.get(idact = idact)     
+        usuario = request.user
+        eliminarActividad(idact, usuario)
 
         colab = colaboradores(idpiz)
         lista = obtener_actividades(idpiz)
@@ -178,44 +158,31 @@ def modificar_actividad(request):
     if request.POST.__contains__('idact'):
       form = ModificarActividadForm(request.POST)
       if form.is_valid():
-    	data = form.cleaned_data
-    	#Variables que se pasaran al metodo CreadorPizarra
-    	for elem in data:
-    	  print elem
+      	data = form.cleaned_data
+      	#Variables que se pasaran al metodo CreadorPizarra
+      	for elem in data:
+      	  print elem
 
-    	idact = request.POST['idact']
-    	nombreact = data['nombreact']
-    	descripcionact = data['descripcionact']
-    	fechaInicial = data['fechainicial']
-    	fechaEntrega = data['fechaentrega']
-    	act = Actividad.objects.get(idact = idact)
-    	
-        #Metodo que guarda la pizarra en la base de datos.
-        #Se registra en el log la creacion de la nueva pizarra
-        user = request.user
-        fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
-        nombre_usuario = user.username            
-
-        modificarActividad(idact,nombreact,descripcionact,fechaInicial,fechaEntrega)
-    	act = Actividad.objects.get(idact = idact)
-
-        Accion.objects.crearAccion(
-          user,
-          "El usuario %s modifico la informacion de la actividad %s" % (user.username, nombreact), 
-          fechaYHora,
-          'i')
- 
-    	lista = obtener_comentarios(idact)
-    	
+      	idact = request.POST['idact']
+      	nombreact = data['nombreact']
+      	descripcionact = data['descripcionact']
+      	fechaInicial = data['fechainicial']
+      	fechaEntrega = data['fechaentrega']
+      	act = Actividad.objects.get(idact = idact)
+      	user = request.user
+        modificarActividad(idact,nombreact,descripcionact,fechaInicial,fechaEntrega, user)
+        act = Actividad.objects.get(idact = idact)
+        lista = obtener_comentarios(idact)
         return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, 'actividad': act})
+      
       else:
-    	print "form no valido"
-    	idact = request.POST['idact']
-    	lista = []
-    	lista.append(request.POST['nombreact'])
-    	lista.append(request.POST['descripcionact'])
-    	lista.append(request.POST['fechainicial'])
-    	lista.append(request.POST['fechaentrega'])
+      	print "form no valido"
+      	idact = request.POST['idact']
+      	lista = []
+      	lista.append(request.POST['nombreact'])
+      	lista.append(request.POST['descripcionact'])
+      	lista.append(request.POST['fechainicial'])
+      	lista.append(request.POST['fechaentrega'])
 	return render(request, 'app_actividad/modificar_actividad.html', { 'form': form, 'idact' : idact, 'lista' : lista })
 	
 @csrf_exempt	
@@ -287,12 +254,6 @@ def invitar_usuario(request):
             tel = '000'
             usuario = UserProfile.objects.create(user= nuevo, telefono=tel)
 
-                  #Se registra en el log la invitacion del nuevo usuario
-            fechaYHora = datetime.now().strftime("%Y-%m-%d %H:%M")
-            user = request.user
-            act = Actividad.objects.get(idact = id_actividad)
-            nombreActividad = act.nombreact
-            Accion.objects.crearAccion(user,"El usuario %s invito a %s a unirse a la actividad %s" % (user.username, nombre_usuario, nombreActividad), fechaYHora,'i')
             
             editarAsignado(id_actividad,nuevo)
             editarJefe(id_actividad,request.user)
