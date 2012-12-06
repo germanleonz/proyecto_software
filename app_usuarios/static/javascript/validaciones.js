@@ -178,6 +178,29 @@ function validarUsuario(){
       return valido;
 }
 
+function validarModificacion(){
+  var correo = $("#id_correo"),
+      nombre = $("#id_nombre"),
+      apellido = $("#id_apellido"),
+      telefono = $("#id_telefono"),
+      div = "#errores_modificar_usuario",
+      formatoNombres = /^[A-Za-z0-9\?\¿\!\¡\:\,\.\-\ç\ñáéíóú\(\)\"\'\äëïöüàèìòù\s]*$/,
+      formatoCorreo = /^[a-zA-Z0-9]+[@]?[a-zA-Z]+\.([a-z]{2-4})$/,
+      formatoTelefono = /^[0-9]+[-]?[0-9]+$/,
+      valido = true;
+
+      valido = valido && checkLength(correo,"Correo", 1, 30, div);
+      valido = valido && checkLength(nombre,"Nombre", 1, 30, div);
+      valido = valido && checkLength(apellido,"Apellido", 1, 30, div);
+      valido = valido && checkLength(telefono,"Telefono", 1, 30, div);
+      //valido = valido && checkRegex(correo,"Correo",formatoCorreo, div);
+      valido = valido && checkRegex(nombre,"Nombre",formatoNombres, div);
+      valido = valido && checkRegex(telefono,"Telefono",formatoTelefono, div);
+      valido = valido && checkRegex(apellido,"Apellido",formatoNombres, div);
+
+      return valido;
+}
+
 function validarContrasenas() {
     var contrasena1 = $("#id_contrasena1"),
     contrasena2 = $("#id_contrasena2"),

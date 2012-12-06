@@ -53,9 +53,7 @@ def login_usuario(request):
                     #   Redirigir a pagina de login correcto (ver pared)
                     print "Acceso permitido para %s" % nombre_usuario
                     login(request, usuario)
-                    return app_pizarras.listar_pizarras(request)
-                    #lista = app_pizarras.views.obtener_pizarras(request)
-                    #return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+                    return app_pizarras.views.listar_pizarra(request)
                 else:
                     #   Devolver un mensaje de cuenta deshabilitada
                     print "La cuenta del usuario esta deshabilitada"
