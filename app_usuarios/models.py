@@ -8,7 +8,7 @@ class ManejadorUsuario(UserManager):
     def crear_colaborador(self, data):
         """
         Crea un colaborador con los datos proporcionados
-        In: self, usuario, datos
+        In: self, datos
         Out: --
         Autor: German Leon
         Fecha: 4-11-12 Version 1.0
@@ -26,8 +26,9 @@ class ManejadorUsuario(UserManager):
         up = UserProfile.objects.create(user=u, telefono= data["nuevo_telefono"])
         #   Agregamos el usuario recien creado al grupo de los colaboradores
         u.groups.add(Group.objects.get(name="Colaboradores"))
+        return up
 
-    def crear_administador(self, usuario, datos):
+    def crear_administrador(self, datos):
         """
         Metodo para crear un Administrador
         In: self, usuario, datos
@@ -37,9 +38,9 @@ class ManejadorUsuario(UserManager):
         """
         #   Creamos un usuario como en crear_colaborador pero con privilegios de administador
         print "Asignandole privilegios de administrador al usuario recien creado ..."
-        crear_colaborador(self, datos)
+        up = self.crear_colaborador(datos)
         #   Agregamos al usuario recien creado al grupo de administradores
-        usuario.groups.add(Group.objects.get(name="Administradores"))
+        up.user.groups.add(Group.objects.get(name="Administradores"))
 
     def modificar(self, nombre_usuario, nombre, apellido, telefono, correo):
         """
@@ -80,7 +81,8 @@ class UserProfile(models.Model):
     """
     #   Campo obligatorio para poder extender
     user = models.OneToOneField(User)
-    #   Campos adicionales
+
+    #   Campos adicionales del perfil del Usuario
     telefono = models.CharField(max_length=15)
 
     #   El Manager de UserProfile sera el ManejadorUsuario que definimos

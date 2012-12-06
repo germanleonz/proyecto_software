@@ -92,7 +92,6 @@ def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal):
         nuevapiz.fechafinal = fechafinal
         nuevapiz.save()
 
-
 def eliminar(idpiz):
     """
     Metodo que elimina una pizarra de la base de datos
@@ -121,4 +120,19 @@ def obtenerPizarra(idpiz):
     pizarra['fechafinal'] = elem.fechafinal
     
     return pizarra
+
+def obtener_pizarras(usuario):
+    """
+    Metodo que obtiene las pizarras del usuario logueado
+    In: usuario
+    Out: lista
+    Autor: Juan Arocha
+    Fecha: 4-11-12 Version 1.0
+    """
+    pi = Pizarra.objects.filter(logindueno=usuario)
+    lista = []
+    for elem in pi:
+        lista.append(elem)
+    return lista
+
 
