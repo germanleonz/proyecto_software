@@ -153,31 +153,3 @@ function visualizarActividad(data){
 function my_js_callbackContrasena(data){
   $("#dialogCambiarContrasena").html(data.vista);
 }
-
-function dibujarGrafo(Lados){
-  window.jsPlumbDemo = {
-    init : function() {
-      jsPlumb.importDefaults({
-      Connector : [ "Bezier", { curviness:50 } ],
-      DragOptions : { cursor: "pointer", zIndex:2000 },
-      PaintStyle : { strokeStyle:color, lineWidth:2 },
-      EndpointStyle : { radius:0, fillStyle:color },
-      HoverPaintStyle : {strokeStyle:"#ec9f2e" },
-      EndpointHoverStyle : {fillStyle:"#ec9f2e" },
-      Anchors :  [ "BottomCenter", "TopCenter" ]
-      });
-      var arrowCommon = { 
-        foldback:0.7, fillStyle:color, width:14},
-          overlays = [];
-
-      var i;
-      for (i=0; i<Lados.length; ++i){
-        jsPlumb.connect({
-          source:Lados[i][0], 
-          target:Lados[i][1], overlays:overlays, detachable:false, reattach:true});
-      }
-      jsPlumb.draggable(jsPlumb.getSelector(".window"));
-
-    }
-  }
-}

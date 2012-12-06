@@ -7,6 +7,10 @@
 {% endblock css %}
 {% block javascript %}
 <script>
+  $(document).ready(function(){
+    dialog();
+    barraUsuario();
+  });
   $(function(){
     $( "#arbol" ).tabs();
   })

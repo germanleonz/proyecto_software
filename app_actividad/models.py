@@ -134,6 +134,9 @@ def colaboradores(idpiz):
     return colaboradores
 
 def obtener_actividades(idpiz):
+    """
+    Metodo que obtiene todas las actividades de una pizarra
+    """
     act = Actividad.objects.filter(idpizactividad = idpiz)
     lista = []
     for elem in act:
@@ -141,15 +144,85 @@ def obtener_actividades(idpiz):
     return lista
     
 def obtener_subactividades(idact):
+    """
+    Metodo que obtiene las subactividades de una actividad
+    """
     act = Actividad.objects.filter(actividad_padre=idact)
     lista = []
     for elem in act:
         lista.append(elem)
     return lista    
 
+def obtener_misActividades(idpiz, usuario):
+    """
+    Metodo que obtiene las actividades de un usuario
+    """
+    act = Actividad.objects.filter(idpizactividad = idpiz, loginjefe = usuario)
+    #lista que se retorna
+    lista = []
+    for elem in act:
+        lista.append(elem)
+
+    #reviso la lista para ver la contencion entre actividades, si alguna pertenece a la rama de otra, se agrega a la lista de eliminados
+    eliminados = []
+    for elem in lista:
+        for obj in lista:
+            if (obj != elem):
+                hijo = esHijo(obj,elem)
+                if (hijo != None):
+                    if hijo not in eliminados:
+                        eliminados.append(hijo)
+
+    #Se eliminan los objetos en eliminados de lista
+    for elem in eliminados:
+        lista.remove(elem)
+    return lista
 
 
+def esHijo(act1,act2):
+    """
+    Metodo que determina si hijo es subactividad de padre
+    """
+    if (act1 == None) or (act2 == None):
+        return None
+
+    if (act1 == act2):
+        return None
+
+    if (act1.actividad_padre == act2):
+        return act1
+    elif (act2.actividad_padre == act1):
+        return act2
+    else:
+        salida = esHijo(act1.actividad_padre, act2)
+        if (salida != None):
+            if (salida == act1.actividad_padre):
+                return act1
+            else:
+                return act2
+
+        salida = esHijo(act2.actividad_padre, act1)
+        if (salida != None):
+            if (salida == act2.actividad_padre):
+                return act2
+            else:
+                return act1
+
+
+def obtener_hijos(actividad):
+    """
+    Metodo que obtiene los hijos inmediatos de una actividad
+    """
+    hijos = Actividad.objects.filter(actividad_padre = actividad)
+    lista = []
+    for elem in hijos:
+        lista.append(elem)
+
+    return lista
 def orden_cronologico(idpiz, loginasignado):
+    """
+    Metodo que ordena cronologicamente actividades de un usuario
+    """
     #obtengo las actividades de un determinado usuario
     act = Actividad.objects.filter(idpizactividad=idpiz, loginasignado=loginasignado).order_by('-fechaentrega')
     lista = []
@@ -165,6 +238,9 @@ def orden_cronologico(idpiz, loginasignado):
 
 
 def orden_por_estados(idpiz, loginasignado):
+    """
+    Metodo que ordena por estados las actividades de un usuario
+    """
     #obtengo las actividades de un determinado usuario
     act = Actividad.objects.filter(idpizactividad=idpiz, loginasignado=loginasignado).order_by('-estadoact')
     lista = []
