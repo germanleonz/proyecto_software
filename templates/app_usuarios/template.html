@@ -97,15 +97,7 @@
             <a  href="{% url app_log:visualizar_log_user %}"> Visualizar Log</a>
           </div>
           <div class="opcionVer"><a href="{% url app_pizarras:listar_pizarra %}">Mis pizarras</a></div>
-          <div class="opcionVer">
-            <form action="{% url app_usuarios:modificar_perfil %}" method="post">
-              {% csrf_token %}
-              <input type="hidden" name="nombre" value={{user.first_name}}/>
-              <input type="hidden" name="apellido" value={{user.last_name}}/>
-              <input type="hidden" name="correo" value={{user.email}}/>
-              <input class="submits" type="submit" value="Editar Perfil">
-            </form>
-          </div>
+          <div class="opcionVer"><a id="editarPerfil" onclick="Dajaxice.app_usuarios.editarPerfilAjax(my_js_callbackPerfil);" href="#">Editar Perfil</a></div>
           <div class="opcionVer"><a id="cambiarContrasena" onclick="Dajaxice.app_usuarios.cambiarContrasenaAjax(my_js_callbackContrasena);" href="#">Cambiar Contrasena</a></div>
           <div class="opcionVer"><a href="{% url app_usuarios:logout_view %}">Cerrar Sesion</a></div>
         </div>
@@ -113,6 +105,11 @@
         {%block dialogs %}
         <div id="formPizarra" style="display:none;"></div>
         <div id="dialogCambiarContrasena" style="display:none;"></div>
+        <div id="dialogModificarUsuario" style="display:none;"></div>
+        <div id="dialogEditarPerfil" style="display:none;"></div>
+        <div id="dialogModificarPizarra" style="display:none;"></div>
+        <div id="dialogModificarActividad" style="display:none;"></div>
+        <div id="dialogCrearUsuario"></div>
         {%endblock dialogs%}
         {% block cuerpo %}
         {% endblock cuerpo %}

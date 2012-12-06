@@ -138,6 +138,7 @@ def listar_usuarios(request):
         'lista' : lista
     }, )
 
+@csrf_exempt
 @login_required
 @permission_required('auth.can_change_user')
 def modificar_usuario(request):
