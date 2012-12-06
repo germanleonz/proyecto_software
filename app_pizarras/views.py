@@ -8,7 +8,7 @@ from app_pizarras.forms import *
 from app_pizarras.arbol import *
 from app_actividad.models import colaboradores, obtener_actividades, orden_cronologico, orden_por_estados
 from app_actividad.models import generar_arbol
-from app_log.models import crearAccion
+from app_log.models import ManejadorAccion, Accion
 
 @csrf_exempt
 @login_required
@@ -33,8 +33,12 @@ def crear_pizarra(request):
 
             #Se registra en el log la creacion de la nueva pizarra
             fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            nombre_usuario = usuario.username
-            crearAccion(usuario,"El usuario %s creo la pizarra %s en la fecha %s" % (nombre_usuario, str(nombrepiz), str(fechaYHora)), fechaYHora)
+            nombre_usuario = usuario.username            
+            Accion.objects.crearAccion(
+                usuario,
+                "El usuario %s creo la pizarra %s" % (nombre_usuario, str(nombrepiz)),
+                fechaYHora,
+                'i')
 
             lista = obtener_pizarras(request)
             return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
@@ -92,11 +96,17 @@ def eliminar_pizarra(request):
         nombrepiz = pizarra.nombrepiz
 
         #Se registra en el log la creacion de la nueva pizarra
-        crearAccion(usuario,"El usuario %s elimino la pizarra %s en la fecha %s" % (nombre_usuario, str(nombrepiz), str(fechaYHora)), fechaYHora)        
+        Accion.objects.crearAccion(
+            usuario,
+            "El usuario %s elimino la pizarra %s" % (nombre_usuario, str(nombrepiz)), 
+            fechaYHora,
+            'i')        
         eliminar(idpiz)
         lista = obtener_pizarras(request)
         return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
+    
+    
     lista = obtener_pizarras(request)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
@@ -129,7 +139,11 @@ def modificar_pizarra(request):
                 nombre_usuario = usuario.username
 
                 #Se registra en el log la creacion de la nueva pizarra
-                crearAccion(usuario,"El usuario %s modifico la informacion de la pizarra %s en la fecha %s" % (nombre_usuario, str(nombrepiz), str(fechaYHora)), fechaYHora)        
+                Accion.objects.crearAccion(
+                    usuario,
+                    "El usuario %s modifico la informacion de la pizarra %s" % (nombre_usuario, str(nombrepiz)), 
+                    fechaYHora,
+                    'i')        
 
 
                 lista = obtener_pizarras(request)
