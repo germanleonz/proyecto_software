@@ -8,6 +8,7 @@ from app_actividad.models import Actividad
 from app_comentarios.models import Comentario, CreadorComentario, eliminar, obtener_comentarios
 from app_comentarios.forms import CrearComentarioForm
 from app_log.models import ManejadorAccion, Accion
+from app_actividad.views import visualizar_actividad
 
 # Create your views here.
 
@@ -20,12 +21,12 @@ def crear_comentario(request):
   """
   if request.method =='POST':
     form = CrearComentarioForm(request.POST)
+    idact = request.POST['idact']
+    act = Actividad.objects.get(idact = idact)
     if form.is_valid():
       data = form.cleaned_data
       
       contenido = data['contenido']
-      idact = request.POST['idact']
-      act = Actividad.objects.get(idact = idact)
       hora = datetime.datetime.time(datetime.datetime.now())
       fecha = date.today()
       usuario = request.user
@@ -34,11 +35,11 @@ def crear_comentario(request):
 
       print idact
       lista = obtener_comentarios(idact)
-      return render (request,'app_actividad/vistaActividad.html',{'lista' : lista, 'actividad': act,})
+      return visualizar_actividad(request)
     else:
-      return render (request,'app_actividad/vistaActividad.html',{'form': form, 'actividad': act,})
+      return visualizar_actividad(request)
   form = CrearComentarioForm()
-  return render(request, 'app_actividad/vistaActividad.html', { 'form': form, })
+  return visualizar_actividad(request)
 
 
 @login_required

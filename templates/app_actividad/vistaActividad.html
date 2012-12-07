@@ -166,7 +166,7 @@ $(function(){
   </div>
   <div id="subactividades">
     {% for elem in listasub %}
-      <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizar_actividad" method="post">
+      <form action="{% url 'app_actividad:visualizar_actividad' %}" style=" display: inline-block;" id="visualizar_actividad" method="post">
         {% csrf_token %}
         <input type="hidden" name="idact" value="{{elem.idact}}" />
           <button class="subact" type="submit"
@@ -181,7 +181,9 @@ $(function(){
                   {% elif elem.estadoact == "s"
                     background: #FFFFFF;
                   {% endif %}">
-            {{elem.nombreact}}
+            {{elem.nombreact}}<br>
+            {{elem.loginasignado}}<br>
+            {{elem.avanceact}} %
           </button>
       </form>
     {% endfor %}
