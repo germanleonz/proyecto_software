@@ -296,6 +296,8 @@ def invitar_usuario(request):
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
             editarAsignado(id_actividad, usuario, request.user)
             editarJefe(id_actividad, request.user)
+            if usuario.is_active == False:
+	      usuario.is_active = True
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
         
 

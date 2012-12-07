@@ -192,7 +192,7 @@ def colaboradores(idpiz):
     Metodo que retorna los colaboradores de una pizarra
     """
     colaboradores= []
-    act= Actividad.objects.filter(idpizactividad= idpiz).distinct('loginasignado')
+    act= Actividad.objects.filter(idpizactividad= idpiz, is_active = True).distinct('loginasignado')
     for elem in act:   
         persona = elem.loginasignado
         usuario = User.objects.get(username= persona)
