@@ -15,8 +15,8 @@ class CrearActividadForm(forms.Form):
 class ModificarActividadForm(forms.Form):
     nombreact = forms.CharField(max_length=50)
     descripcionact = forms.CharField(max_length=100)
-    fechainicial = forms.DateField()
-    fechaentrega = forms.DateField()
+    fechai_inicio = forms.DateField()
+    fecha_final = forms.DateField()
     
 class CambiarEstadoForm(forms.Form):
     estadoact = forms.CharField(max_length=15)
