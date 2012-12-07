@@ -69,7 +69,53 @@ class Node(object):
             siguiente = Node(lista[i])
             actual.add_child(siguiente)
             actual = siguiente           
+    
+    def generate_stateOrder(self):
+        """
+        Metodo que genera el arbol por estados 
+        """
+        pila = []
+        pila.append(self)
+        while (len(pila)>0):
+            actual = pila.pop()
+            hijos = app_actividad.models.obtener_hijos(actual.data)
+            for elem in hijos:
+                nuevo = Node(elem)
 
+                if self.children == []:
+                    self.add_child(nuevo)
+                else:
+                    seteado = False
+                    for obj in self.children:
+                        if nuevo.data.estadoact == obj.data.estadoact:
+                            obj.setLastChild(nuevo)
+                            seteado = True
+                            break
+                    if seteado == False:
+                        self.add_child(nuevo)
+
+                pila.append(nuevo)
+
+    def setLastChild(self,objeto):
+        """
+        Metodo que setea a objeto como ultimo hijo de una rama lineal
+        """
+        if self.children == []:
+            self.add_child(objeto)
+        else:
+            self.children[0].setLastChild(objeto)
+
+    def generate_advanceOrder(self, idpiz, loginasignado):
+        """
+        Metodo que genera el arbol por avance
+        """
+        lista = app_actividad.models.orden_porAvance(idpiz,loginasignado)
+        self.data = lista[0]
+        actual = self
+        for i in range(1,len(lista)):
+            siguiente = Node(lista[i])
+            actual.add_child(siguiente)
+            actual = siguiente           
             
     def generate_json(self):
         """
@@ -78,7 +124,7 @@ class Node(object):
 
         string = '"id": "'+str(self.data.idact)+'",'
         string += '"name": "'+self.data.nombreact+' '
-        string += self.data.loginjefe.username+' '
+        string += self.data.loginasignado.username+' '
         string += str(self.data.avanceact)+'",'
         string += '"data": { "$color" : '
         if (self.data.estadoact == 'c'):

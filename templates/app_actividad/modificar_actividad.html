@@ -1,19 +1,8 @@
-{% extends 'app_usuarios/template.html' %}
-{% load url from future %}
-{% load staticfiles %}
-{% load tags_pizarra %}
-{% block titulo %}Editar Información de una Actividad{% endblock %}
-{% block css %}
-<link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
-<link href="{% static "css/modificar_usuario_style.css" %}" rel="stylesheet" type="text/css"/>
-{% endblock %}
-{% block cuerpo %}
-{% if form.errors %}
-<h1> No se pudo modificar la actividad</h1>
-{% endif %}
-      <!-- LOGIN BOX -->
-    <div id="loginBox">
-      <form action="{% url 'app_actividad:modificar_actividad' %}" id="loginForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta actividad?')) return false">
+<script>
+  calendarios()
+</script>
+
+<form action="{% url app_actividad:modificar_actividad %}" id="modificarActividad" method="post" onsubmit="if(!confirm('Seguro desea modificar esta actividad?')) return false">
 	{% csrf_token %}
 	    <fieldset id="body">
 		<input type="hidden" name="idact" value="{{idact}}" />
@@ -27,15 +16,13 @@
 		</fieldset>
 		<fieldset>
 		  <label for="fechainicial">Fecha de Inicial</label>
-		  <input type="text" name="fechainicial" id="id_fecha_inicial" value="{{ lista.2 }}"/>
+		  <input type="text" name="fechainicial" id="id_fecha_inicio" value="{{ lista.2 }}"/>
 		</fieldset>
 		<fieldset>
 		  <label for="fechaentrega">Fecha de Entrega</label>
-		  <input type="text" name="fechaentrega" id="id_fecha_entrega" value="{{ lista.3 }}"/>
+		  <input type="text" name="fechaentrega" id="id_fecha_final" value="{{ lista.3 }}"/>
 		</fieldset>
 		<input type="submit" id="login" value="Editar Información" />
 	    </fieldset>
 	    </form>
     </div>
-      
-{% endblock %}

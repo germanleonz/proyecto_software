@@ -33,6 +33,10 @@
       $(document).ready(function(){
         dialog();
         barraUsuario();
+        $("#vistasDropDown").hide();
+        $("#vistas").click(function(){
+          $("#vistasDropDown").toggle();
+        });
       });
     </script>
     {% endblock javascript %}
@@ -67,9 +71,13 @@
           {% block botones %}{% endblock botones %}
         </div>
         <div id="opcionesUsuario">
+        {% for group in user.groups.all %}
+          {% if group.name == 'Administradores'%}
           <div class="opcionVer">
-            <a  href="{% url app_log:visualizar_log_user %}"> Visualizar Log</a>
+          <a  href="{% url app_log:visualizar_log_user %}"> Visualizar Log</a>
           </div>
+        {% endif %}
+        {%endfor %}
           <div class="opcionVer"><a href="{% url app_pizarras:listar_pizarra %}">Mis pizarras</a></div>
           <div class="opcionVer"><a id="editarPerfil" onclick="Dajaxice.app_usuarios.editarPerfilAjax(my_js_callbackPerfil);" href="#">Editar Perfil</a></div>
           <div class="opcionVer"><a id="cambiarContrasena" onclick="Dajaxice.app_usuarios.cambiarContrasenaAjax(my_js_callbackContrasena);" href="#">Cambiar Contrasena</a></div>

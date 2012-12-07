@@ -5,6 +5,49 @@
  * my_js_callback* : funciones que se llaman con dajaxice para usar ajax con django
  *
  */
+/*Funcion para crear los calendarios*/
+function calendarios(){
+    //calendarios fecha de inicio
+    $("#id_fecha_inicio").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+    $( "#id_fecha_inicio" ).datepicker(
+      "option", "dateFormat", "dd/mm/yy" 
+    );
+
+    $( "#id_fecha_inicio" ).datepicker({
+        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    });   
+
+    var dayNamesMin = $( "#id_fecha_inicio" ).datepicker( "option", "dayNames" );
+    $( "#id_fecha_inicio" ).datepicker( 
+      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    );
+
+    $( "#id_fecha_inicio" ).datepicker( "option", "yearRange", "1970:2012" );
+
+    //calendarios fecha de entrega
+    $("#id_fecha_final").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+
+    $( "#id_fecha_final" ).datepicker(
+      "option", "dateFormat", "dd/mm/yy" 
+    );
+
+    $( "#id_fecha_final" ).datepicker({
+        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    });   
+
+    var dayNamesMin = $( "#id_fecha_final" ).datepicker( "option", "dayNames" );
+    $( "#id_fecha_final" ).datepicker( 
+      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    );
+
+    $( "#id_fecha_final" ).datepicker( "option", "yearRange", "1970:2012" );
+};
 
 /*funcion para mostrar dialog*/
 function dialog(){
@@ -68,7 +111,7 @@ function dialog(){
             $(this).dialog("close");
           } 
         },
-      Cancel: function() {
+      Cancelar: function() {
         $(this).dialog("close");
       }
       }
@@ -91,7 +134,7 @@ function dialog(){
             $(this).dialog("close");
           } 
         },
-      Cancel: function() {
+      Cancelar: function() {
         $(this).dialog("close");
       }
       }
@@ -114,7 +157,7 @@ function dialog(){
             $(this).dialog("close");
           } 
         },
-      Cancel: function() {
+      Cancelar: function() {
         $(this).dialog("close");
       }
       }
@@ -137,7 +180,7 @@ function dialog(){
             $(this).dialog("close");
           } 
         },
-      Cancel: function() {
+      Cancelar: function() {
         $(this).dialog("close");
       }
       }
@@ -192,7 +235,7 @@ function dialog(){
 
   /*dialog de modificarActividad*/
   $("#modificarActividad").click(function(){
-    $("#formActividad").dialog({
+    $("#dialogModificarActividad").dialog({
       modal:true,
       position: { my: "center", at: "top", of: window },
       dialogClass: 'style_Dialog',
@@ -201,7 +244,7 @@ function dialog(){
         "Modificar Actividad": function(){
           valido = validarActividad();
           if (valido){
-            $("#actividadForm").submit();
+            $("#modificarActividadForm").submit();
             $(this).dialog("close");
           }
 

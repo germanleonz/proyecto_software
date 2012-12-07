@@ -159,8 +159,6 @@ def visualizar_subactividad(request):
     lista = obtener_subactividades(request)
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, })
     
-
-
 @csrf_exempt
 @login_required
 def modificar_actividad(request):
@@ -180,7 +178,7 @@ def modificar_actividad(request):
       	nombreact = data['nombreact']
       	descripcionact = data['descripcionact']
       	fechaInicial = data['fechainicial']
-      	fechaEntrega = data['fechaentrega']
+      	fechaEntrega = data['fecha_final']
       	act = Actividad.objects.get(idact = idact)
       	user = request.user
         modificarActividad(idact,nombreact,descripcionact,fechaInicial,fechaEntrega, user)
@@ -194,8 +192,8 @@ def modificar_actividad(request):
       	lista = []
       	lista.append(request.POST['nombreact'])
       	lista.append(request.POST['descripcionact'])
-      	lista.append(request.POST['fechainicial'])
-      	lista.append(request.POST['fechaentrega'])
+      	lista.append(request.POST['fecha_inicio'])
+      	lista.append(request.POST['fecha_final'])
 	return render(request, 'app_actividad/modificar_actividad.html', { 'form': form, 'idact' : idact, 'lista' : lista })
 	
 @csrf_exempt	
@@ -275,7 +273,12 @@ def invitar_usuario(request):
 
             #   Creamos el usuario con nombre de usuario y contrasena como unicos datos
             nuevo = User.objects.create(username=nombre_usuario, email=recipiente, first_name="", last_name="")
-            nuevo.set_password = contrasena
+
+            print nuevo
+            print "contrasena " + contrasena
+            nuevo.set_password(contrasena)
+            print nuevo.password
+
             nuevo.save()
             tel = '000'
             usuario = UserProfile.objects.create(user= nuevo, telefono=tel)
@@ -292,7 +295,7 @@ def invitar_usuario(request):
             mensaje = "El presente correo es para notificarle que a usted se la ha asignado la actividad \"%s\" del Proyecto \"%s\"" % (nombre_actividad, nombre_pizarra)
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
             editarAsignado(id_actividad, usuario, request.user)
-            editarJefe(id_actividad, request.user)
+            editarJefe(id_actividad, usuario. request.user)
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
         
 

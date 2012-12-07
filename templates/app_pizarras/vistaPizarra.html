@@ -100,6 +100,32 @@
   </table>
 </div>
 <div id="arbol">
+  <div id="vistas" style="">
+    Vistas...
+  </div>
+
+  <div id="vistasDropDown" style="" >
+    <form action="{% url 'app_pizarras:visualizar_pizarra' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
+      <input type="submit" value="Jerarquica"/>
+    </form>
+    <form action="{% url 'app_pizarras:orden_cronologico' %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Cronologica"/>
+      <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
+    </form>
+    <form action="{% url 'app_pizarras:orden_estados' %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Por estado"/>
+      <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
+    </form>
+    <form action="{% url 'app_pizarras:orden_avance' %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Por avance"/>
+      <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
+    </form>
+  </div>
   <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
     {% csrf_token %}
     <input id="inputAct" type="hidden" value="abc" name="idact"/>
