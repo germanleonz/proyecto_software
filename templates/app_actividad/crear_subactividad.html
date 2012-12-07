@@ -1,38 +1,26 @@
-{% extends 'app_usuarios/template.html' %}
-{% load url from future %}
-{% load staticfiles %}
-{% block titulo %}Crear SubActividad{% endblock %}
-{% block css %}
-<link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
-<link href="{% static "css/modificar_usuario_style.css" %}" rel="stylesheet" type="text/css"/>
-{% endblock %}
-
-{% block cuerpo %}
-<div id="loginBox">                
-  <form action="{% url 'app_actividad:crear_subactividad' %}" id="loginForm" method="post" >
+<script>
+  calendarios();
+</script>
+  <form action="{% url app_actividad:crear_subactividad %}" id="formCrearSubactividad" method="post" >
   {% csrf_token %}
     <fieldset id="body">
       <fieldset>
 	  <label for="nombreact"> Nombre</label>
-	  <input type="text" name="nombre" id="nombreact" />
+	  <input type="text" name="nombre" id="id_nombre" />
       </fieldset>
       <fieldset>
 	  <label for="descripcionact">Descripcion</label>
-	  <textarea type="text" name="descripcion" rows="5" id="descripcionact"></textarea>
+	  <textarea type="text" name="descripcion" rows="5" id="id_descripcion"></textarea>
       </fieldset>
       <fieldset>
 	  <label for="fechainicial">Fecha Inicio</label>
-	  <input type="text" name="fecha_inicio" id="fechainicial"/>
+	  <input type="text" name="fecha_inicio" id="id_fecha_inicio"/>
       </fieldset>
       <fieldset>
 	  <label for="fechaentrega">Fecha Entrega</label>
-	  <input type="text" name="fecha_final" id="fechaentrega" />
+	  <input type="text" name="fecha_final" id="id_fecha_final" />
       </fieldset>
       <input id="idact" name="idact" type="hidden" value="{{idact}}"/>
       <input id="idpiz" name="idpiz" type="hidden" value="{{idpiz}}"/>
-      <input type="submit" id="login" value="Crear SubActividad" />
     </fieldset>
-      
   </form>
-</div>
-{% endblock %}

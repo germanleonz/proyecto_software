@@ -74,9 +74,9 @@
       </td>
     </tr>
     <tr>
-      <td>
-        <div id="lista">
-          <h>Participantes</h></br>
+      <td>        
+        <h>Participantes</h></br>
+        <div id="lista"
           {%for elem in colaboradores %}
           <form action="{% url 'app_usuarios:perfil_usuario' %}" method="post">
             {% csrf_token %}
@@ -92,7 +92,6 @@
             {%endifequal%}
             {%endifequal%}
           </form>
-          </br>
           {%endfor%}
         </div>
       </td>

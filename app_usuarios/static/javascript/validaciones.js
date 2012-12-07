@@ -272,15 +272,14 @@ function validarCorreo() {
     return valido;
 }
 
-
 function validarActividad(){
   var nombre = $("#id_nombre"),
       descripcion = $("#id_descripcion"),
       fechaini = $("#id_fecha_inicio"),
       fechafin = $("#id_fecha_final"),
       valido = true,
-      formato = /^[A-Za-z0-9\?\¿\!\¡\:\,\.\-\ç\ñáéíóú\(\)\"\'\äëïöüàèìòù\s]*$/
-      div = "#errores_crear_actividad";
+      formato = /^[A-Za-z0-9\?\¿\!\¡\:\,\.\-\ç\ñáéíóú\(\)\"\'\äëïöüàèìòù\s]*$/,
+      div = "#errores_modificar_actividad";
 
   valido = valido && checkLength(nombre,"Nombre",1,50,div);
   valido = valido && checkLength(descripcion,"Descripcion",1,150,div);
@@ -293,14 +292,14 @@ function validarActividad(){
 
   if (valido && compareDates(fechaini.val(),fechafin.val())==-1){
     valido = false;
-    $("#errores_crear_pizarra").html("*La fecha final debe ser mayor a la de inicio");
+    $(div).html("*La fecha final debe ser mayor a la de inicio");
   }
 
   today = obtenerFechaActual();
 
   if (valido && compareDates(fechaini.val(),today)== 1){
     valido = false;
-    $("#errores_crear_pizarra").html("*La fecha de inicio debe ser mayor a la de hoy");
+    $(div).html("*La fecha de inicio debe ser mayor a la de hoy");
   }
   return valido;
 }

@@ -55,8 +55,9 @@ class Node(object):
         hijos = app_actividad.models.obtener_hijos(self.data)
         for elem in hijos:
             nuevo = Node(elem)
-            self.add_child(nuevo)
-            nuevo.generate_tree()
+            if nuevo.data.is_active == True:
+                self.add_child(nuevo)
+                nuevo.generate_tree()
 
     def generate_CronologicalOrder(self,idpiz, loginasignado):
         """
@@ -67,8 +68,9 @@ class Node(object):
         actual = self
         for i in range(1,len(lista)):
             siguiente = Node(lista[i])
-            actual.add_child(siguiente)
-            actual = siguiente           
+            if siguiente.data.is_active == True:
+                actual.add_child(siguiente)
+                actual = siguiente           
     
     def generate_stateOrder(self):
         """
@@ -81,20 +83,20 @@ class Node(object):
             hijos = app_actividad.models.obtener_hijos(actual.data)
             for elem in hijos:
                 nuevo = Node(elem)
-
-                if self.children == []:
-                    self.add_child(nuevo)
-                else:
-                    seteado = False
-                    for obj in self.children:
-                        if nuevo.data.estadoact == obj.data.estadoact:
-                            obj.setLastChild(nuevo)
-                            seteado = True
-                            break
-                    if seteado == False:
+                if nuevo.data.is_active == True:
+                    if self.children == []:
                         self.add_child(nuevo)
+                    else:
+                        seteado = False
+                        for obj in self.children:
+                            if nuevo.data.estadoact == obj.data.estadoact:
+                                obj.setLastChild(nuevo)
+                                seteado = True
+                                break
+                        if seteado == False:
+                            self.add_child(nuevo)
 
-                pila.append(nuevo)
+                    pila.append(nuevo)
 
     def setLastChild(self,objeto):
         """
