@@ -27,7 +27,6 @@ def modificarUsuarioAjax(request,nombre_usuario):
 
 @dajaxice_register
 def editarPerfilAjax(request):
-    print "HEY MAN QUE MASN"
     usuario = request.user
     nombre_usuario = usuario.username
     lista = []

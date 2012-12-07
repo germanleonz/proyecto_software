@@ -29,10 +29,6 @@
     <td>
       <form action="{% url app_usuarios:modificar_form %}" onsubmit="return false;" method="post">
         {% csrf_token %}
-        <input id="id_nombre_usuario" name="nombre_usuario" type="hidden" value="{{objeto.username}}"/>
-        <input id="id_nombre" name="nombre" type="hidden" value="{{objeto.first_name}}"/>
-        <input id="id_apellido" name="apellido" type="hidden" value="{{objeto.last_name}}"/>
-        <input id="id_correo" name="correo" type="hidden" value="{{objeto.email}}"/>
         {% if perms.app_usuarios.change_userprofile %}
           <button type="submit" class="modificarUsuario" onclick="Dajaxice.app_usuarios.modificarUsuarioAjax(my_js_callbackModificarUsuario, {'nombre_usuario' : {{objeto.id}}});">Modificar</button>
         {% endif %}

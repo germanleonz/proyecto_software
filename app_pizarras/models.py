@@ -171,6 +171,7 @@ def obtener_pizarras(usuario):
     Autor: Juan Arocha
     Fecha: 4-11-12 Version 1.0
     """
+
     pi = Pizarra.objects.filter(logindueno=usuario, is_active=True)
     lista = []
     for elem in pi:
