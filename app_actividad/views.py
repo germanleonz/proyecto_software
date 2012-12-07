@@ -116,16 +116,34 @@ def eliminar_actividad(request):
         idact = request.POST['idact']
         idpiz = request.POST['idpiz']
         piz = Pizarra.objects.get(idpiz = idpiz)
-        act = Actividad.objects.get(idact = idact)     
+        act = Actividad.objects.get(idact = idact)    
         usuario = request.user
         eliminarActividad(idact, usuario)
+        calcularAvance(act.actividad_padre.idact)
 
         colab = colaboradores(idpiz)
-        lista = obtener_actividades(idpiz)
-        return render(request, 'app_pizarras/vistaPizarra.html', { 'lista' : lista, 'pizarra': piz, 'colaboradores': colab})
+        #Lista de mis actividades
+        lista = obtener_misActividades(request.POST['idpiz'], usuario)
+        #Lista de arboles de mis actividades   
+        root = []
+        for elem in lista:
+            root.append(Node(elem))
+        
+        for i in range(0,len(root)):
+            root[i].generate_tree()
+            string = '{'
+            string += root[i].generate_json()
+            string += '}'
+            print string
+                
+        #Listas de ordenes a mostrar en la pagina
+        orden = orden_cronologico(idpiz, usuario)
+        ordenE = orden_por_estados(idpiz, usuario)
+        return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : piz, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE, 'arbol': str(string), })
+    
 
-    lista = obtener_actividades(request)
-    return render(request, 'app_actividad/listar.html', { 'lista' : lista, })   
+    #no se que retornar si no es post asi que retorno la vista anterior y ya
+    return listar_pizarra(request)
         
 @csrf_exempt        
 def visualizar_actividad(request):
