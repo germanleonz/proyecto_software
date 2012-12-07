@@ -58,6 +58,11 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
         "El usuario %s creo la actividad %s" % (creador.username, nombre), 
         'i')
 
+	Accion.objects.crearAccion(
+    	creador,
+        "Se creo una instancia de Actividad con los valores Nombre: %s, Fecha de Inicio: %s y Fecha de Entrega: %s" % (nombre, fechaini, fechaent), 
+        'd')
+
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent, user):
 	act = Actividad.objects.filter(idact = idactividad)
 	act.update(nombreact=nombre,descripcionact=descript, fechainicial=fechaini, fechaentrega=fechaent)
@@ -192,11 +197,12 @@ def colaboradores(idpiz):
     Metodo que retorna los colaboradores de una pizarra
     """
     colaboradores= []
-    act= Actividad.objects.filter(idpizactividad= idpiz).distinct('loginasignado')
-    for elem in act:   
+    act= Actividad.objects.filter(idpizactividad= idpiz, is_active = True).distinct('loginasignado')
+    for elem in act:
         persona = elem.loginasignado
         usuario = User.objects.get(username= persona)
-        colaboradores.append(usuario)
+        if usuario.is_active == True:
+	    colaboradores.append(usuario)
 
     return colaboradores
 
