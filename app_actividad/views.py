@@ -232,7 +232,7 @@ def asignar_actividad(request):
     
     return render(request,'app_actividad/asignar_actividad.html',{'idact':request.POST['idact']})
 
-
+@csrf_exempt
 def invitar_usuario(request):
     ##
     #Metodo que asigna una actividad a un derminado usuario
@@ -242,7 +242,7 @@ def invitar_usuario(request):
     #@param request
     
     if request.method == 'POST':
-        id_actividad = request.POST['idact']
+        id_actividad = request.POST['id_actividad']
         recipiente = request.POST['recipiente']
         if not User.objects.filter(email=recipiente).exists():
             #   El usuario no estaba registrado se le crea un nombre de usuario y una contrasena
@@ -270,7 +270,6 @@ def invitar_usuario(request):
             editarJefe(id_actividad,request.user)
             cambiarEstado(id_actividad, 'e')
             
-
             # Acomodar el crear_colaborador con la logica del negocio 
         else:
             #   El usuario ya estaba registrado solo hace falta notificarle su asignacion por correo 
