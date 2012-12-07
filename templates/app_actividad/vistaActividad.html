@@ -26,7 +26,7 @@ $(function(){
   {% csrf_token %}
   <input type="hidden" name="idact" value="{{actividad.idact}}"/>
   <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
-  <input type="submit" id="modificarAct" value="Crear Sub-Actividad" />
+  <button type="submit" id="crearSubActividad">Crear Sub-Actividad</button>
 </form>
 <a id="crearActividad" onclick="Dajaxice.app_actividad.crearActividadForm(my_js_callbackActividad, {'data': {{pizarra.idpiz}}});" class="opcionesDer" href="#">Crear Actividad</a>
 {% endblock botones %}
