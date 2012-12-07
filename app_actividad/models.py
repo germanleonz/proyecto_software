@@ -148,7 +148,8 @@ def calcularAvance(idact):
 		for elem in hijos:
 			nuevoAvance = elem.avanceact
 	else:
-		nuevoAvance =  ((completadas+0.00) / (total+0.00)) * 100.00
+		if total !=0:
+			nuevoAvance =  ((completadas+0.00) / (total+0.00)) * 100.00
 	if nuevoAvance == 100.00:
 		act.estadoact = "c"
 	elif nuevoAvance != 100.00 and act.estadoact =="c":
@@ -163,6 +164,9 @@ def eliminarActividad(idactividad, usuario):
     act = Actividad.objects.get(idact = idactividad)
     act.is_active = False
     act.save()
+    lista = obtener_hijos(act)
+    for elem in lista:
+    	eliminarActividad(elem.idact,usuario)
 
     Accion.objects.crearAccion(
       usuario,
@@ -294,6 +298,7 @@ def obtener_hijos(actividad):
         lista.append(elem)
 
     return lista
+    
 def orden_cronologico(idpiz, loginasignado):
     """
     Metodo que ordena cronologicamente actividades de un usuario
