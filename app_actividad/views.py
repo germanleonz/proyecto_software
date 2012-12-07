@@ -79,6 +79,7 @@ def crear_subactividad(request):
       user = request.user
       
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,pizarra,user,padre)
+      calcularAvance(padre.idact)
       listasub = obtener_subactividades(request.POST['idact'])
       lista = obtener_comentarios(request.POST['idact'])
       colab = colaboradores(padre.idpizactividad.idpiz)
