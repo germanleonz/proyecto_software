@@ -18,22 +18,19 @@ $(function(){
 {% endblock javascript %}
 
 {% block botones %}
-<form action="">
+<form action="{% url 'app_pizarras:visualizar_pizarra'%}" style="margin: 0;" method="post">
+  {%csrf_token%}
+  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
   <input type="image" class="opcionesIzq" src="{% static "img/back.png" %}" style="height: 20px;">
 </form>
 
-<form action="{% url 'app_actividad:crear_subactividad' %}" method="post">
-  {% csrf_token %}
-  <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-  <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
-  <button type="submit" id="crearSubActividad">Crear Sub-Actividad</button>
-</form>
-<a id="crearActividad" onclick="Dajaxice.app_actividad.crearActividadForm(my_js_callbackActividad, {'data': {{pizarra.idpiz}}});" class="opcionesDer" href="#">Crear Actividad</a>
-<a class="opcionesIzq">
-<form action="{% url 'app_pizarras:visualizar_pizarra'%}" method="post">{%csrf_token%}
-  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
-  <input type="submit" value="volver"/>
-</form>
+<a class="opcionesDer">
+  <form action="{% url 'app_actividad:crear_subactividad' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+    <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
+    <input type="submit" id="crearSubActividad" value="Crear Sub-Actividad"/>
+  </form>
 </a>
 {% endblock botones %}
 {% block cuerpo %}
@@ -124,16 +121,6 @@ $(function(){
           </select>
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
           <input type="submit" value="Cambiar Estado" />
-        </form>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <form action="{% url 'app_actividad:crear_subactividad' %}" method="post">
-          {% csrf_token %}
-          <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-          <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
-          <input type="submit" id="modificarAct" value="Crear SubActividad" />
         </form>
       </td>
     </tr>
