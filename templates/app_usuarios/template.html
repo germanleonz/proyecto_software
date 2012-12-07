@@ -30,6 +30,10 @@
       $(document).ready(function(){
         dialog();
         barraUsuario();
+        $("#vistasDropDown").hide();
+        $("#vistas").click(function(){
+          $("#vistasDropDown").toggle();
+        });
       });
     </script>
     {% endblock javascript %}
