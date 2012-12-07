@@ -134,6 +134,7 @@ def listar_usuarios(request):
     #   Se consigue la lista de usuarios excluyendo al usuario que solicita la lista
     lista = User.objects.exclude(username = request.user.username)
     lista = lista.filter(is_active = True)
+    print lista[200]
     return render(request, 'app_usuarios/lista_usuarios.html', {
         'lista' : lista
     }, )
