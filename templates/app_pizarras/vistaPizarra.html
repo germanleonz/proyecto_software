@@ -86,6 +86,11 @@
             <input type="submit" class="participante" value="{{elem.first_name}} {{elem.last_name}}"/>
             {%endifnotequal%}
             {%endifnotequal%}
+            {% ifequal elem.first_name "" %}
+            {% ifequal elem.last_name "" %}
+            <input type="submit" class="participante" value="{{elem.username}}"/>
+            {%endifequal%}
+            {%endifequal%}
           </form>
           </br>
           {%endfor%}
