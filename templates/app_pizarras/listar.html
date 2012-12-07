@@ -26,6 +26,12 @@ function divSubmit(div){
 
 $(document).ready(function () {
   $('#pared').paginateTable({ rowsPerPage: 3 });
+
+  $(".pizarra").click(function(e) {
+    if (e.target.id != "modi") {
+      divSubmit(this);
+    }
+  });
 });
 </script>
 <table id="pared">
@@ -46,7 +52,7 @@ $(document).ready(function () {
             </form>
             <form action="{% url app_pizarras:modificar_form %}" onsubmit="return false;" method="post" style="width: 25px;float: right;">
               {% csrf_token %}
-              <button type="submit" class="modi" onclick="Dajaxice.app_pizarras.modificarPizarraAjax(my_js_callbackModificarPizarra, {'id_pizarra' : {{object.idpiz}}});"></button>
+              <button type="submit" class="modi" id="modi" onclick="Dajaxice.app_pizarras.modificarPizarraAjax(my_js_callbackModificarPizarra, {'id_pizarra' : {{object.idpiz}}}); return false;"></button>
             </form>
             <form id="visualizarPizarra" action="{% url app_pizarras:visualizar_pizarra %}" method="post">
               {% csrf_token %}

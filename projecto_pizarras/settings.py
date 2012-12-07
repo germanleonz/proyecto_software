@@ -8,7 +8,7 @@ PROJECT_PATH = os.path.realpath(dirname(dirname(__file__)))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = ( # ('Your Name', 'your_email@example.com'),
+ADMINS = ( #('carla', 'carlaustabile@gmail.com') # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
