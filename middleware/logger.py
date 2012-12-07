@@ -22,7 +22,7 @@ class ManejadorLogs():
 
 	#se llama SIEMPREEEE
 	def process_response(self, request, response):
-		status = response.status_code
+		#status = response.status_code
 
 		#fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 		#usuario = request.user
@@ -34,5 +34,3 @@ class ManejadorLogs():
 				#fechaYHora,
 				#'f')
 		return response
-
-                """
