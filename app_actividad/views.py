@@ -35,6 +35,7 @@ def crear_actividad(request):
       act = Actividad.objects.get(idpizactividad = piz, actividad_padre = None)
       
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user,act)
+      calcularAvance(act.idact)
 
       lista = obtener_actividades(request.POST['idpiz'])
       lista = obtener_misActividades(request.POST['idpiz'], user)
@@ -268,7 +269,6 @@ def invitar_usuario(request):
             
             editarAsignado(id_actividad,nuevo)
             editarJefe(id_actividad,request.user)
-            cambiarEstado(id_actividad, 'e')
             
 
             # Acomodar el crear_colaborador con la logica del negocio 
@@ -280,6 +280,7 @@ def invitar_usuario(request):
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
         
+        cambiarEstado(id_actividad, 'e')
         act = Actividad.objects.get(idact=id_actividad)
         piz = act.idpizactividad
         lista = obtener_comentarios(id_actividad)
