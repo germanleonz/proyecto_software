@@ -230,7 +230,7 @@ def obtener_misActividades(idpiz, usuario):
     """
     Metodo que obtiene las actividades de un usuario
     """
-    act = Actividad.objects.filter(idpizactividad = idpiz, loginjefe = usuario, is_active = True)
+    act = Actividad.objects.filter(idpizactividad = idpiz, loginasignado = usuario, is_active = True)
     #lista que se retorna
     lista = []
     for elem in act:
@@ -242,6 +242,8 @@ def obtener_misActividades(idpiz, usuario):
         for obj in lista:
             if (obj != elem):
                 hijo = esHijo(obj,elem)
+                print "hijooooooooo"
+                print hijo
                 if (hijo != None):
                     if hijo not in eliminados:
                         eliminados.append(hijo)

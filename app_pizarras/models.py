@@ -3,7 +3,7 @@ import datetime
 from django.db import models
 from django.db.models import Max
 from django.contrib.auth.models import User
-#from app_actividad.models import crearActividad
+#from app_actividad.models import Actividad
 from app_log.models import ManejadorAccion, Accion
 from datetime import date
 from django.core.exceptions import ValidationError
@@ -185,18 +185,19 @@ def obtenerPizarra(idpiz):
     return pizarra
 
 def obtener_pizarras(usuario):
-    """
-    Metodo que obtiene las pizarras del usuario logueado
-    In: usuario
-    Out: lista
-    Autor: Juan Arocha
-    Fecha: 4-11-12 Version 1.0
-    """
-
-    pi = Pizarra.objects.filter(logindueno=usuario, is_active=True)
-    lista = []
-    for elem in pi:
-        lista.append(elem)
-    return lista
-
-
+	"""
+	Metodo que obtiene las pizarras del usuario logueado
+	In: usuario
+	Out: lista
+	Autor: Juan Arocha
+	Modificaciones: Ivan Travecedo
+	Fecha: 6-12-12 Version 1.1
+	"""
+	from app_actividad.models import colaboradores
+	piz = Pizarra.objects.all()
+	listaPizarras = []
+	for elem in piz:
+		listaColab = colaboradores(elem.idpiz)
+		if usuario in listaColab:
+			listaPizarras.append(elem)
+	return listaPizarras

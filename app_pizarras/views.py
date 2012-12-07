@@ -141,41 +141,41 @@ def generar_form_modificar(request):
 
 @login_required
 def visualizar_pizarra(request):
-    """
-    Metodo que permite consultar la pizarra y ver sus atributos
-    In: request
-    Out: vista pizarra o visra listar usuarios
-    Autor: Juan Arocha
-    Fecha: 4-11-12 Version 1.0
-    """
+	"""
+	Metodo que permite consultar la pizarra y ver sus atributos
+	In: request
+	Out: vista pizarra o visra listar usuarios
+	Autor: Juan Arocha
+	Fecha: 4-11-12 Version 1.0
+	"""
     
-    if request.method== 'POST':
-        idpiz = request.POST['idpiz']
-        pi = Pizarra.objects.get(idpiz=idpiz)
-        colab = colaboradores(idpiz)
-        usuario = request.user
-        #Lista de mis actividades
-        lista = obtener_misActividades(request.POST['idpiz'], usuario)
-        #Lista de arboles de mis actividades   
-        root = []
-        for elem in lista:
-            root.append(Node(elem))
-        
-        for i in range(0,len(root)):
-            root[i].generate_tree()
-            string = '{'
-            string += root[i].generate_json()
-            string += '}'
-            print string
-                
-        #Listas de ordenes a mostrar en la pagina
-        orden = orden_cronologico(idpiz, usuario)
-        ordenE = orden_por_estados(idpiz, usuario)
-        return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE, 'arbol': str(string), })
-    
+	if request.method== 'POST':
+		idpiz = request.POST['idpiz']
+		pi = Pizarra.objects.get(idpiz=idpiz)
+		colab = colaboradores(idpiz)
+		usuario = request.user
+		#Lista de mis actividades
+		lista = obtener_misActividades(request.POST['idpiz'], usuario)
+		#Lista de arboles de mis actividades   
+		root = []
+		for elem in lista:
+			root.append(Node(elem))
 
-    #no se que retornar si no es post asi que retorno la vista anterior y ya
-    return listar_pizarra(request)
+		for i in range(0,len(root)):
+			root[i].generate_tree()
+			string = '{'
+			string += root[i].generate_json()
+			string += '}'
+			print string
+
+		#Listas de ordenes a mostrar en la pagina
+		orden = orden_cronologico(idpiz, usuario)
+		ordenE = orden_por_estados(idpiz, usuario)
+		return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE, 'arbol': str(string), })
+
+
+	#no se que retornar si no es post asi que retorno la vista anterior y ya
+	return listar_pizarra(request)
 
 @login_required
 def vista_orden_cronologico(request):
