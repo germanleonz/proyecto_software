@@ -39,13 +39,9 @@ def CreadorComentario(hora, fecha, contenido, idact, usuario):
   """ 
   nuevoComentario = Comentario(horacomentario=hora, fechacomentario=fecha, contenido=contenido, idactcomentario=idact,loginusuario=usuario)
   nuevoComentario.save()
-
-  fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-  # act = Actividad.objects.get(idact = act.idact)
   Accion.objects.crearAccion(
     usuario,
-    "El usuario %s hizo un comentario en la actividad %s" % (usuario.username, act.nombreact),
-    fechaYHora,
+    "El usuario %s hizo un comentario en la actividad %s" % (usuario.username, idact.nombreact),
     'i')
 
 def eliminar(idComentario, usuario, actividad):
@@ -56,12 +52,10 @@ def eliminar(idComentario, usuario, actividad):
     comentario = Comentario.objects.filter(idcomentario = idComentario)
     comentario.delete()
 
-    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     # actividad = Actividad.objects.get(idact=comentario.idactcomentario)
     Accion.objects.crearAccion(
       usuario,
       "El usuario %s elimino un comentario en la actividad %s" % (usuario.username, actividad.nombreact),
-      fechaYHora,
       'i')
 
 def obtener_comentarios(idActividad):
