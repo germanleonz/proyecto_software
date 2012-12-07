@@ -1,9 +1,12 @@
+<script>
+  calendarios();
+</script>
 <div id="errores_crear_actividad" class="errores">
   *Todos los campos son requeridos
 </div>
 <form action="{% url app_actividad:crear_actividad %}" id="actividadForm" method="post">
   {% csrf_token %}
-  <fieldset  id="body">
+  <fieldset id="body">
     {{ form.as_p }}
     <input type="hidden" name="idpiz" value="{{idpiz}}"/>
   </fieldset>
