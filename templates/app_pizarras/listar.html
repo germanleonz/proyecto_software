@@ -9,9 +9,7 @@
 
 {% block cuerpo %}
 {% if not lista %}
-<center>
-  <p>No hay pizarras</p>
-</center>
+<div id="noElems">No hay pizarras.</div>
 {% endif %}
 <script type="text/javascript" src="{% static "javascript/jquery.paginatetable.js" %}"></script>
 <script>
