@@ -46,6 +46,7 @@ $(document).ready(function () {
             </div>
             <form action="{% url app_pizarras:eliminar_pizarra %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta pizarra?')) return false" style="width: 25px;float: right;">
               {% csrf_token %}
+              <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>
               <input class="borrar" type="submit" value=""/>
             </form>
             <form action="{% url app_pizarras:modificar_form %}" onsubmit="return false;" method="post" style="width: 25px;float: right;">
