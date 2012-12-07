@@ -78,31 +78,43 @@ def modificarActividad(idactividad, nombre, descript, fechaini, fechaent, user):
 			"El usuario %s modifico la informacion de la actividad %s" % (user.username, nombre), 
 			'i')
     
-def editarAsignado(idactividad, idAsignado):
+def editarAsignado(idactividad, idAsignado, user):
 	act = Actividad.objects.get(idact = idactividad)
 	act.loginasignado = idAsignado
-	act.save()
+	print "ENTRE\n"
 	Accion.objects.crearAccion(
-		request.user,
-		"El usuario %s asigno la actividad %s al usuario %s" % (user.username, act.nombre, idAsignado.username), 
+		user,
+		"El usuario %s asigno la actividad %s al usuario %s" % (user.username, act.nombreact, idAsignado.username), 
 		'i')
+	act.save()
 
 
 def editarJefe(idactividad, idJefe):
-    act = Actividad.objects.filter(idact = idactividad)
+    act = Actividad.objects.get(idact = idactividad)
     act.update(loginjefe = idJefe)
 
-def cambiarEstado(idactividad, newEstado):
+def cambiarEstado(idactividad, newEstado, user):
 	act = Actividad.objects.get(idact = idactividad)
 	if newEstado == "c" and act.estadoact != "c":
 		act.estadoact = "c"
 		act.avanceact = 100
+		Accion.objects.crearAccion(
+			user,
+			"El usuario %s cambio el estado la actividad %s" % (user.username, act.nombreact), 
+			'i')
 		act.save()
 		calcularAvance(act.actividad_padre.idact)
 		print "modifique avance"
+	elif act.estadoact == "c":
+		pass
 	else:
 		act.estadoact = newEstado
+		Accion.objects.crearAccion(
+			user,
+			"El usuario %s cambio el estado la actividad %s" % (user.username, act.nombreact), 
+			'i')
 		act.save()
+
 
 def esHoja(idact):
 	act = Actividad.objects.filter(actividad_padre = idact)
@@ -133,6 +145,8 @@ def calcularAvance(idact):
 		nuevoAvance =  ((completadas+0.00) / (total+0.00)) * 100.00
 	if nuevoAvance == 100.00:
 		act.estadoact = "c"
+	elif nuevoAvance != 100.00 and act.estadoact =="c":
+		act.estadoact = "e"
 	act.avanceact = nuevoAvance
 	act.save()
 	if act.actividad_padre != None:

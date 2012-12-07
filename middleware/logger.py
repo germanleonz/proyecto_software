@@ -16,4 +16,6 @@ class ManejadorLogs():
 					request.user,
 					"Error interno del servidor",
 					'f')
+
 		return response
+
