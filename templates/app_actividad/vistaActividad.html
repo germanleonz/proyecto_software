@@ -7,22 +7,27 @@
 {% endblock css %}
 {% block javascript %}
 <script>
-  $(document).ready(function(){
-    dialog();
-    barraUsuario();
-  });
-  $(function(){
-    $( "#arbol" ).tabs();
-  })
+$(document).ready(function(){
+  dialog();
+  barraUsuario();
+});
+$(function(){
+  $( "#arbol" ).tabs();
+})
 </script>
 {% endblock javascript %}
 
 {% block botones %}
-<a id="crearActividad" onclick="Dajaxice.app_actividad.crearActividadForm(my_js_callbackActividad, {'data': {{pizarra.idpiz}}});" class="opcionesDer" href="#">Crear Actividad</a>
-<a class="opcionesIzq">
-<form action="{% url 'app_pizarras:visualizar_pizarra'%}" method="post">{%csrf_token%}
+<form action="{% url 'app_pizarras:visualizar_pizarra'%}" style="margin: 0;" method="post">
+  {%csrf_token%}
   <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
-  <input type="submit" value="volver"/>
+  <input type="image" class="opcionesIzq" src="{% static "img/back.png" %}" style="height: 20px;">
+</form>
+
+<a class="opcionesDer">
+<form action="{% url 'app_actividad:crear_subactividad' %}" method="post" onclick="return false;">
+     {% csrf_token %}
+    <button type="submit" id="crearSubactividad" onclick="Dajaxice.app_actividad.crearSubactividadAjax(my_js_callbackCrearSubactividad, {'idact' : {{actividad.idact}}, 'idpiz': {{pizarra.idpiz}}});">Crear subactividad</button>
 </form>
 </a>
 {% endblock botones %}
@@ -64,20 +69,20 @@
     <tr>
       <td>
         <h>Estado</h></br>
-		{%if actividad.estadoact == "c"%}
-			Completada
-		{%elif actividad.estadoact == "r"%}
-			Retrasada
-		{%elif actividad.estadoact == "e"%}
-			En Ejecución
-		{%elif actividad.estadoact == "p"%}
-			Postergada
-		{%elif actividad.estadoact == "s"%}
-			Sin Asignar
-		{%endif%}
+    		{%if actividad.estadoact == "c"%}
+    			Completada
+    		{%elif actividad.estadoact == "r"%}
+    			Retrasada
+    		{%elif actividad.estadoact == "e"%}
+    			En Ejecución
+    		{%elif actividad.estadoact == "p"%}
+    			Postergada
+    		{%elif actividad.estadoact == "s"%}
+    			Sin Asignar
+    		{%endif%}
       </td>
     </tr>
-        <tr>
+    <tr>
       <td>
         <h>Avance</h></br>
         {{actividad.avanceact}} %
@@ -114,16 +119,6 @@
     </tr>
     <tr>
       <td>
-        <form action="{% url 'app_actividad:crear_subactividad' %}" method="post">
-          {% csrf_token %}
-          <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-	  <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
-          <input type="submit" id="modificarAct" value="Crear SubActividad" />
-        </form>
-      </td>
-    </tr>
-    <tr>
-      <td>
         <form action="{% url 'app_actividad:asignar_actividad' %}" onclick="return false;" method="post">
           {% csrf_token %}
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
@@ -144,30 +139,30 @@
       {% for elem in lista %}
       <tr>
         <td>
-	    <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post">
-	      {% csrf_token %}
-	      {{elem.contenido}}
-	      <br>
-	      Fecha: {{elem.fechacomentario}}
-	      Hora: {{elem.horacomentario}}
-	      <br>
-	      Autor: {{elem.loginusuario}}
-	      <input type="hidden" name="idcomentario" value="{{elem.idcomentario}}"/>
-	      <input type="submit" value="Eliminar"/>
-	    </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
-    <!-- hacer comentarios -->
-    <div id="comentar">
+         <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post">
+           {% csrf_token %}
+           {{elem.contenido}}
+           <br>
+           Fecha: {{elem.fechacomentario}}
+           Hora: {{elem.horacomentario}}
+           <br>
+           Autor: {{elem.loginusuario}}
+           <input type="hidden" name="idcomentario" value="{{elem.idcomentario}}"/>
+           <input type="submit" value="Eliminar"/>
+         </form>
+       </td>
+     </tr>
+     {% endfor %}
+   </table>
+   <!-- hacer comentarios -->
+   <div id="comentar">
     <form action="{% url 'app_comentarios:crear_comentario' %}" id="crear_comentario" method="post">{% csrf_token %}
       <input type="hidden" name="idact" value="{{actividad.idact}}"/>
       <textarea id="contenido" name="contenido"></textarea>
       <input type="submit" value="Comentar"/>
     </form>
   </div>
-  </div>
-  <div id="subactividades"></div>
+</div>
+<div id="subactividades"></div>
 </div>
 {% endblock cuerpo%} 

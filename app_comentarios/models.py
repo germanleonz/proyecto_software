@@ -44,6 +44,12 @@ def CreadorComentario(hora, fecha, contenido, act, usuario):
     "El usuario %s hizo un comentario en la actividad %s" % (usuario.username, act.nombreact),
     'i')
 
+  Accion.objects.crearAccion(
+    usuario,
+    "Se creo una instancia de Comentario con los valores Fecha: %s, Contenido: %s" % (fecha, contenido),
+    'd'
+    )
+
 def eliminar(idComentario, usuario, actividad):
     """
     Elimina un comentario de la tabla de comentarios

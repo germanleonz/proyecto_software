@@ -18,6 +18,11 @@ def crearActividadForm(request,data):
     return simplejson.dumps({'vista': vista})
 
 @dajaxice_register
+def crearSubactividadAjax(request,idact, idpiz):
+    vista = render_to_string('app_actividad/crear_subactividad.html',{'idact':idact, 'idpiz': idpiz})
+    return simplejson.dumps({'vista': vista})
+
+@dajaxice_register
 def mostrarActividad(request,data):
     act = Actividad.objects.get(idact = data)
     vista = render_to_string('app_actividad/vistaActividad.html', {'actividad': act})
