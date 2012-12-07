@@ -234,7 +234,7 @@ def asignar_actividad(request):
     
     return render(request,'app_actividad/asignar_actividad.html',{'idact':request.POST['idact'], 'idpiz':request.POST['idpiz']})
 
-
+@csrf_exempt
 def invitar_usuario(request):
     ##
     #Metodo que asigna una actividad a un derminado usuario
@@ -244,7 +244,7 @@ def invitar_usuario(request):
     #@param request
     
     if request.method == 'POST':
-        id_actividad = request.POST['idact']
+        id_actividad = request.POST['id_actividad']
         recipiente = request.POST['recipiente']
         id_pizarra = request.POST['idpiz']
         
@@ -283,7 +283,6 @@ def invitar_usuario(request):
             editarAsignado(id_actividad,nuevo, request.user)
             editarJefe(id_actividad,request.user)
             
-
             # Acomodar el crear_colaborador con la logica del negocio 
         else:
             #   El usuario ya estaba registrado solo hace falta notificarle su asignacion por correo 

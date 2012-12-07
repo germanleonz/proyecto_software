@@ -19,3 +19,4 @@ class ManejadorLogs():
 
 		return response
 
+		return response
