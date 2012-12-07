@@ -235,7 +235,7 @@ function dialog(){
 
   /*dialog de modificarActividad*/
   $("#modificarActividad").click(function(){
-    $("#formActividad").dialog({
+    $("#dialogModificarActividad").dialog({
       modal:true,
       position: { my: "center", at: "top", of: window },
       dialogClass: 'style_Dialog',
@@ -244,7 +244,7 @@ function dialog(){
         "Modificar Actividad": function(){
           valido = validarActividad();
           if (valido){
-            $("#actividadForm").submit();
+            $("#modificarActividadForm").submit();
             $(this).dialog("close");
           }
 
