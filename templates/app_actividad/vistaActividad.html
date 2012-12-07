@@ -114,11 +114,9 @@
     </tr>
     <tr>
       <td>
-        <form action="{% url 'app_actividad:crear_subactividad' %}" method="post">
+        <form action="{% url 'app_actividad:crear_subactividad' %}" method="post" onclick="return false;">
           {% csrf_token %}
-          <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-	  <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
-          <input type="submit" id="modificarAct" value="Crear SubActividad" />
+          <button type="submit" id="crearSubactividad" onclick="Dajaxice.app_actividad.crearSubactividadAjax(my_js_callbackCrearSubactividad, {'idact' : {{actividad.idact}}, 'idpiz': {{pizarra.idpiz}}});">Crear subactividad</button>
         </form>
       </td>
     </tr>

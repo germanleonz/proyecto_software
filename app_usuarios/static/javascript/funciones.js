@@ -187,6 +187,29 @@ function dialog(){
     })
   });
 
+  /*dialog de crearSubactividad*/
+  $("#crearSubactividad").click(function(){
+    $("#dialogCrearSubactividad").dialog({
+      modal:true,
+      position: { my: "center", at: "top", of: window },
+      dialogClass: 'style_Dialog',
+      title: "Nueva SubActividad",
+      buttons: {
+        "Crear SubActividad": function(){
+          valido = validarActividad();
+          if (valido){
+            $("#formCrearSubactividad").submit();
+            $(this).dialog("close");
+          }
+
+        },
+        Cancelar: function(){
+          $(this).dialog("close");
+        }
+      }
+    })
+    });
+
   /*dialog de crearActividad*/
   $("#crearActividad").click(function(){
     $("#formActividad").dialog({
@@ -310,6 +333,10 @@ function my_js_callbackModificarUsuario(data) {
 
 function my_js_callbackPerfil(data) {
   $("#dialogEditarPerfil").html(data.vista);
+};
+
+function my_js_callbackCrearSubactividad(data) {
+  $("#dialogCrearSubactividad").html(data.vista);
 };
 
 function my_js_callbackActividad(data){
