@@ -76,12 +76,14 @@ def cambiarEstado(idactividad, newEstado):
 		act.avanceact = 100
 		act.save()
 		calcularAvance(act.actividad_padre.idact)
+		print "modifique avance"
 	else:
 		act.estadoact = newEstado
 		act.save()
-   
+
 def esHoja(idact):
 	act = Actividad.objects.filter(actividad_padre = idact)
+	print "es hoja"
 	return act.count() == 0
 
 def cantidadHijos(idact):
@@ -90,19 +92,16 @@ def cantidadHijos(idact):
 	
 def calcularAvance(idact):
 	"""
-	Actua sobre el padre
+	Actua sobre el padre, calcula el avance
 	"""
 	act = Actividad.objects.get(idact = idact)
-	hijos = Actividad.objects.filter(actividad_padre = idact)
+	hijos = Actividad.objects.filter(actividad_padre = idact, is_active = True)
 	completadas = 0
 	total = 0
 	for elem in hijos:
-		print "entraaa",elem.nombreact
 		total+= 1
 		if elem.estadoact == "c":
 			completadas+=1
-	print "son:",
-	print completadas
 	if total==1:
 		for elem in hijos:
 			nuevoAvance = elem.avanceact
@@ -114,6 +113,7 @@ def calcularAvance(idact):
 	act.save()
 	if act.actividad_padre != None:
 		calcularAvance(act.actividad_padre.idact)
+	print "calcular avanceeeee"
 	
 def eliminarActividad(idactividad, usuario):
     act = Actividad.objects.get(idact = idactividad)
