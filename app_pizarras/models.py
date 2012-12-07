@@ -1,9 +1,10 @@
+import re
+import datetime
 from django.db import models
 from django.db.models import Max
 from django.contrib.auth.models import User
 #from app_actividad.models import crearActividad
 from app_log.models import ManejadorAccion, Accion
-import datetime
 from datetime import date
 from django.core.exceptions import ValidationError
 
@@ -66,13 +67,25 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
         logindueno =  usuario)
     nuevo.save()
 
+
+    if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', nombrepiz):
+        Accion.objects.crearAccion(
+            usuario,
+            "El usuario %s inserto strings peligrosos creando la pizarra %s" % (usuario.username, nombrepiz),
+            'w'
+            )
+    elif re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', descripcionpiz):
+        Accion.objects.crearAccion(
+            usuario,
+            "El usuario %s inserto strings peligrosos creando la pizarra %s" % (usuario.username, nombrepiz),
+            'w'
+            )
+
     #Se registra en el log la creacion de la nueva pizarra
-    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     nombre_usuario = usuario.username            
     Accion.objects.crearAccion(
         usuario,
         "El usuario %s creo la pizarra %s" % (nombre_usuario, str(nombrepiz)),
-        fechaYHora,
         'i')
 
     #   Creamos la actividad que representa a la pizarra dentro de la pizarra   
@@ -104,14 +117,24 @@ def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal, usuario):
         nuevapiz.fechafinal = fechafinal
         nuevapiz.save()
 
-        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
         nombre_usuario = usuario.username
 
+        if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', nombrepiz):
+            Accion.objects.crearAccion(
+                usuario,
+                "El usuario %s inserto strings peligrosos modificando la pizarra %s" % (usuario.username, nombrepiz),
+                'w'
+                )
+        elif re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', descripcionpiz):
+            Accion.objects.crearAccion(
+                usuario,
+                "El usuario %s inserto strings peligrosos modificando la pizarra %s" % (usuario.username, nombrepiz),
+                'w'
+                )
         #Se registra en el log la creacion de la nueva pizarra
         Accion.objects.crearAccion(
             usuario,
             "El usuario %s modifico la informacion de la pizarra %s" % (nombre_usuario, str(nombrepiz)), 
-            fechaYHora,
             'i')   
 
 
@@ -138,11 +161,9 @@ def eliminar(idpiz):
 	elemAct.save()
 
     #Se registra en el log la creacion de la nueva pizarra
-    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     Accion.objects.crearAccion(
         usuario,
         "El usuario %s elimino la pizarra %s" % (usuario.username, str(elem.nombrepiz)), 
-        fechaYHora,
         'w')       
     
 

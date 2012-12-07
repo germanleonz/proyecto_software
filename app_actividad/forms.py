@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 from datetime import datetime
 import re
 
-
 """
 Form para crear nueva pizarra
 """

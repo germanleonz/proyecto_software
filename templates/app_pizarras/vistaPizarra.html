@@ -81,7 +81,16 @@
           <form action="{% url 'app_usuarios:perfil_usuario' %}" method="post">
             {% csrf_token %}
             <input type="hidden" value="{{elem.username}}" name="usuario"/>
+            {% ifnotequal elem.first_name "" %}
+            {% ifnotequal elem.last_name "" %}
             <input type="submit" class="participante" value="{{elem.first_name}} {{elem.last_name}}"/>
+            {%endifnotequal%}
+            {%endifnotequal%}
+            {% ifequal elem.first_name "" %}
+            {% ifequal elem.last_name "" %}
+            <input type="submit" class="participante" value="{{elem.username}}"/>
+            {%endifequal%}
+            {%endifequal%}
           </form>
           </br>
           {%endfor%}

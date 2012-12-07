@@ -39,37 +39,69 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
        actividad_padre = padre)
 	a.save()
 
-    #Se registra en el log la creacion de la nueva actividad
-	fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")          
+	if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', nombre):
+		Accion.objects.crearAccion(
+		    creador,
+		    "El usuario %s inserto strings peligrosos creando la actividad %s" % (creador.username, nombre),
+		    'w'
+		)
+	elif re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', descript):
+		Accion.objects.crearAccion(
+		    creador,
+		    "El usuario %s inserto strings peligrosos creando la actividad %s" % (creador.username, nombre),
+		    'w'
+		)
+
+    #Se registra en el log la creacion de la nueva actividad        
 	Accion.objects.crearAccion(
     	creador,
         "El usuario %s creo la actividad %s" % (creador.username, nombre), 
-        fechaYHora, 
         'i')
 
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent, user):
-    act = Actividad.objects.filter(idact = idactividad)
-    act.update(nombreact=nombre,descripcionact=descript, fechainicial=fechaini, fechaentrega=fechaent)
-    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    Accion.objects.crearAccion(
-      user,
-      "El usuario %s modifico la informacion de la actividad %s" % (user.username, nombre), 
-      fechaYHora,
-      'i')
+	act = Actividad.objects.filter(idact = idactividad)
+	act.update(nombreact=nombre,descripcionact=descript, fechainicial=fechaini, fechaentrega=fechaent)
+	if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', nombre):
+		Accion.objects.crearAccion(
+			user,
+			"El usuario %s inserto strings peligrosos modificando la actividad %s" % (user.username, nombre),
+			'w'
+		)
+	elif re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', descript):
+		Accion.objects.crearAccion(
+			user,
+			"El usuario %s inserto strings peligrosos modificando la actividad %s" % (user.username, nombre),
+			'w'
+		)
+		Accion.objects.crearAccion(
+			user,
+			"El usuario %s modifico la informacion de la actividad %s" % (user.username, nombre), 
+			'i')
     
-def editarAsignado(idactividad, idAsignado):
-    act = Actividad.objects.filter(idact = idactividad)
-    act.update(loginasignado = idAsignado)
-    
+def editarAsignado(idactividad, idAsignado, user):
+	act = Actividad.objects.get(idact = idactividad)
+	act.loginasignado = idAsignado
+	print "ENTRE\n"
+	Accion.objects.crearAccion(
+		user,
+		"El usuario %s asigno la actividad %s al usuario %s" % (user.username, act.nombreact, idAsignado.username), 
+		'i')
+	act.save()
+
+
 def editarJefe(idactividad, idJefe):
-    act = Actividad.objects.filter(idact = idactividad)
+    act = Actividad.objects.get(idact = idactividad)
     act.update(loginjefe = idJefe)
 
-def cambiarEstado(idactividad, newEstado):
+def cambiarEstado(idactividad, newEstado, user):
 	act = Actividad.objects.get(idact = idactividad)
 	if newEstado == "c" and act.estadoact != "c":
 		act.estadoact = "c"
 		act.avanceact = 100
+		Accion.objects.crearAccion(
+			user,
+			"El usuario %s cambio el estado la actividad %s" % (user.username, act.nombreact), 
+			'i')
 		act.save()
 		calcularAvance(act.actividad_padre.idact)
 		print "modifique avance"
@@ -77,7 +109,12 @@ def cambiarEstado(idactividad, newEstado):
 		pass
 	else:
 		act.estadoact = newEstado
+		Accion.objects.crearAccion(
+			user,
+			"El usuario %s cambio el estado la actividad %s" % (user.username, act.nombreact), 
+			'i')
 		act.save()
+
 
 def esHoja(idact):
 	act = Actividad.objects.filter(actividad_padre = idact)
@@ -121,11 +158,9 @@ def eliminarActividad(idactividad, usuario):
     act.is_active = False
     act.save()
 
-    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     Accion.objects.crearAccion(
       usuario,
       "El usuario %s elimino la actividad %s" % (usuario.username, act.nombreact), 
-      fechaYHora,
       'i')
 
 #pasar un nodo

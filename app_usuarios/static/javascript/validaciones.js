@@ -263,6 +263,16 @@ function validarContrasenas() {
     return valido;
 }
 
+function validarCorreo() {
+    var correo = $("#recipiente"),
+    valido = true,
+    div = "#errores_asignar_actividad";
+
+    valido = valido && checkLength(correo,"Correo",1,50,div);
+    return valido;
+}
+
+
 function validarActividad(){
   var nombre = $("#id_nombre"),
       descripcion = $("#id_descripcion"),

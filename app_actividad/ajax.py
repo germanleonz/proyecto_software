@@ -17,7 +17,6 @@ def crearActividadForm(request,data):
     vista = render_to_string('app_actividad/crear_actividad.html',{'form':form, 'idpiz': data})
     return simplejson.dumps({'vista': vista})
 
-
 @dajaxice_register
 def mostrarActividad(request,data):
     act = Actividad.objects.get(idact = data)
@@ -46,3 +45,7 @@ def crearComentario(request,form,data):
     vista = render_to_string('app_actividad/vistaActividad.html', {'lista': lista, 'actividad': act, })
     return simplejson.dumps({'vista':vista})
 
+@dajaxice_register
+def asignarActividadAjax(request, id_actividad, idpiz):
+    vista = render_to_string('app_actividad/asignar_actividad.html', {'id_actividad': id_actividad, 'idpiz': idpiz})
+    return simplejson.dumps({'vista': vista})

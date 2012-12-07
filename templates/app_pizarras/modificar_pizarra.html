@@ -1,25 +1,5 @@
 <script type="text/javascript">
-  $(function() {    
-    $("#id_fecha_final").datepicker({
-        changeMonth: true,
-        changeYear: true
-    });
-
-    $( "#id_fecha_final" ).datepicker(
-      "option", "dateFormat", "dd/mm/yy" 
-    );
-
-    $( "#id_fecha_final" ).datepicker({
-        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
-    });   
-
-    var dayNamesMin = $( "#id_fecha_final" ).datepicker( "option", "dayNames" );
-    $( "#id_fecha_final" ).datepicker( 
-      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
-    );
-
-    $( "#id_fecha_final" ).datepicker( "option", "yearRange", "1970:2012" );
-  });
+  calendarios();
 </script>
 <div id="errores_modificar_pizarra" class="errores"/>
 <form id="modificarPizarraForm" action="{% url app_pizarras:modificar_pizarra %}" method="post">

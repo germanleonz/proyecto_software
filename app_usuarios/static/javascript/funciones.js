@@ -5,6 +5,49 @@
  * my_js_callback* : funciones que se llaman con dajaxice para usar ajax con django
  *
  */
+/*Funcion para crear los calendarios*/
+function calendarios(){
+    //calendarios fecha de inicio
+    $("#id_fecha_inicio").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+    $( "#id_fecha_inicio" ).datepicker(
+      "option", "dateFormat", "dd/mm/yy" 
+    );
+
+    $( "#id_fecha_inicio" ).datepicker({
+        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    });   
+
+    var dayNamesMin = $( "#id_fecha_inicio" ).datepicker( "option", "dayNames" );
+    $( "#id_fecha_inicio" ).datepicker( 
+      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    );
+
+    $( "#id_fecha_inicio" ).datepicker( "option", "yearRange", "1970:2012" );
+
+    //calendarios fecha de entrega
+    $("#id_fecha_final").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+
+    $( "#id_fecha_final" ).datepicker(
+      "option", "dateFormat", "dd/mm/yy" 
+    );
+
+    $( "#id_fecha_final" ).datepicker({
+        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    });   
+
+    var dayNamesMin = $( "#id_fecha_final" ).datepicker( "option", "dayNames" );
+    $( "#id_fecha_final" ).datepicker( 
+      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    );
+
+    $( "#id_fecha_final" ).datepicker( "option", "yearRange", "1970:2012" );
+};
 
 /*funcion para mostrar dialog*/
 function dialog(){
@@ -167,7 +210,30 @@ function dialog(){
     })
     });
 
-  /*dialog de crearActividad*/
+  /*dialog de asignarActividad*/
+  $("#asignarActividad").click(function(){
+    $("#dialogAsignarActividad").dialog({
+      modal:true,
+      position: { my: "center", at: "top", of: window },
+      dialogClass: 'style_Dialog',
+      title: "Asignar Actividad",
+      buttons: {
+        "Asignar Actividad": function(){
+          valido = validarCorreo();
+          if (valido){
+            $("#asignarActividadForm").submit();
+            $(this).dialog("close");
+          }
+
+        },
+        Cancelar: function(){
+          $(this).dialog("close");
+        }
+      }
+    })
+    });
+
+  /*dialog de modificarActividad*/
   $("#modificarActividad").click(function(){
     $("#formActividad").dialog({
       modal:true,
@@ -252,6 +318,10 @@ function my_js_callbackActividad(data){
 
 function visualizarActividad(data){
   $("#ventanaActividad").html(data.vista);
+}
+
+function my_js_callbackAsignarActividad(data) {
+  $("#dialogAsignarActividad").html(data.vista);
 }
 
 function my_js_callbackModificarActividad(data){
