@@ -24,6 +24,12 @@ function divSubmit(div){
 
 $(document).ready(function () {
   $('#pared').paginateTable({ rowsPerPage: 3 });
+
+  $(".pizarra").click(function(e) {
+    if (e.target.id != "modi") {
+      divSubmit(this);
+    }
+  });
 });
 </script>
 <table id="pared">
@@ -33,23 +39,18 @@ $(document).ready(function () {
     <tr>
       {% endif %}
       <td>
-        <div class="pizarra" onclick="divSubmit(this)" >
+        <div class="pizarra">
           <div id="cabeza">
             <div id="titulo">
               {{object.nombrepiz}}
             </div>
             <form action="{% url app_pizarras:eliminar_pizarra %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta pizarra?')) return false" style="width: 25px;float: right;">
               {% csrf_token %}
-              <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>
               <input class="borrar" type="submit" value=""/>
             </form>
-            <form action="{% url app_pizarras:modificar_form %}" method="post" style="width: 25px;float: right;">
+            <form action="{% url app_pizarras:modificar_form %}" onsubmit="return false;" method="post" style="width: 25px;float: right;">
               {% csrf_token %}
-              <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>
-              <input type="hidden" name="nombrepiz" value="{{object.nombrepiz}}"/>
-              <input type="hidden" name="descripcionpiz" value="{{object.descripcionpiz}}"/>
-              <input type="hidden" name="fechafinal" value="{{object.fechafinal}}"/>
-              <input class="modi" type="submit" value=""/>
+              <button type="submit" class="modi" id="modi" onclick="Dajaxice.app_pizarras.modificarPizarraAjax(my_js_callbackModificarPizarra, {'id_pizarra' : {{object.idpiz}}}); return false;"></button>
             </form>
             <form id="visualizarPizarra" action="{% url app_pizarras:visualizar_pizarra %}" method="post">
               {% csrf_token %}
