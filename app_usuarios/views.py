@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from app_actividad.models import *
 
 import app_pizarras
 from app_usuarios.models import UserProfile, ManejadorUsuario
@@ -211,10 +212,16 @@ def eliminar_usuario(request):
         #form = EliminarUsuarioForm(request.POST)
         nombre_usuario = request.POST['nombre_usuario']
         print "Eliminando a %s" % nombre_usuario
-        usuario = User.objects.filter(username=nombre_usuario)
+        usuario = User.objects.get(username=nombre_usuario)
+        act = Actividad.objects.filter(loginasignado=usuario, is_active = True)
+        for elem in act:
+	    cambiarEstado(elem, 's', request.user)
+        
+        
         usuario.update(is_active = False)
         print "Usuario eliminado"
 
+        
         #Se obtiene al usuario que realizo la eliminacion
         usuarioNew = request.user
         username = str(usuarioNew.username)
