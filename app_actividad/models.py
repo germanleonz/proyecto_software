@@ -58,6 +58,11 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
         "El usuario %s creo la actividad %s" % (creador.username, nombre), 
         'i')
 
+	Accion.objects.crearAccion(
+    	creador,
+        "Se creo una instancia de Actividad con los valores Nombre: %s, Fecha de Inicio: %s y Fecha de Entrega: %s" % (nombre, fechaini, fechaent), 
+        'd')
+
 def modificarActividad(idactividad, nombre, descript, fechaini, fechaent, user):
 	act = Actividad.objects.filter(idact = idactividad)
 	act.update(nombreact=nombre,descripcionact=descript, fechainicial=fechaini, fechaentrega=fechaent)
