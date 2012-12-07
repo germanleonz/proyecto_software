@@ -124,7 +124,7 @@ class Node(object):
 
         string = '"id": "'+str(self.data.idact)+'",'
         string += '"name": "'+self.data.nombreact+' '
-        string += self.data.loginjefe.username+' '
+        string += self.data.loginasignado.username+' '
         string += str(self.data.avanceact)+'",'
         string += '"data": { "$color" : '
         if (self.data.estadoact == 'c'):
