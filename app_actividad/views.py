@@ -112,13 +112,17 @@ def eliminar_actividad(request):
         piz = Pizarra.objects.get(idpiz = idpiz)
         act = Actividad.objects.get(idact = idact)    
         usuario = request.user
+
+        
         eliminarActividad(idact, usuario)
-        calcularAvance(act.actividad_padre.idact)
+        if act.actividad_padre != None:
+          calcularAvance(act.actividad_padre.idact)
 
         colab = colaboradores(idpiz)
         #Lista de mis actividades
         lista = obtener_misActividades(request.POST['idpiz'], usuario)
         #Lista de arboles de mis actividades   
+        string = ''
         root = []
         for elem in lista:
             root.append(Node(elem))
@@ -190,13 +194,13 @@ def modificar_actividad(request):
       	nombreact = data['nombreact']
       	descripcionact = data['descripcionact']
       	fechaInicial = data['fechainicial']
-      	fechaEntrega = data['fecha_final']
+      	fechaEntrega = data['fechaentrega']
       	act = Actividad.objects.get(idact = idact)
       	user = request.user
         modificarActividad(idact,nombreact,descripcionact,fechaInicial,fechaEntrega, user)
         act = Actividad.objects.get(idact = idact)
         lista = obtener_comentarios(idact)
-        return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, 'actividad': act})
+        return visualizar_actividad(request)
       
       else:
       	print "form no valido"
@@ -204,9 +208,9 @@ def modificar_actividad(request):
       	lista = []
       	lista.append(request.POST['nombreact'])
       	lista.append(request.POST['descripcionact'])
-      	lista.append(request.POST['fecha_inicio'])
-      	lista.append(request.POST['fecha_final'])
-	return render(request, 'app_actividad/modificar_actividad.html', { 'form': form, 'idact' : idact, 'lista' : lista })
+      	lista.append(request.POST['fechainicial'])
+      	lista.append(request.POST['fechaentrega'])
+	return visualizar_actividad(request)
 	
 @csrf_exempt	
 @login_required
@@ -220,7 +224,7 @@ def cambiar_estado_actividad(request):
             cambiarEstado(idact,estado, request.user)
         lista = obtener_comentarios(idact)
         act = Actividad.objects.get(idact = idact)
-        return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, 'actividad': act})
+        return visualizar_actividad(request)
 
 @csrf_exempt
 @login_required

@@ -137,19 +137,20 @@ def calcularAvance(idact):
 	"""
 	act = Actividad.objects.get(idact = idact)
 	hijos = Actividad.objects.filter(actividad_padre = idact, is_active = True)
-	completadas = 0
+	completadas = 0.00
 	total = 0
 	for elem in hijos:
 		total+= 1
 		if elem.estadoact == "c":
-			completadas+=1
+			completadas += elem.avanceact
 	print completadas
 	if total==1:
 		for elem in hijos:
 			nuevoAvance = elem.avanceact
 	else:
-		if total !=0:
-			nuevoAvance =  ((completadas+0.00) / (total+0.00)) * 100.00
+		nuevoAvance = 0 
+        if total != 0:
+            nuevoAvance =  ((completadas+0.00) / (total+0.00))
 	if nuevoAvance == 100.00:
 		act.estadoact = "c"
 	elif nuevoAvance != 100.00 and act.estadoact =="c":
