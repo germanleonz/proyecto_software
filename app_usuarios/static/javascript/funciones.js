@@ -210,7 +210,30 @@ function dialog(){
     })
     });
 
-  /*dialog de crearActividad*/
+  /*dialog de asignarActividad*/
+  $("#asignarActividad").click(function(){
+    $("#dialogAsignarActividad").dialog({
+      modal:true,
+      position: { my: "center", at: "top", of: window },
+      dialogClass: 'style_Dialog',
+      title: "Asignar Actividad",
+      buttons: {
+        "Asignar Actividad": function(){
+          valido = validarCorreo();
+          if (valido){
+            $("#asignarActividadForm").submit();
+            $(this).dialog("close");
+          }
+
+        },
+        Cancelar: function(){
+          $(this).dialog("close");
+        }
+      }
+    })
+    });
+
+  /*dialog de modificarActividad*/
   $("#modificarActividad").click(function(){
     $("#formActividad").dialog({
       modal:true,
@@ -295,6 +318,10 @@ function my_js_callbackActividad(data){
 
 function visualizarActividad(data){
   $("#ventanaActividad").html(data.vista);
+}
+
+function my_js_callbackAsignarActividad(data) {
+  $("#dialogAsignarActividad").html(data.vista);
 }
 
 function my_js_callbackModificarActividad(data){
