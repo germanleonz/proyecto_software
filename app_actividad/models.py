@@ -90,7 +90,7 @@ def editarAsignado(idactividad, idAsignado, user):
 
 
 def editarJefe(idactividad, idJefe):
-    act = Actividad.objects.get(idact = idactividad)
+    act = Actividad.objects.filter(idact = idactividad)
     act.update(loginjefe = idJefe)
 
 def cambiarEstado(idactividad, newEstado, user):
