@@ -39,12 +39,10 @@ $(function(){
 </a>
 
 <a class="opcionesDer">
-  <form action="{% url 'app_actividad:crear_subactividad' %}" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-    <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
-    <input type="submit" id="crearSubActividad" value="Crear Sub-Actividad"/>
-  </form>
+<form action="{% url 'app_actividad:crear_subactividad' %}" method="post" onclick="return false;">
+     {% csrf_token %}
+    <button type="submit" id="crearSubactividad" onclick="Dajaxice.app_actividad.crearSubactividadAjax(my_js_callbackCrearSubactividad, {'idact' : {{actividad.idact}}, 'idpiz': {{pizarra.idpiz}}});">Crear subactividad</button>
+</form>
 </a>
 {% endblock botones %}
 {% block cuerpo %}
