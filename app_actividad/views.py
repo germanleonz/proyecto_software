@@ -207,7 +207,7 @@ def cambiar_estado_actividad(request):
         print "holaaaaaaaaaa soy idact",
         print idact
         if estado != "null":
-            cambiarEstado(idact,estado)
+            cambiarEstado(idact,estado, request.user)
         lista = obtener_comentarios(idact)
         act = Actividad.objects.get(idact = idact)
         return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, 'actividad': act})
@@ -280,7 +280,7 @@ def invitar_usuario(request):
             tel = '000'
             usuario = UserProfile.objects.create(user= nuevo, telefono=tel)
 
-            editarAsignado(id_actividad,nuevo)
+            editarAsignado(id_actividad,nuevo, request.user)
             editarJefe(id_actividad,request.user)
             
             # Acomodar el crear_colaborador con la logica del negocio 
@@ -291,10 +291,12 @@ def invitar_usuario(request):
             asunto = "Buen dia %s, usted ha sido seleccionado para trabajar en una actividad" % nombre_user
             mensaje = "El presente correo es para notificarle que a usted se la ha asignado la actividad \"%s\" del Proyecto \"%s\"" % (nombre_actividad, nombre_pizarra)
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
+            editarAsignado(id_actividad, usuario, request.user)
+            editarJefe(id_actividad, request.user)
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
         
 
-        cambiarEstado(id_actividad, 'e')
+        cambiarEstado(id_actividad, 'e', request.user)
         act = Actividad.objects.get(idact=id_actividad)
 
         piz = act.idpizactividad

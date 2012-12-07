@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from app_log.models import ManejadorAccion, Accion
 
 class ManejadorUsuario(UserManager):
+
     def crear_colaborador(self, data, usuario):
         """
         Crea un colaborador con los datos proporcionados
@@ -23,17 +24,28 @@ class ManejadorUsuario(UserManager):
         u.set_password(data['nueva_password'])
         u.first_name = data['nuevo_nombre']
         u.last_name = data['nuevo_apellido']
+        
+        if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', u.first_name):
+            Accion.objects.crearAccion(
+                usuario,
+                "El usuario %s inserto strings peligrosos creando al usuario %s" % (usuario.username, u.username),
+                'w'
+                )
+        elif re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', u.last_name):
+                Accion.objects.crearAccion(
+                usuario,
+                "El usuario %s inserto strings peligrosos creando al usuario %s" % (usuario.username, u.username),
+                'w'
+                )
         u.save()
 
         up = UserProfile.objects.create(user=u, telefono= data["nuevo_telefono"])
         #   Agregamos el usuario recien creado al grupo de los colaboradores
         u.groups.add(Group.objects.get(name="Colaboradores"))
         #Se registra en el log que "usuario" creo a un nuevo colaborador
-        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
         Accion.objects.crearAccion(
-            u, 
+            usuario, 
             "El usuario %s agrego a %s" % (usuario.username, u.first_name),
-            fechaYHora,
             'i')
         return up  
 
@@ -76,22 +88,29 @@ class ManejadorUsuario(UserManager):
             nuevouser.save()
             print nuevoProfile.values()
 
+            if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', nombre):
+                Accion.objects.crearAccion(
+                usuario,
+                "El usuario %s inserto strings peligrosos modificando al usuario %s" % (usuario.username, modificado.username),
+                'w'
+                )
+            elif re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', apellido):
+                Accion.objects.crearAccion(
+                usuario,
+                "El usuario %s inserto strings peligrosos creando al usuario %s" % (usuario.username, modificado.username),
+                'w')
+
             #Se agrega en el log que "usuario" edito su perfil
-
-            fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-
             #si el usuario esta modificando su propio perfil
             if (usuario.username == modificado.username):
                 Accion.objects.crearAccion(
                     usuario,
                     "El usuario %s modifico la informacion de su perfil" % usuario.username,
-                    fechaYHora,
                     'i')
             else:
                 Accion.objects.crearAccion(
                 usuario,
                 "El usuario %s modifico la informacion de %s" % (usuario.username, modificado.username),
-                fechaYHora,
                 'i')
 
 
@@ -102,18 +121,15 @@ class ManejadorUsuario(UserManager):
 
         #si se intenta eliminar a un usuario que es administrador se considera
         #a ese log como warning, si se elimina a un colaborador el log es de tipo info.
-        fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
         if usuario.groups.filter(name='Administradores').exists():
             Accion.objects.crearAccion(
                 usuario,
                 "El usuario %s elimino al administrador %s" % (nombre_userloggeado, nombre_usuario),
-                fechaYHora,
                 'w')
         else:            
             Accion.objects.crearAccion(
                 usuario,
                 "El usuario %s elimino a %s" % (nombre_userloggeado, nombre_usuario),
-                fechaYHora,
                 'i')
 
 
