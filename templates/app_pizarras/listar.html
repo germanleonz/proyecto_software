@@ -56,11 +56,12 @@ $(document).ready(function () {
             <form id="visualizarPizarra" action="{% url app_pizarras:visualizar_pizarra %}" method="post">
               {% csrf_token %}
               <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>  
-            </form>
+            </form>  
           </div>
           <div id="content">
             {{object.descripcionpiz}}
           </div>
+         
         </div>
       </td>
       {% if forloop.counter|divisibleby:"2"%}
