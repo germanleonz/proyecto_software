@@ -111,7 +111,7 @@ function dialog(){
             $(this).dialog("close");
           } 
         },
-      Cancel: function() {
+      Cancelar: function() {
         $(this).dialog("close");
       }
       }
@@ -134,7 +134,7 @@ function dialog(){
             $(this).dialog("close");
           } 
         },
-      Cancel: function() {
+      Cancelar: function() {
         $(this).dialog("close");
       }
       }
@@ -157,7 +157,7 @@ function dialog(){
             $(this).dialog("close");
           } 
         },
-      Cancel: function() {
+      Cancelar: function() {
         $(this).dialog("close");
       }
       }
@@ -180,7 +180,7 @@ function dialog(){
             $(this).dialog("close");
           } 
         },
-      Cancel: function() {
+      Cancelar: function() {
         $(this).dialog("close");
       }
       }

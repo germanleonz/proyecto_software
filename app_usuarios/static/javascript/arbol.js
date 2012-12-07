@@ -50,8 +50,8 @@ function init(data){
         //set overridable=true for styling individual
         //nodes or edges
         Node: {
-            height: 50,
-            width: 100,
+            height: 60,
+            width: 120,
             type: 'rectangle',
             color: '#aaa',
             overridable: true
@@ -107,8 +107,8 @@ function init(data){
             }
             //set label styles
             var style = label.style;
-            style.width = 100 + 'px';
-            style.height = 40 + 'px';            
+            style.width = 120 + 'px';
+            style.height = 60 + 'px';            
             style.cursor = 'pointer';
             style.textAlign= 'center';
             style.color = "#000"
