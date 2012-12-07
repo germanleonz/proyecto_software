@@ -141,7 +141,6 @@ def listar_usuarios(request):
 
 @csrf_exempt
 @login_required
-@permission_required('auth.can_change_user')
 def modificar_usuario(request):
     """
     Metodo que llama al Manejador de Usuarios para modificar los datos de un usuario
