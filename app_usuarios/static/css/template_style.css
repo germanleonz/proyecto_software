@@ -395,3 +395,50 @@ fieldset {
   background: -moz-linear-gradient(top,  #ededed,  #fff);
   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#ffffff');
 }
+
+
+/*Styling de caja de vistas*/
+
+#vistas{
+  cursor: pointer; 
+  float: right; 
+  margin-top: 10px; 
+  margin-right: 20px; 
+  min-width: 100px; 
+  border: 1px solid #aaa; 
+  text-align: center; 
+  background: #FFF;
+}
+
+#vistasDropDown{
+  background: #FFF;
+  position:absolute; 
+  z-index: 90; 
+  right: 0; 
+  margin-top: 30px;
+  margin-right: 20px;
+  border: 1px solid #aaa;
+  min-width: 100px;
+}
+
+#vistasDropDown input[type="submit"]{
+  cursor: pointer;
+  background: #FFF;
+  text-align: center;
+  border: solid #aaa;
+  border-width: 0px 0px 1px 0px;
+  width: 100%;
+}
+
+#vistasDropDown input[type="submit"]:hover{
+  background: #aaa;
+}
+
+#vistasDropDown form{
+  height: 0px;
+  
+}
+
+.node table{
+  font-size: 12px !important;
+}
