@@ -1,0 +1,37 @@
+#bordeComents {
+	width: 200px;
+	height: 559px;
+	max-height: 559px; 
+	float: right;
+	background: #bbb;
+	border-left: solid #999 1px;
+}
+
+#subactividades {
+	width: 500px;
+	height: 560px;
+	margin-left: 190px; 
+}
+
+.subact{
+	width: 100px;
+	height: 80px;
+	margin: 15px;
+	color: black;
+	float: left;
+}
+
+#comentarios {
+	width: 200px;
+	height: 490px;
+	max-height: 559px;
+	overflow-y: auto; 
+}
+
+#tablaComentarios {
+	width: 182px;
+}
+
+#tablaComentarios tr td {
+	background: white;
+}

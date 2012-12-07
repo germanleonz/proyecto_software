@@ -70,7 +70,6 @@ a {
 	margin: 0 auto;
 	width: 900px;
 	height: 100% !important;
-  background: #f0f0f0;
   background: #BBB;
 }
 
@@ -241,7 +240,7 @@ a {
   border-width: 0px 1px 0px 0px;
 }
 
-.opcionesIzq input[type="submit"], .opcionesDer input[type="submit"], .opcionesIzq button{
+.opcionesIzq input[type="submit"], .opcionesDer input[type="submit"], .opcionesIzq button, .opcionesDer button{
   font-size: 16px;
   cursor: pointer;
   border: none;
@@ -315,15 +314,15 @@ fieldset {
 #columna {
   float: left;
   width: 180px;
-  height: 500px;
-  max-height: 500px;
+  height: 559px;
+  max-height: 559px;
   border-right: solid 1px #999;
   background: #bbb;
 }
 
 #columna table, #columna a {
   width: 180px;
-  color: black;
+  color: white;
   font-size: 13px;
   text-align: justify;
 }

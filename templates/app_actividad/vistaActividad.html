@@ -3,7 +3,7 @@
 {% load staticfiles %}
 {% block titulo %}Actividad "{{actividad.nombreact}}"{% endblock titulo %}
 {% block css %}
-<link href="{% static "css/vistaPizarra_style.css" %}" rel="stylesheet" type="text/css"/>
+<link href="{% static "css/vistaActividad_style.css" %}" rel="stylesheet" type="text/css"/>
 {% endblock css %}
 {% block javascript %}
 <script>
@@ -31,10 +31,10 @@ $(function(){
   <input type="image" class="opcionesIzq" src="{% static "img/rem.png" %}" style="height: 20px;"/>
 </form>
 
-<a class="opcionesIzq" style="height: 20px;">
+<a class="opcionesIzq" style="height: 40px; width: 40px; padding: 0">
   <form action="{% url 'app_actividad:modificar_form' %}" onsubmit="return false;" method="post" style="margin: 0;">
     {% csrf_token %}
-    <button type="submit" id="modificarActividad" onclick="Dajaxice.app_actividad.modificarActividadAjax(my_js_callbackModificarActividad, {'idact' : {{actividad.idact}}});"><img style="height: 20px;" src="{% static "img/pencil.png" %}"></button>
+    <button type="submit" id="modificarActividad" onclick="Dajaxice.app_actividad.modificarActividadAjax(my_js_callbackModificarActividad, {'idact' : {{actividad.idact}}});"><img style="height: 20px; width: 20px; margin: 8px 3px" src="{% static "img/pencil.png" %}"></button>
   </form>
 </a>
 
@@ -42,6 +42,15 @@ $(function(){
 <form action="{% url 'app_actividad:crear_subactividad' %}" method="post" onclick="return false;">
      {% csrf_token %}
     <button type="submit" id="crearSubactividad" onclick="Dajaxice.app_actividad.crearSubactividadAjax(my_js_callbackCrearSubactividad, {'idact' : {{actividad.idact}}, 'idpiz': {{pizarra.idpiz}}});">Crear subactividad</button>
+</form>
+</a>
+
+<a class="opcionesDer">
+<form action="{% url 'app_actividad:asignar_actividad' %}" onclick="return false;" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
+  <button type="submit" id="asignarActividad" onclick="Dajaxice.app_actividad.asignarActividadAjax(my_js_callbackAsignarActividad, {'id_actividad' : {{actividad.idact}}, 'idpiz': {{actividad.idpizactividad.idpiz}}});">Asignar</button>
 </form>
 </a>
 {% endblock botones %}
@@ -118,56 +127,64 @@ $(function(){
             <option value="p"> Postergada </option>
           </select>
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-          <input type="submit" value="Cambiar Estado" />
-        </form>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <form action="{% url 'app_actividad:asignar_actividad' %}" onclick="return false;" method="post">
-          {% csrf_token %}
-          <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-      	  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
-          <button type="submit" id="asignarActividad" onclick="Dajaxice.app_actividad.asignarActividadAjax(my_js_callbackAsignarActividad, {'id_actividad' : {{actividad.idact}}, 'idpiz': {{actividad.idpizactividad.idpiz}}});">Asignar a otro</button>
+          <input type="submit" value="OK" />
         </form>
       </td>
     </tr>
   </table>
 </div>
 <div id="arbol">
-  <ul>
-    <li><a href="#comentarios">Comentarios</a></li>
-    <li><a href="#subactividades">Subactividades</a></li>
-  </ul>
-  <div id="comentarios">
-    <table id="tablaComentarios">
-      {% for elem in lista %}
-      <tr>
-        <td>
-         <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post">
-           {% csrf_token %}
-           {{elem.contenido}}
-           <br>
-           Fecha: {{elem.fechacomentario}}
-           Hora: {{elem.horacomentario}}
-           <br>
-           Autor: {{elem.loginusuario}}
-           <input type="hidden" name="idcomentario" value="{{elem.idcomentario}}"/>
-           <input type="submit" value="Eliminar"/>
-         </form>
-       </td>
-     </tr>
-     {% endfor %}
-   </table>
+  <div id="bordeComents">
+    <div id="comentarios">
+      <table id="tablaComentarios">
+        {% for elem in lista %}
+        <tr>
+          <td>
+           <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post">
+             {% csrf_token %}
+             <input type="image" src="{% static "img/rem.png" %}" style="height: 10px; float: right;"/>
+             {{elem.contenido}}
+             <br>
+             {{elem.fechacomentario}} {{elem.horacomentario}}
+             <br>
+             Autor: {{elem.loginusuario}}
+             <input type="hidden" name="idcomentario" value="{{elem.idcomentario}}"/>
+           </form>
+         </td>
+       </tr>
+       {% endfor %}
+     </table>
+   </div>
    <!-- hacer comentarios -->
-   <div id="comentar">
-    <form action="{% url 'app_comentarios:crear_comentario' %}" id="crear_comentario" method="post">{% csrf_token %}
-      <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-      <textarea id="contenido" name="contenido"></textarea>
-      <input type="submit" value="Comentar"/>
-    </form>
+    <div id="comentar">
+      <form action="{% url 'app_comentarios:crear_comentario' %}" id="crear_comentario" method="post">{% csrf_token %}
+        <input type="hidden" name="idact" value="{{actividad.idact}}"/>
+        <textarea id="contenido" style="resize: none; width: 200px" name="contenido"></textarea>
+        <input type="submit" value="Comentar"/>
+      </form>
+    </div>
   </div>
-</div>
-<div id="subactividades"></div>
+  <div id="subactividades">
+    {% for elem in listasub %}
+      <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizar_actividad" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="idact" value="{{elem.idact}}" />
+          <button class="subact" type="submit"
+          style=" {% if elem.estadoact == "c" %}
+                    background: #19AC19;
+                  {% elif elem.estadoact == "r" %}
+                    background: #FFCC00;
+                  {% elif elem.estadoact == "p" %}
+                    background: #FF0000;
+                  {% elif elem.estadoact == "e" %}
+                    background: #3399FF;
+                  {% elif elem.estadoact == "s"
+                    background: #FFFFFF;
+                  {% endif %}">
+            {{elem.nombreact}}
+          </button>
+      </form>
+    {% endfor %}
+  </div>
 </div>
 {% endblock cuerpo%} 
