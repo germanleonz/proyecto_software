@@ -295,7 +295,7 @@ def invitar_usuario(request):
             mensaje = "El presente correo es para notificarle que a usted se la ha asignado la actividad \"%s\" del Proyecto \"%s\"" % (nombre_actividad, nombre_pizarra)
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
             editarAsignado(id_actividad, usuario, request.user)
-            editarJefe(id_actividad, request.user)
+            editarJefe(id_actividad, usuario. request.user)
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
         
 
