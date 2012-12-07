@@ -25,23 +25,23 @@ class Comentario(models.Model):
   loginusuario = models.ForeignKey(User, related_name = "comentario_loginusuario")
 
 
-def CreadorComentario(hora, fecha, contenido, idact, usuario):
+def CreadorComentario(hora, fecha, contenido, act, usuario):
   """
   Metodo que guarda en BD un nuevo comentario
   param hora: hora del comentario
   param fecha: fecha del comentario
   param contenido: contenido del comentario
-  param idact: actividad a la que pertenece el comentario
+  param act: actividad a la que pertenece el comentario
   param usuario: usuario que escribio el comentario
   autor: Ivan Travecedo
   fecha: 20/11/2012
   version: 1.0
   """ 
-  nuevoComentario = Comentario(horacomentario=hora, fechacomentario=fecha, contenido=contenido, idactcomentario=idact,loginusuario=usuario)
+  nuevoComentario = Comentario(horacomentario=hora, fechacomentario=fecha, contenido=contenido, idactcomentario=act,loginusuario=usuario)
   nuevoComentario.save()
   Accion.objects.crearAccion(
     usuario,
-    "El usuario %s hizo un comentario en la actividad %s" % (usuario.username, idact.nombreact),
+    "El usuario %s hizo un comentario en la actividad %s" % (usuario.username, act.nombreact),
     'i')
 
 def eliminar(idComentario, usuario, actividad):
