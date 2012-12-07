@@ -9,7 +9,7 @@ import datetime
 # Create your models here.
 
 class Actividad(models.Model):
-    idact = models.IntegerField(primary_key=True)
+    idact = models.AutoField(primary_key=True)
     idpizactividad = models.ForeignKey(Pizarra,related_name='actividad_enPizarra')
     fechainicial = models.DateField(auto_now=False, auto_now_add=False)
     fechaentrega = models.DateField(auto_now=False, auto_now_add=False)
@@ -22,36 +22,27 @@ class Actividad(models.Model):
     loginjefe = models.ForeignKey(User, related_name = 'actividad_loginJefe')
     loginasignado = models.ForeignKey(User, related_name = 'actividad_loginAsignado')
     actividad_padre = models.ForeignKey('self', related_name='sub_actividades', null=True) # Atributo que indica el padre de la actividad, en caso de que la actividad sea la raiz entonces el padre es null
-    is_active = models.BooleanField(default = True)
-
-class seDivide(models.Model):
-    idactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idAct')
-    idsubactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idSubAct')    
+    is_active = models.BooleanField(default = True) 
 
 def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
 
-    ult = Actividad.objects.all().aggregate(Max('idact'))
-    if ult['idact__max'] == None:
-        idact=0
-    else:
-        idact= ult['idact__max']+1
-    a=Actividad(idact=idact, 
-        nombreact=nombre,
-        descripcionact=descript,
-        fechainicial=fechaini,
-        fechaentrega=fechaent,
-        avanceact=0.00,estadoact='s',
-        idpizactividad=piz,
-        logincreador=creador,
-        loginjefe=creador,
-        loginasignado=creador,
-        actividad_padre= padre)
-    a.save()
+	a=Actividad(nombreact = nombre,
+       descripcionact = descript,
+       fechainicial = fechaini,
+       fechaentrega = fechaent,
+       avanceact = 0.00,
+       estadoact = 's',
+       idpizactividad = piz,
+       logincreador = creador,
+       loginjefe = creador,
+       loginasignado = creador,
+       actividad_padre = padre)
+	a.save()
 
     #Se registra en el log la creacion de la nueva actividad
-    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")          
-    Accion.objects.crearAccion(
-        creador,
+	fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")          
+	Accion.objects.crearAccion(
+    	creador,
         "El usuario %s creo la actividad %s" % (creador.username, nombre), 
         fechaYHora, 
         'i')
@@ -75,9 +66,52 @@ def editarJefe(idactividad, idJefe):
     act.update(loginjefe = idJefe)
 
 def cambiarEstado(idactividad, newEstado):
-    act = Actividad.objects.filter(idact = idactividad)
-    act.update(estadoact=newEstado)
+	act = Actividad.objects.get(idact = idactividad)
+	if newEstado == "c" and act.estadoact != "c":
+		act.estadoact = "c"
+		act.avanceact = 100
+		act.save()
+		calcularAvance(act.actividad_padre.idact)
+		print "modifique avance"
+	else:
+		act.estadoact = newEstado
+		act.save()
 
+def esHoja(idact):
+	act = Actividad.objects.filter(actividad_padre = idact)
+	print "es hoja"
+	return act.count() == 0
+
+def cantidadHijos(idact):
+	act = Actividad.objects.filter(actividad_padre = idact)
+	return act.count()
+	
+def calcularAvance(idact):
+	"""
+	Actua sobre el padre, calcula el avance
+	"""
+	act = Actividad.objects.get(idact = idact)
+	hijos = Actividad.objects.filter(actividad_padre = idact, is_active = True)
+	completadas = 0
+	total = 0
+	for elem in hijos:
+		total+= 1
+		if elem.estadoact == "c":
+			completadas+=1
+	print completadas
+	if total==1:
+		for elem in hijos:
+			nuevoAvance = elem.avanceact
+	else:
+		nuevoAvance =  ((completadas+0.00) / (total+0.00)) * 100.00
+	if nuevoAvance == 100.00:
+		act.estadoact = "c"
+	act.avanceact = nuevoAvance
+	act.save()
+	if act.actividad_padre != None:
+		calcularAvance(act.actividad_padre.idact)
+	print "calcular avanceeeee"
+	
 def eliminarActividad(idactividad, usuario):
     act = Actividad.objects.get(idact = idactividad)
     act.is_active = False
@@ -127,20 +161,20 @@ def colaboradores(idpiz):
     return colaboradores
 
 def obtener_actividades(idpiz):
-    """
-    Metodo que obtiene todas las actividades de una pizarra
-    """
-    act = Actividad.objects.filter(idpizactividad = idpiz)
-    lista = []
-    for elem in act:
-        lista.append(elem)
-    return lista
+	"""
+	Metodo que obtiene todas las actividades de una pizarra
+	"""
+	act = Actividad.objects.filter(idpizactividad = idpiz, is_active = True)
+	lista = []
+	for elem in act:
+		lista.append(elem)
+	return lista
     
 def obtener_subactividades(idact):
     """
     Metodo que obtiene las subactividades de una actividad
     """
-    act = Actividad.objects.filter(actividad_padre=idact)
+    act = Actividad.objects.filter(actividad_padre=idact, is_active = True)
     lista = []
     for elem in act:
         lista.append(elem)
@@ -150,7 +184,7 @@ def obtener_misActividades(idpiz, usuario):
     """
     Metodo que obtiene las actividades de un usuario
     """
-    act = Actividad.objects.filter(idpizactividad = idpiz, loginjefe = usuario)
+    act = Actividad.objects.filter(idpizactividad = idpiz, loginjefe = usuario, is_active = True)
     #lista que se retorna
     lista = []
     for elem in act:

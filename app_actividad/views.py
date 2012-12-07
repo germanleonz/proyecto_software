@@ -32,12 +32,9 @@ def crear_actividad(request):
 
       piz=Pizarra.objects.get(idpiz=request.POST['idpiz'])
       user = request.user
-      
       act = Actividad.objects.get(idpizactividad = piz, actividad_padre = None)
-      print "este es el nombre de la actividad que estoy creando ",
-      print act.nombreact
       
-      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, act)
+      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user,act)
 
       lista = obtener_actividades(request.POST['idpiz'])
       lista = obtener_misActividades(request.POST['idpiz'], user)
@@ -77,7 +74,7 @@ def crear_subactividad(request):
       
       idpizactividad = request.POST['idpiz']
       pizarra = Pizarra.objects.get(idpiz=idpizactividad)
-      padre=Actividad.objects.get(idact=request.POST['idact']) # IDACT.. ES OBTENER EL ID DE LA ACTIVIDAD.
+      padre = Actividad.objects.get(idact=request.POST['idact']) # IDACT.. ES OBTENER EL ID DE LA ACTIVIDAD.
       user = request.user
       
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,pizarra,user,padre)
@@ -90,7 +87,7 @@ def crear_subactividad(request):
       ordenE = orden_por_estados(idpizactividad, usuario)
       return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pizarra, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE})
     else:
-      print "invalidooooooooooooooo!!!!!!!"
+      print "invalidooooooooooooooo!"
 
       return render(request,'app_actividad/crear_subactividad.html',{'form': form, 'idact':request.POST['idact'],'idpiz':request.POST['idpiz']})
 
@@ -136,7 +133,8 @@ def visualizar_actividad(request):
         piz = act.idpizactividad
         lista = obtener_comentarios(idact)
         listasub = obtener_subactividades(idact)
-        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act, 'lista': lista, 'listasub':listasub, 'pizarra':piz,})
+        actEsHoja = esHoja(idact)
+        return render(request,'app_actividad/vistaActividad.html',{ 'actividad' : act, 'lista': lista, 'listasub':listasub, 'pizarra':piz, 'actEsHoja':actEsHoja, })
 
     lista = obtener_actividades(request)
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, })
@@ -206,10 +204,10 @@ def cambiar_estado_actividad(request):
         estado = request.POST['estadoact']
         print "holaaaaaaaaaa soy idact",
         print idact
-        act = Actividad.objects.get(idact = idact)
         if estado != "null":
             cambiarEstado(idact,estado)
         lista = obtener_comentarios(idact)
+        act = Actividad.objects.get(idact = idact)
         return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, 'actividad': act})
 
 @csrf_exempt

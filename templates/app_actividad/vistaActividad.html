@@ -27,7 +27,7 @@
     <tr>
       <td>
         <h>Nombre</h></br>
-        {{data}}
+		{{data}}
         {{actividad.nombreact}}
       </td>
     </tr>
@@ -39,7 +39,7 @@
     </tr>
     <tr>
       <td>
-        <h>Descripcion</h></br>
+        <h>Descripción</h></br>
         {{actividad.descripcionact}}
       </td>
     </tr>
@@ -58,21 +58,23 @@
     <tr>
       <td>
         <h>Estado</h></br>
-        {% if actividad.estadoact == "e" %}
-        En ejecucion
-        {% endif %}
-        {% if actividad.estadoact == "r" %}
-        Retrasada
-        {% endif %}
-        {% if actividad.estadoact == "p" %}
-        Postergada
-        {% endif %}
-        {% if actividad.estadoact == "c" %}
-        Completada
-        {% endif %}
-        {% if actividad.estadoact == "s" %}
-        Sin asignar
-        {% endif %}
+		{%if actividad.estadoact == "c"%}
+			Completada
+		{%elif actividad.estadoact == "r"%}
+			Retrasada
+		{%elif actividad.estadoact == "e"%}
+			En Ejecución
+		{%elif actividad.estadoact == "p"%}
+			Postergada
+		{%elif actividad.estadoact == "s"%}
+			Sin Asignar
+		{%endif%}
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <h>Avance</h></br>
+        {{actividad.avanceact}} %
       </td>
     </tr>
     <tr>
@@ -97,22 +99,24 @@
           <select name="estadoact">
             <option value="null"> Estado </option>
             <option value="s"> Sin Asignar </option>
+            {% if actEsHoja %}
             <option value="c"> Completada </option>
+            {% endif %}
             <option value="r"> Retrasada </option>
             <option value="e"> En Ejecucion </option>
             <option value="p"> Postergada </option>
-          </select> 
+          </select>
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
           <input type="submit" value="Cambiar Estado" />
         </form>
       </td>
     </tr>
-        <tr>
+    <tr>
       <td>
         <form action="{% url 'app_actividad:crear_subactividad' %}" method="post">
           {% csrf_token %}
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-	  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
+	  <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
           <input type="submit" id="modificarAct" value="Crear SubActividad" />
         </form>
       </td>
@@ -163,61 +167,6 @@
     </form>
   </div>
   </div>
-  <div id="subactividades">
-    <script>
-      $(function() {
-        $( ".actividad" ).draggable();
-      });
-    </script>
-    <table id="tablaActividad">
-      {% for object in listasub %}
-      {% if forloop.counter0|divisibleby:"3"%}
-      <tr>
-        {% endif %}
-        <td>
-          <div class="actividad" style="
-            {%if object.estadoact == "c"%}
-            background: #378B6E;
-            {%endif%}
-            {%if object.estadoact == "r"%}
-            background: #FFCC00;
-            {%endif%}
-            {%if object.estadoact == "e"%}
-            background: #1947D1;
-            {%endif%}
-            {%if object.estadoact == "p"%}
-            background: #FF0000;
-            {%endif%}
-            {%if object.estadoact == "s"%}
-            background: #FFF;
-            color: black;
-            {%endif%}
-            ">
-            <div id="actHead">
-              {{object.nombreact}}
-            <!--  {# <form action="{% url 'app_actividad:eliminar_actividad' %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false">
-                {% csrf_token %}
-                <input type="hidden" name="idact" value="{{object.idact}}"/>
-                <input type="hidden" name="idpiz" id="idPizarra" value="{{pizarra.idpiz}}"/>
-                <input class="borrar" type="submit" value=""/>
-              </form>#} -->
-            </div>
-            <div class="mostrarActividad" id="actCont" onclick="divSubmit(this)">
-              {{object.descripcionact}}
-              <form action="{% url 'app_actividad:visualizar_actividad' %}" id="visualizarActividad" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="idact" id="id_idact" value="{{object.idact}}"/>
-              </form>
-            </div>
-          </div>
-        </td>
-        {% if forloop.counter|divisibleby:"3"%}
-      </tr>
-      {% endif %}
-      {% endfor %}
-    </table>
-
-  </div>
+  <div id="subactividades"></div>
 </div>
-
 {% endblock cuerpo%} 
