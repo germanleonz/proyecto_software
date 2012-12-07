@@ -287,7 +287,7 @@ def invitar_usuario(request):
             editarJefe(id_actividad,request.user)
             
             # Acomodar el crear_colaborador con la logica del negocio 
-        else:
+        else:	
             #   El usuario ya estaba registrado solo hace falta notificarle su asignacion por correo 
             usuario = User.objects.get(email=recipiente)
             nombre_user = usuario.first_name
@@ -298,7 +298,9 @@ def invitar_usuario(request):
 
             editarJefe(id_actividad, request.user)
             if usuario.is_active == False:
-	      usuario.is_active = True
+		print "holaaaaa entreee"
+		usuario.is_active = True
+		usuario.save()
 
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
         

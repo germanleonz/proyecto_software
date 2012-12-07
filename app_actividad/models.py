@@ -193,10 +193,11 @@ def colaboradores(idpiz):
     """
     colaboradores= []
     act= Actividad.objects.filter(idpizactividad= idpiz, is_active = True).distinct('loginasignado')
-    for elem in act:   
+    for elem in act:
         persona = elem.loginasignado
         usuario = User.objects.get(username= persona)
-        colaboradores.append(usuario)
+        if usuario.is_active == True:
+	    colaboradores.append(usuario)
 
     return colaboradores
 
