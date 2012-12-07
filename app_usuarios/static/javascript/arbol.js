@@ -50,8 +50,8 @@ function init(data){
         //set overridable=true for styling individual
         //nodes or edges
         Node: {
-            height: 70,
-            width: 150,
+            height: 50,
+            width: 100,
             type: 'rectangle',
             color: '#aaa',
             overridable: true
@@ -107,42 +107,13 @@ function init(data){
             }
             //set label styles
             var style = label.style;
-            style.width = 150 + 'px';
-            style.height = 70 + 'px';            
+            style.width = 100 + 'px';
+            style.height = 40 + 'px';            
             style.cursor = 'pointer';
-            style.fontSize = '.8em';
             style.textAlign= 'center';
             style.color = "#000"
-            if (node.data.$color == "#FFFFFF")
-              style.border = '1px solid #999';
-            else
-              style.color = '#FFFFFF';
 
-        },
-        
-        //This method is called right before plotting
-        //a node. It's useful for changing an individual node
-        //style properties before plotting it.
-        //The data properties prefixed with a dollar
-        //sign will override the global node style properties.
-        onBeforePlotNode: function(node){
-            //add some color to the nodes in the path between the
-            //root node and the selected node.
-         /*   if (node.selected) {
-                node.data.$color = "#ff7";
-            }
-            else {
-                delete node.data.$color;
-                //if the node belongs to the last plotted level
-                if(!node.anySubnode("exist")) {
-                    //count children number
-                    var count = 0;
-                    node.eachSubnode(function(n) { count++; });
-                    //assign a node color based on
-                    //how many children it has
-                    node.data.$color = ['#aaa', '#baa', '#caa', '#daa', '#eaa', '#faa'][count];                    
-                }
-            }*/
+
         },
         
         //This method is called right before plotting
@@ -159,7 +130,9 @@ function init(data){
                 delete adj.data.$color;
                 delete adj.data.$lineWidth;
             }
-        }
+        },
+
+        offsetY: 150,
     });
     //load json data
     st.loadJSON(json);
