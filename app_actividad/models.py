@@ -90,8 +90,9 @@ def editarAsignado(idactividad, idAsignado, user):
 
 
 def editarJefe(idactividad, idJefe):
-    act = Actividad.objects.filter(idact = idactividad)
-    act.update(loginjefe = idJefe)
+    act = Actividad.objects.get(idact = idactividad)
+    act.loginjefe = idJefe
+    act.save()
 
 def cambiarEstado(idactividad, newEstado, user):
 	act = Actividad.objects.get(idact = idactividad)
@@ -302,6 +303,22 @@ def orden_cronologico(idpiz, loginasignado):
 
     return aux
 
+def orden_porAvance(idpiz, loginasignado):
+    """
+    Metodo que ordena por avance
+    """
+    #obtengo las actividades de un determinado usuario
+    act = Actividad.objects.filter(idpizactividad=idpiz, loginasignado=loginasignado).order_by('-avanceact')
+    lista = []
+    aux = []
+
+    for elem in act:
+        lista.append(elem)  
+
+    while (len(lista) >0):
+        aux.append(lista.pop())
+
+    return aux
 
 def orden_por_estados(idpiz, loginasignado):
     """

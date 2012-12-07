@@ -273,11 +273,12 @@ def invitar_usuario(request):
 
             #   Creamos el usuario con nombre de usuario y contrasena como unicos datos
             nuevo = User.objects.create(username=nombre_usuario, email=recipiente, first_name="", last_name="")
+
             print nuevo
             print "contrasena " + contrasena
             nuevo.set_password(contrasena)
-
             print nuevo.password
+
             nuevo.save()
             tel = '000'
             usuario = UserProfile.objects.create(user= nuevo, telefono=tel)
