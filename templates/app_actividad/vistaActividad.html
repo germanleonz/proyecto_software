@@ -19,6 +19,12 @@
 
 {% block botones %}
 <a id="crearActividad" onclick="Dajaxice.app_actividad.crearActividadForm(my_js_callbackActividad, {'data': {{pizarra.idpiz}}});" class="opcionesDer" href="#">Crear Actividad</a>
+<a class="opcionesIzq">
+<form action="{% url 'app_pizarras:visualizar_pizarra'%}" method="post">{%csrf_token%}
+  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
+  <input type="submit" value="volver"/>
+</form>
+</a>
 {% endblock botones %}
 {% block cuerpo %}
 
