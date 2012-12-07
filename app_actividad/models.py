@@ -22,11 +22,7 @@ class Actividad(models.Model):
     loginjefe = models.ForeignKey(User, related_name = 'actividad_loginJefe')
     loginasignado = models.ForeignKey(User, related_name = 'actividad_loginAsignado')
     actividad_padre = models.ForeignKey('self', related_name='sub_actividades', null=True) # Atributo que indica el padre de la actividad, en caso de que la actividad sea la raiz entonces el padre es null
-    is_active = models.BooleanField(default = True)
-
-class seDivide(models.Model):
-    idactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idAct')
-    idsubactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idSubAct')    
+    is_active = models.BooleanField(default = True) 
 
 def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
 
@@ -102,6 +98,7 @@ def calcularAvance(idact):
 		total+= 1
 		if elem.estadoact == "c":
 			completadas+=1
+	print completadas
 	if total==1:
 		for elem in hijos:
 			nuevoAvance = elem.avanceact
