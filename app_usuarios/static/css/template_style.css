@@ -65,7 +65,7 @@ a {
 	width: 900px;
 	height: 100% !important;
   background: #f0f0f0;
-  box-shadow: 6px 0px 50px -7px black, -6px 0px 50px -7px black;
+  background: #BBB;
 }
 
 /*Encabezado*/
@@ -115,6 +115,7 @@ a {
 	margin: 0 auto;
   height: 600px;
   background: #f0f0f0;
+  box-shadow: 6px 0px 50px -7px black, -6px 0px 50px -7px black;
 }
 
 /*Si es una vista de trabajo*/

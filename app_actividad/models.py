@@ -73,6 +73,8 @@ def cambiarEstado(idactividad, newEstado):
 		act.save()
 		calcularAvance(act.actividad_padre.idact)
 		print "modifique avance"
+	elif act.estadoact == "c":
+		pass
 	else:
 		act.estadoact = newEstado
 		act.save()
@@ -106,6 +108,8 @@ def calcularAvance(idact):
 		nuevoAvance =  ((completadas+0.00) / (total+0.00)) * 100.00
 	if nuevoAvance == 100.00:
 		act.estadoact = "c"
+	elif nuevoAvance != 100.00 and act.estadoact =="c":
+		act.estadoact = "e"
 	act.avanceact = nuevoAvance
 	act.save()
 	if act.actividad_padre != None:

@@ -23,13 +23,16 @@ class ManejadorLogs():
 	#se llama SIEMPREEEE
 	def process_response(self, request, response):
 		status = response.status_code
-		fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-		usuario = request.user
-		print usuario.username
-		if status >= 500:
-			Accion.objects.crearAccion(
-				request.user,
-				"Error interno del servidor",
-				fechaYHora,
-				'f')
+
+		#fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+		#usuario = request.user
+		#print usuario.username
+		#if status >= 500:
+			#Accion.objects.crearAccion(
+				#request.user,
+				#"Error interno del servidor",
+				#fechaYHora,
+				#'f')
 		return response
+
+                """
