@@ -49,9 +49,11 @@
     <tr>
       <td>
         <h>Creador</h></br>
-        <a href="#">
-          {{pizarra.logindueno.first_name}} {{pizarra.logindueno.last_name}}
-        </a>
+          <form action="{% url 'app_usuarios:perfil_usuario' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{pizarra.logindueno.username}}" name="usuario"/>
+            <input type="submit" class="participante" value="{{pizarra.logindueno.first_name}} {{pizarra.logindueno.last_name}}"/>
+          </form>
       </td>
     </tr>
     <tr>
