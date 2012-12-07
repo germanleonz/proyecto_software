@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 
 """
 Form para hacer un comentario
+atributo contenido: contenido del comentario
 """
 class CrearComentarioForm(forms.Form):
 #  idactividad = forms.IntegerField()

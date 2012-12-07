@@ -62,20 +62,14 @@ class ManejadorUsuario(UserManager):
         modificado = User.objects.get(username = nombre_usuario)
         nuevo = User.objects.filter(username = nombre_usuario)
         nuevoProfile = UserProfile.objects.filter(user=nuevo)
-        nombreB = False
-        apellidoB = False
         telefonoB = False
         correoB = False
-        if nombre == "":
-            nombreB = True
-        if apellido == "":
-            apellidoB = True
         if correo == "":
             correoB = True
         if telefono == "":
             telefonoB = True
 
-        if not nombreB and not apellidoB and not correoB and not telefonoB:
+        if not correoB and not telefonoB:
             nuevo.update(first_name=nombre, last_name= apellido, email = correo)
             nuevouser = nuevoProfile.get()
             nuevouser.telefono = telefono

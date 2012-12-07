@@ -30,6 +30,28 @@ function dialog(){
     });
   });
 
+  /*dialog de modificar pizarra*/
+  $(".modi").click(function(){
+    $("#dialogModificarPizarra").dialog({
+      modal:true,
+    position: { my: "center", at: "top", of: window },
+    dialogClass: 'style_Dialog',
+    title: "Modificar Pizarra",
+    buttons: {
+      "Modificar": function(){
+        valido = validarModificarPizarra();
+        if (valido){
+          $("#modificarPizarraForm").submit();
+          $(this).dialog("close");
+        }
+      },
+    Cancelar: function(){
+      $(this).dialog("close");
+    }
+    }
+    });
+  });
+
   /*dialog de crear usuario*/
   $("#crearUsuario").click(function(){
     $("#dialogCrearUsuario").dialog({
@@ -99,8 +121,6 @@ function dialog(){
     })
   });
 
-
-
   /*dialog de cambiar contrasena*/
   $("#cambiarContrasena").click(function() {
     $("#dialogCambiarContrasena").dialog({
@@ -147,6 +167,30 @@ function dialog(){
     })
     });
 
+  /*dialog de crearActividad*/
+  $("#modificarActividad").click(function(){
+    $("#formActividad").dialog({
+      modal:true,
+      position: { my: "center", at: "top", of: window },
+      dialogClass: 'style_Dialog',
+      title: "Modificar Actividad",
+      buttons: {
+        "Modificar Actividad": function(){
+          valido = validarActividad();
+          if (valido){
+            $("#actividadForm").submit();
+            $(this).dialog("close");
+          }
+
+        },
+        Cancelar: function(){
+          $(this).dialog("close");
+        }
+      }
+    })
+    });
+
+
   /*dialog de ver actividad
   $(".mostrarActividad").click(function(){
     $("#ventanaActividad").dialog({
@@ -186,6 +230,10 @@ function my_js_callbackPizarra(data){
   $("#formPizarra").html(data.vista);
 }
 
+function my_js_callbackModificarPizarra(data){
+  $("#dialogModificarPizarra").html(data.vista);
+}
+
 function my_js_callbackUsuario(data) {
   $("#dialogCrearUsuario").html(data.vista);
 };
@@ -206,34 +254,9 @@ function visualizarActividad(data){
   $("#ventanaActividad").html(data.vista);
 }
 
+function my_js_callbackModificarActividad(data){
+  $("#dialogModificarActividad").html(data.vista);
+}
 function my_js_callbackContrasena(data){
   $("#dialogCambiarContrasena").html(data.vista);
-}
-
-function dibujarGrafo(Lados){
-  window.jsPlumbDemo = {
-    init : function() {
-      jsPlumb.importDefaults({
-      Connector : [ "Bezier", { curviness:50 } ],
-      DragOptions : { cursor: "pointer", zIndex:2000 },
-      PaintStyle : { strokeStyle:color, lineWidth:2 },
-      EndpointStyle : { radius:0, fillStyle:color },
-      HoverPaintStyle : {strokeStyle:"#ec9f2e" },
-      EndpointHoverStyle : {fillStyle:"#ec9f2e" },
-      Anchors :  [ "BottomCenter", "TopCenter" ]
-      });
-      var arrowCommon = { 
-        foldback:0.7, fillStyle:color, width:14},
-          overlays = [];
-
-      var i;
-      for (i=0; i<Lados.length; ++i){
-        jsPlumb.connect({
-          source:Lados[i][0], 
-          target:Lados[i][1], overlays:overlays, detachable:false, reattach:true});
-      }
-      jsPlumb.draggable(jsPlumb.getSelector(".window"));
-
-    }
-  }
 }

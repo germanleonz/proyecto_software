@@ -1,37 +1,47 @@
-{% extends "app_usuarios/template.html" %}
-{% load url from future %}
-{% load staticfiles %}
-{% load tags_pizarra %}
-{% block titulo %}Editar Información de una Pizarra{% endblock %}
-{% load url from future }
-{% block css %}
-<link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
- {% endblock css %}
-{% block cuerpo %}
-{% if form.errors %}
-<h1> No se pudo modificar la pizarra</h1>
-{% endif %}
-	<!-- LOGIN BOX -->
- 	<div id="loginBox" style="float: left; margin: 120px 300px 20px 300px;">                
-          <form action="{% url 'app_pizarras:modificar_pizarra' %}" id="loginForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta informacion?')) return false">
-            {% csrf_token %}
-			<fieldset id="body">
-                                <input type="hidden" name="idpiz" value="{{idpiz}}" />
-   				<fieldset>
-    				<label for="nombrepiz"> Nombre Pizarra</label>
-                                <input type="text" name="nombre" id="id_nombre" value="{{lista.0}}"/>
-				</fieldset>
-				<fieldset>
-				<label for="descripcion">Descripción Pizarra</label>
-                                <textarea class="input-large" rows= "5" type="text" name="descripcion" id="id_descripcion">{{lista.1}} </textarea>
-				</fieldset>
-				<fieldset>
-				<label for="fechafinal">Fecha de Finalización</label>
-                                <input type="text" name="fecha_final" id="id_fecha_final" value="{{ lista.2 }}"/>
-				</fieldset>
-         			<input type="submit" id="login" value="Editar Información" />
-			</fieldset>
-		</form>
-	</div>
-	
-{% endblock %}
+<script type="text/javascript">
+  $(function() {    
+    $("#id_fecha_final").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+
+    $( "#id_fecha_final" ).datepicker(
+      "option", "dateFormat", "dd/mm/yy" 
+    );
+
+    $( "#id_fecha_final" ).datepicker({
+        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    });   
+
+    var dayNamesMin = $( "#id_fecha_final" ).datepicker( "option", "dayNames" );
+    $( "#id_fecha_final" ).datepicker( 
+      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    );
+
+    $( "#id_fecha_final" ).datepicker( "option", "yearRange", "1970:2012" );
+  });
+</script>
+<div id="errores_modificar_pizarra" class="errores"/>
+<form id="modificarPizarraForm" action="{% url app_pizarras:modificar_pizarra %}" method="post">
+  {% csrf_token %}
+  <fieldset id="body">
+    <input type="hidden" name="idpiz" value="{{id_pizarra}}" />
+    <fieldset>
+      <label for="nombrepiz">Nombre Pizarra</label>
+      <input type="text" name="nombre" id="id_nombre" value="{{lista.0}}"/>
+    </fieldset>
+    <fieldset>
+      <label for="descripcion">Descripción Pizarra</label>
+      <textarea class="input-large" rows= "5" type="text" name="descripcion" id="id_descripcion">{{lista.1}} </textarea>
+    </fieldset>
+    <fieldset>
+      <div>Fecha de Creacion</div>
+      <div>{{ lista.2 }}</div>
+      <input type="hidden" name="fecha_creacion" id="id_fecha_creacion" value="{{ lista.2 }}"/>
+    </fieldset>
+    <fieldset>
+      <label for="fechafinal">Fecha de Finalización</label>
+      <input type="text" name="fecha_final" id="id_fecha_final" value="{{ lista.3 }}"/>
+    </fieldset>
+  </fieldset>
+</form>

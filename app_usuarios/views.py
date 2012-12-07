@@ -54,6 +54,7 @@ def login_usuario(request):
                     print "Acceso permitido para %s" % nombre_usuario
                     login(request, usuario)
                     return app_pizarras.views.listar_pizarra(request)
+
                 else:
                     #   Devolver un mensaje de cuenta deshabilitada
                     print "La cuenta del usuario esta deshabilitada"
@@ -151,7 +152,6 @@ def modificar_usuario(request):
     Fecha: 5-11-12
     """
     if request.method == 'POST':
-
         form = ModificarUsuarioForm(request.POST)
         if form.is_valid():
             print "Modificando la data recibida del formulario"

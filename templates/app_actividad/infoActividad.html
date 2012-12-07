@@ -5,8 +5,6 @@
 {% block css %}
 <link href="{% static "css/vistaPizarra_style.css" %}" rel="stylesheet" type="text/css"/>
 {% endblock css %}
-{% block javascript %}
-{% endblock javascript %}
 
 {% block botones %}
 <a id="crearActividad" onclick="Dajaxice.app_actividad.crearActividadForm(my_js_callbackActividad, {'data': {{pizarra.idpiz}}});" class="opcionesDer" href="#">Crear Actividad</a>
