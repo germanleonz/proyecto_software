@@ -218,7 +218,8 @@ def eliminar_usuario(request):
 	    cambiarEstado(elem, 's', request.user)
         
         
-        usuario.update(is_active = False)
+        usuario.is_active = False
+        usuario.save()
         print "Usuario eliminado"
 
         
