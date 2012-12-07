@@ -27,39 +27,21 @@
 </style>
 
 <div id="loginBox">
-<form action="" id="loginForm" method="post">
-<fieldset  id="body">
-<table>
-	<tr>
 	<div class="elemPerf">
-		<td>Usuario</td>
-		<td><div align="left"><b>{{usuario.username}}</b></div></td>
-		
+		<p1>Usuario</p1></br>
+		{{usuario.username}}</br></br>
 	</div>
-	</tr>
-
-	<tr>
 	<div class="elemPerf">
-		<td>Nombre</td>
-		<td><div align="left" ><b>{{usuario.first_name}} {{usuario.last_name}}</b></div></td>
+		<p1>Nombre</p1></br>
+		{{usuario.first_name}} {{usuario.last_name}}</br></br>
 	</div>
-	</tr>
-	
-	<tr>
 	<div class="elemPerf">
-		<td>E-mail</td>
-		<td><div align="left"><b>{{usuario.email}}</b></div></td>
+		<p1>Correo electrónico</p1></br>
+		{{usuario.email}}</br></br>
 	</div>
-	</tr>
-
-	<tr>
 	<div class="elemPerf">
-		<td>Teléfono</td>
-		<td><div align="left"><b>{{userprofile.telefono}}</b></div></td>
+		<p1>Teléfono</p1></br>
+		{{userprofile.telefono}}</br>
 	</div>
-	</tr>
-</table>
-</fieldset>
-</form>
 </div>
 {% endblock cuerpo %}
