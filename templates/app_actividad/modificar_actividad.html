@@ -1,28 +1,26 @@
 <script>
-  calendarios()
+  calendarios();
 </script>
 
-<form action="{% url app_actividad:modificar_actividad %}" id="modificarActividad" method="post" onsubmit="if(!confirm('Seguro desea modificar esta actividad?')) return false">
-	{% csrf_token %}
-	    <fieldset id="body">
-		<input type="hidden" name="idact" value="{{idact}}" />
-		<fieldset>
-		  <label for="nombreact"> Nombre Actividad</label>
-		  <input type="text" name="nombreact" id="id_nombre" value="{{lista.0}}"/>
-		</fieldset>
-		<fieldset>
-		  <label for="descripcion">Descripción Actividad</label>
-		  <textarea class="input-large" rows= "5" type="text" name="descripcionact" id="id_descripcion">{{lista.1}} </textarea>
-		</fieldset>
-		<fieldset>
-		  <label for="fechainicial">Fecha de Inicial</label>
-		  <input type="text" name="fechainicial" id="id_fecha_inicio" value="{{ lista.2 }}"/>
-		</fieldset>
-		<fieldset>
-		  <label for="fechaentrega">Fecha de Entrega</label>
-		  <input type="text" name="fechaentrega" id="id_fecha_final" value="{{ lista.3 }}"/>
-		</fieldset>
-		<input type="submit" id="login" value="Editar Información" />
-	    </fieldset>
-	    </form>
-    </div>
+<form action="{% url app_actividad:modificar_actividad %}" id="modificarActividadForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta actividad?')) return false">
+  {% csrf_token %}
+  <fieldset id="body">
+    <input type="hidden" name="idact" value="{{idact}}" />
+    <fieldset>
+      <label for="nombreact"> Nombre Actividad</label>
+      <input type="text" name="nombreact" id="id_nombre" value="{{lista.0}}"/>
+    </fieldset>
+    <fieldset>
+      <label for="descripcion">Descripción Actividad</label>
+      <textarea class="input-large" rows= "5" type="text" name="descripcionact" id="id_descripcion">{{lista.1}} </textarea>
+    </fieldset>
+    <fieldset>
+      <label for="fechainicial">Fecha de Inicial</label>
+      <input type="text" name="fechainicial" id="id_fecha_inicio" value="{{ lista.2 }}"/>
+    </fieldset>
+    <fieldset>
+      <label for="fechaentrega">Fecha de Entrega</label>
+      <input type="text" name="fechaentrega" id="id_fecha_final" value="{{ lista.3 }}"/>
+    </fieldset>
+  </fieldset>
+</form>

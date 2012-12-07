@@ -265,7 +265,8 @@ function dialog(){
       title: "Modificar Actividad",
       buttons: {
         "Modificar Actividad": function(){
-          valido = validarActividad();
+          //valido = validarActividad();
+          valido = true;
           if (valido){
             $("#modificarActividadForm").submit();
             $(this).dialog("close");

@@ -178,7 +178,7 @@ def modificar_actividad(request):
       	nombreact = data['nombreact']
       	descripcionact = data['descripcionact']
       	fechaInicial = data['fechainicial']
-      	fechaEntrega = data['fecha_final']
+      	fechaEntrega = data['fechaentrega']
       	act = Actividad.objects.get(idact = idact)
       	user = request.user
         modificarActividad(idact,nombreact,descripcionact,fechaInicial,fechaEntrega, user)
@@ -192,8 +192,8 @@ def modificar_actividad(request):
       	lista = []
       	lista.append(request.POST['nombreact'])
       	lista.append(request.POST['descripcionact'])
-      	lista.append(request.POST['fecha_inicio'])
-      	lista.append(request.POST['fecha_final'])
+      	lista.append(request.POST['fechainicial'])
+      	lista.append(request.POST['fechaentrega'])
 	return render(request, 'app_actividad/modificar_actividad.html', { 'form': form, 'idact' : idact, 'lista' : lista })
 	
 @csrf_exempt	
