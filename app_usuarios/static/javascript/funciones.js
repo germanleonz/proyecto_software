@@ -5,6 +5,49 @@
  * my_js_callback* : funciones que se llaman con dajaxice para usar ajax con django
  *
  */
+/*Funcion para crear los calendarios*/
+function calendarios(){
+    //calendarios fecha de inicio
+    $("#id_fecha_inicio").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+    $( "#id_fecha_inicio" ).datepicker(
+      "option", "dateFormat", "dd/mm/yy" 
+    );
+
+    $( "#id_fecha_inicio" ).datepicker({
+        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    });   
+
+    var dayNamesMin = $( "#id_fecha_inicio" ).datepicker( "option", "dayNames" );
+    $( "#id_fecha_inicio" ).datepicker( 
+      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    );
+
+    $( "#id_fecha_inicio" ).datepicker( "option", "yearRange", "1970:2012" );
+
+    //calendarios fecha de entrega
+    $("#id_fecha_final").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+
+    $( "#id_fecha_final" ).datepicker(
+      "option", "dateFormat", "dd/mm/yy" 
+    );
+
+    $( "#id_fecha_final" ).datepicker({
+        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    });   
+
+    var dayNamesMin = $( "#id_fecha_final" ).datepicker( "option", "dayNames" );
+    $( "#id_fecha_final" ).datepicker( 
+      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
+    );
+
+    $( "#id_fecha_final" ).datepicker( "option", "yearRange", "1970:2012" );
+};
 
 /*funcion para mostrar dialog*/
 function dialog(){

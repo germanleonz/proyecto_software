@@ -126,8 +126,8 @@
         <form action="{% url 'app_actividad:asignar_actividad' %}" onclick="return false;" method="post">
           {% csrf_token %}
           <input type="hidden" name="idact" value="{{actividad.idact}}"/>
-	  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
-          <button type="submit" class="asignarActividad" onclick="Dajaxice.app_actividad.asignarActividadAjax(my_js_callbackAsignarActividad, {'id_actividad' : {{actividad.idact}}, 'idpiz': {{actividad.idpizactividad.idpiz}}});">Asignar a otro</button>
+      	  <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
+          <button type="submit" id="asignarActividad" onclick="Dajaxice.app_actividad.asignarActividadAjax(my_js_callbackAsignarActividad, {'id_actividad' : {{actividad.idact}}, 'idpiz': {{actividad.idpizactividad.idpiz}}});">Asignar a otro</button>
         </form>
       </td>
     </tr>

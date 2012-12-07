@@ -1,47 +1,5 @@
-<script type="text/javascript">
-  $(function() {    
-    $("#id_fecha_inicio").datepicker({
-        changeMonth: true,
-        changeYear: true
-    });
-
-    $( "#id_fecha_inicio" ).datepicker(
-      "option", "dateFormat", "dd/mm/yy" 
-    );
-
-    $( "#id_fecha_inicio" ).datepicker({
-        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
-    });   
-
-    var dayNamesMin = $( "#id_fecha_inicio" ).datepicker( "option", "dayNames" );
-    $( "#id_fecha_inicio" ).datepicker( 
-      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
-    );
-
-    $( "#id_fecha_inicio" ).datepicker( "option", "yearRange", "1970:2012" );
-  });
-
-  $(function() {    
-    $("#id_fecha_final").datepicker({
-        changeMonth: true,
-        changeYear: true
-    });
-
-    $( "#id_fecha_final" ).datepicker(
-      "option", "dateFormat", "dd/mm/yy" 
-    );
-
-    $( "#id_fecha_final" ).datepicker({
-        dayNamesMin: [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
-    });   
-
-    var dayNamesMin = $( "#id_fecha_final" ).datepicker( "option", "dayNames" );
-    $( "#id_fecha_final" ).datepicker( 
-      "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
-    );
-
-    $( "#id_fecha_final" ).datepicker( "option", "yearRange", "1970:2012" );
-  }) 
+<script>
+  calendarios();
 </script>
 <div id="errores_crear_pizarra" class="errores">
   *Todos los campos son requeridos

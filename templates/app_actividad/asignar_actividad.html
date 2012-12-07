@@ -1,7 +1,8 @@
-<form action="{% url app_actividad:invitar_usuario %}" id="formAsignarActividad" method="post">
+<form action="{% url app_actividad:invitar_usuario %}" id="asignarActividadForm" method="post">
 {% csrf_token %}
 <fieldset id="body">
-<input type="hidden" name="idact" value="{{id_actividad}}" />
+<input type="hidden" name="id_actividad" value="{{id_actividad}}" />
+<input type="hidden" name="idpiz" value="{{idpiz}}" />
 <fieldset>
 <label for="correo"> Introduzca el correo del usuario al que desea asignar la actividad</label>
 <input type="text" name="recipiente" id="recipiente"/>

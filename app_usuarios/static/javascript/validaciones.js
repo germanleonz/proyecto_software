@@ -264,13 +264,11 @@ function validarContrasenas() {
 }
 
 function validarCorreo() {
-    var correo = $("#id_correo"),
+    var correo = $("#recipiente"),
     valido = true,
     div = "#errores_asignar_actividad";
 
-    valido = valido && checkLength(contrasena1, "Contrasena", 6, 15, div);
-    valido = valido && checkLength(contrasena2, "Repeticion contrasena", 6, 15, div);
-    valido = valido && compararContrasenas(contrasena1, contrasena2, div);
+    valido = valido && checkLength(correo,"Correo",1,50,div);
     return valido;
 }
 
