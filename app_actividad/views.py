@@ -87,7 +87,7 @@ def crear_subactividad(request):
       ordenE = orden_por_estados(idpizactividad, usuario)
       return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pizarra, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE})
     else:
-      print "invalidooooooooooooooo!!!!!!!"
+      print "invalidooooooooooooooo!"
 
       return render(request,'app_actividad/crear_subactividad.html',{'form': form, 'idact':request.POST['idact'],'idpiz':request.POST['idpiz']})
 
