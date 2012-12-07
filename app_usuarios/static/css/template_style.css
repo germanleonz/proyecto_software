@@ -237,7 +237,18 @@ a {
   color: #FFFFFF;
   padding: 10px;
   border: solid #FFFFFF;
-  border-width: 0px 0px 0px 1px;
+  border-width: 0px 1px 0px 0px;
+}
+
+.opcionesIzq input[type="submit"]{
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color : #FFF;
+}
+
+.opcionesIzq form, .opcionesDer form{
+  height: 0px;
 }
 
 .opcionesIzq:hover{
@@ -439,6 +450,14 @@ fieldset {
   
 }
 
+.node{
+  overflow: auto;
+}
 .node table{
   font-size: 12px !important;
+}
+
+.node table td{
+  width: 100%;
+  overflow: hidden;
 }
