@@ -76,7 +76,7 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
         'i')
 
     #   Creamos la actividad que representa a la pizarra dentro de la pizarra   
-    crearActividad(nombrepiz,descripcionpiz,fechacreacion, fechafinal, nuevo, usuario, None, usuario)
+    crearActividad(nombrepiz,descripcionpiz,fechacreacion, fechafinal, nuevo, usuario, None)
 
 def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal, usuario):
     """

@@ -28,10 +28,8 @@ class seDivide(models.Model):
     idactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idAct')
     idsubactividad = models.ForeignKey(Actividad, related_name = 'seDivide_idSubAct')    
 
-def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre, asignado):
+def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
 
-	if asignado == None: # Si es una actividad nueva, el asignado es el creador
-		asignado = creador
 	a=Actividad(nombreact = nombre,
        descripcionact = descript,
        fechainicial = fechaini,
@@ -41,7 +39,7 @@ def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre, asignad
        idpizactividad = piz,
        logincreador = creador,
        loginjefe = creador,
-       loginasignado = asignado,
+       loginasignado = creador,
        actividad_padre = padre)
 	a.save()
 
@@ -179,7 +177,7 @@ def obtener_subactividades(idact):
     """
     Metodo que obtiene las subactividades de una actividad
     """
-    act = Actividad.objects.filter(actividad_padre=idact)
+    act = Actividad.objects.filter(actividad_padre=idact, is_active = True)
     lista = []
     for elem in act:
         lista.append(elem)
@@ -189,7 +187,7 @@ def obtener_misActividades(idpiz, usuario):
     """
     Metodo que obtiene las actividades de un usuario
     """
-    act = Actividad.objects.filter(idpizactividad = idpiz, loginjefe = usuario)
+    act = Actividad.objects.filter(idpizactividad = idpiz, loginjefe = usuario, is_active = True)
     #lista que se retorna
     lista = []
     for elem in act:

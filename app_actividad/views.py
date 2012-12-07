@@ -32,9 +32,9 @@ def crear_actividad(request):
 
       piz=Pizarra.objects.get(idpiz=request.POST['idpiz'])
       user = request.user
-      padre = None
-      print "quitaaar"
-      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user, padre,None)
+      act = Actividad.objects.get(idpizactividad = piz, actividad_padre = None)
+      
+      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user,act)
 
       lista = obtener_actividades(request.POST['idpiz'])
       lista = obtener_misActividades(request.POST['idpiz'], user)
@@ -77,7 +77,7 @@ def crear_subactividad(request):
       padre = Actividad.objects.get(idact=request.POST['idact']) # IDACT.. ES OBTENER EL ID DE LA ACTIVIDAD.
       user = request.user
       
-      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,pizarra,user,padre,None)
+      crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,pizarra,user,padre)
       listasub = obtener_subactividades(request.POST['idact'])
       lista = obtener_comentarios(request.POST['idact'])
       colab = colaboradores(padre.idpizactividad.idpiz)
