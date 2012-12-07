@@ -4,6 +4,12 @@ html,body {
 	background: url('../images/wall.png');
 	font-family: Helvetica;
 	color: #444;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #noElems{
@@ -91,6 +97,7 @@ a {
   float: right;
   font-size: 17px;
   padding: 2px;
+  min-height: 20px;
   min-width: 150px;
   margin-top: 15px;
   margin-right: 10px;
@@ -234,7 +241,8 @@ a {
   border-width: 0px 1px 0px 0px;
 }
 
-.opcionesIzq input[type="submit"]{
+.opcionesIzq input[type="submit"], .opcionesDer input[type="submit"]{
+  font-size: 16px;
   cursor: pointer;
   border: none;
   background: transparent;

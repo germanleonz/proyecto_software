@@ -24,7 +24,8 @@ class ManejadorUsuario(UserManager):
         u.set_password(data['nueva_password'])
         u.first_name = data['nuevo_nombre']
         u.last_name = data['nuevo_apellido']
-        
+
+
         if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', u.first_name):
             Accion.objects.crearAccion(
                 usuario,
@@ -47,6 +48,13 @@ class ManejadorUsuario(UserManager):
             usuario, 
             "El usuario %s agrego a %s" % (usuario.username, u.first_name),
             'i')
+
+
+        Accion.objects.crearAccion(
+            usuario,
+            "Se creo una instancia de usuario con los valores Nombre: %s, Apellido: %s, Email: %s, Tlf: %s" % (u.first_name, u.last_name, u.email, up.telefono),
+            'd'
+            )
         return up  
 
     def crear_administrador(self, usuario, datos):
