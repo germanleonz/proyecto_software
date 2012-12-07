@@ -49,3 +49,15 @@ def crearComentario(request,form,data):
 def asignarActividadAjax(request, id_actividad, idpiz):
     vista = render_to_string('app_actividad/asignar_actividad.html', {'id_actividad': id_actividad, 'idpiz': idpiz})
     return simplejson.dumps({'vista': vista})
+
+@dajaxice_register
+def modificarActividadAjax(request, idact):
+    act = Actividad.objects.get(idact=idact)
+    lista = []
+    lista.append(act.nombreact)
+    lista.append(act.descripcionact)
+    lista.append(act.fechainicial)
+    lista.append(act.fechaentrega)
+
+    vista = render_to_string('app_actividad/modificar_actividad.html', {'idact': idact, 'lista': lista})
+    return simplejson.dumps({'vista': vista})
