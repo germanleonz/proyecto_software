@@ -51,7 +51,7 @@ function init(data){
         //nodes or edges
         Node: {
             height: 70,
-            width: 120,
+            width: 150,
             type: 'rectangle',
             color: '#aaa',
             overridable: true
@@ -59,11 +59,12 @@ function init(data){
         
         Edge: {
             type: 'bezier',
+            color: "#000",
             overridable: true
         },
         
         onBeforeCompute: function(node){
-            Log.write("Cargando " + node.name);
+            Log.write("Cargando ...");
         },
         
         onAfterCompute: function(){
@@ -74,8 +75,23 @@ function init(data){
         //Use this method to add event handlers and styles to
         //your node.
         onCreateLabel: function(label, node){
+            var array = infoNodo(node.name),
+                string = "";
+            string += "<table>";
+            for (var i = 0; i<array.length; ++i){
+                string += "<tr>";
+                string += "<td>";
+                string += array[i];
+                if (i == 2)
+                  string += "%";
+                string += "</td>";
+                string += "</tr>";
+                
+            }
+            string += "</table>";
             label.id = node.id;            
-            label.innerHTML = node.name
+            //label.innerHTML = node.name
+            label.innerHTML = string; 
             label.onclick = function(){
               st.onClick(node.id);
             };
@@ -91,14 +107,17 @@ function init(data){
             }
             //set label styles
             var style = label.style;
-            style.width = 120 + 'px';
-            style.height = 60 + 'px';            
+            style.width = 150 + 'px';
+            style.height = 70 + 'px';            
             style.cursor = 'pointer';
-            style.color = '#333';
-            style.fontSize = '0.8em';
+            style.fontSize = '.8em';
             style.textAlign= 'center';
-            style.paddingTop = '10px';
-            style.border = '1px solid #e0e0f0';
+            style.color = "#000"
+            if (node.data.$color == "#FFFFFF")
+              style.border = '1px solid #999';
+            else
+              style.color = '#FFFFFF';
+
         },
         
         //This method is called right before plotting
@@ -133,7 +152,7 @@ function init(data){
         //override the Edge global style properties.
         onBeforePlotLine: function(adj){
             if (adj.nodeFrom.selected && adj.nodeTo.selected) {
-                adj.data.$color = "#eed";
+                adj.data.$color = "#a0a0a0";
                 adj.data.$lineWidth = 3;
             }
             else {
@@ -153,3 +172,26 @@ function init(data){
     //end
 }
 
+function infoNodo(id){
+  var array = id.split(" ");
+  if (array.length == 3){
+    return array;
+  }
+  else{
+    var newArray = new Array(),
+        string = "",
+        count = array.length,
+        i = 0;
+    while (count-i >= 3 && i<count){
+      string += array[i];
+      string += " ";
+      i++;
+    }
+    newArray[0] = string;
+    for (var j = 1; j<3; ++j){
+      newArray[j] = array[i];
+      i++;
+    }
+    return newArray;
+  }
+}

@@ -78,7 +78,7 @@ def eliminar_pizarra(request):
     lista = obtener_pizarras(usuario)
     return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
-
+@csrf_exempt
 @login_required
 def modificar_pizarra(request):
     """

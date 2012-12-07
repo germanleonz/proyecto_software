@@ -57,6 +57,19 @@ class Node(object):
             nuevo = Node(elem)
             self.add_child(nuevo)
             nuevo.generate_tree()
+
+    def generate_CronologicalOrder(self,idpiz, loginasignado):
+        """
+        Metodo que genera el orden cronologico como arbol
+        """
+        lista = app_actividad.models.orden_cronologico(idpiz,loginasignado)
+        self.data = lista[0]
+        actual = self
+        for i in range(1,len(lista)):
+            siguiente = Node(lista[i])
+            actual.add_child(siguiente)
+            actual = siguiente           
+
             
     def generate_json(self):
         """
@@ -64,7 +77,9 @@ class Node(object):
         """
 
         string = '"id": "'+str(self.data.idact)+'",'
-        string += '"name": "'+self.data.nombreact+'",'
+        string += '"name": "'+self.data.nombreact+' '
+        string += self.data.loginjefe.username+' '
+        string += str(self.data.avanceact)+'",'
         string += '"data": { "$color" : '
         if (self.data.estadoact == 'c'):
             string += ' "#19AC19" }'

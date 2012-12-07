@@ -116,6 +116,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'middleware.logger.ManejadorLogs',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -154,6 +155,7 @@ INSTALLED_APPS = (
     'app_actividad',
     'app_comentarios',
     'app_log',
+    'middleware'
 )
 
 # A sample logging configuration. The only tangible logging

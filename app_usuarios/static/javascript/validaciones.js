@@ -1,11 +1,32 @@
 /*Chequeo de largo de inputs*/
 function checkLength(obj, name, min, max, div){
   var valido = true;
-  if (obj.val().length == 0){
-    $(div).html("*"+name+" es requerido");
+  if (obj.val().length == 0) {
+    $(div).html("*" + name + " es requerido");
     return false;
   }
   else if (obj.val().length<min){
+    valido = false;
+  }
+  else if (obj.val().length>max){
+    valido = false;
+  }
+
+  if (!valido){
+    if (min<max){
+      $(div).html("*"+name+" debe tener entre "+min+" y "+max+" caracteres");
+    }
+    else if (min==max){
+      $(div).html("*"+name+" debe tener "+max+" caracteres");
+    }
+  }
+
+  return valido;
+}
+
+function chequearNomApe(obj, name, min, max, div){
+  var valido = true;
+  if (obj.val().length<min){
     valido = false;
   }
   else if (obj.val().length>max){
@@ -38,6 +59,7 @@ function isDate(obj,div) {
   var valido = true;
   var fecha = obj.val(), dia, mes, anio;
   if (fecha.length !== 10) { 
+      print ("error longitud");
     valido = false;
   } 
   // third and sixth character should be '/' 
@@ -190,14 +212,42 @@ function validarModificacion(){
       valido = true;
 
       valido = valido && checkLength(correo,"Correo", 1, 30, div);
-      valido = valido && checkLength(nombre,"Nombre", 1, 30, div);
-      valido = valido && checkLength(apellido,"Apellido", 1, 30, div);
+      valido = valido && chequearNomApe(nombre,"Nombre", 0, 30, div);
+      valido = valido && chequearNomApe(apellido,"Apellido", 0, 30, div);
       valido = valido && checkLength(telefono,"Telefono", 1, 30, div);
       //valido = valido && checkRegex(correo,"Correo",formatoCorreo, div);
-      valido = valido && checkRegex(nombre,"Nombre",formatoNombres, div);
-      valido = valido && checkRegex(apellido,"Apellido",formatoNombres, div);
+      if (nombre.val().length > 0) { 
+          valido = valido && checkRegex(nombre,"Nombre",formatoNombres, div);
+      }
+      if (apellido.val().length > 0) {
+          valido = valido && checkRegex(apellido,"Apellido",formatoNombres, div);
+      }
       valido = valido && checkRegex(telefono,"Telefono",formatoTelefono, div);
 
+      return valido;
+}
+
+function validarModificarPizarra() {
+  var nombre = $("#id_nombre"),
+      descripcion = $("#id_descripcion"),
+      fechacreacion = $("#id_fecha_creacion"),
+      fechafin = $("#id_fecha_final"),
+      formato = /^[A-Za-z0-9\?\¿\!\¡\:\,\.\-\ç\ñáéíóú\(\)\"\'\äëïöüàèìòù\s]*$/,
+      div = "#errores_modificar_pizarra",
+      valido = true;
+
+      valido = valido && checkLength(nombre,"Nombre",1,50,div);
+      valido = valido && checkLength(descripcion,"Descripcion",1,150,div);
+      valido = valido && checkLength(fechafin, "Fecha final",10,10,div);
+    
+      if (valido && compareDates(fechacreacion.val(),fechafin.val())==-1){
+        valido = false;
+        $("#errores_modificar_pizarra").html("*La fecha final debe ser mayor a la de creacion");
+      }
+
+      valido = valido && checkRegex(descripcion,"Descripcion",formato,div);
+
+      valido = valido && isDate(fechafin,div);
       return valido;
 }
 

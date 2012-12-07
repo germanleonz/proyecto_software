@@ -3,9 +3,20 @@ from datetime import datetime
 from django.contrib.auth.models import User
 
 class ManejadorAccion(models.Manager):
+    """
+    Clase ManejadorAccion, representa el manejador de las acciones que generan logs.
+    In: models.Manager
+    Out: --
+    Autor: Carla Urrea
+    Fecha: 28-11-12 Version 1.0
+    """
     def crearAccion(self,accionloginuser, contenidoaccionuser, fechahoraaccionuser, tipo_accion):
-    	"""
-        Metodo que crea una accion referente a un usuario.
+        """
+        Metodo para crear una accion de log
+        In: self, accionloginuser, contenidoaccionuser, fechahoraaccionuser, tipo_accion
+        Out: --
+        Autor: Carla Urrea
+        Fecha: 28-11-12 Version 1.0
         """
     	nuevo = self.model(
     		accionloginuser = accionloginuser,
@@ -16,8 +27,13 @@ class ManejadorAccion(models.Manager):
     	nuevo.save()
 
     def obtenerAccion(idaccionuser):
-        """Metodo que retorna un diccionario con los datos de una accion asociada con el idpiz y
-        el login del usuario"""
+        """
+        Metodo para obtener una accion de log
+        In: idaccionuser
+        Out: Accion a
+        Autor: Carla Urrea
+        Fecha: 28-11-12 Version 1.0
+        """
         accion = {}
         a = Accion.Objects.get(idaccionuser = idaccionuser)
         accion['accionloginuser'] = a.accionloginuser
@@ -27,8 +43,12 @@ class ManejadorAccion(models.Manager):
 
     @classmethod
     def obtenerAcciones(cls):
-    	"""
-        Metodo que retorna una lista con los datos de una accion asociada al usuario
+        """
+        Metodo para obtener acciones de log
+        In: cls
+        Out: lista
+        Autor: Carla Urrea
+        Fecha: 28-11-12 Version 1.0
         """
     	result = Accion.objects.all()
     	lista = []
@@ -38,12 +58,23 @@ class ManejadorAccion(models.Manager):
 
     def eliminarAccion(idaccionuser):
         """
-        Metodo que elimina una accion de usuario de la base de datos
+        Metodo para eliminar una accion de log
+        In: idaccionuser
+        Out: --
+        Autor: Carla Urrea
+        Fecha: 28-11-12 Version 1.0
         """
         elem = Accion.objects.filter(idaccionuser = idaccionuser)
         elem.delete()
 
 class Accion(models.Model):
+    """
+    Clase Accion, representa a la tabla de logs en la base de datos
+    In: models.Model
+    Out: --
+    Autor: Carla Urrea
+    Fecha: 28-11-12 Version 1.0
+    """
     idaccionuser = models.AutoField(primary_key=True)
     tipo_errores=(('d', 'DEBUG'), ('i', 'INFO'),('w', 'WARNING'),('e', 'ERROR'),('f', 'FATAL'))
     tipo_accion = models.CharField(max_length=7, choices=tipo_errores)

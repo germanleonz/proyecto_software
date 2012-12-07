@@ -22,7 +22,7 @@ def validate_nombre(value):
 	Autor: Mary Ontiveros
 	Fecha: 8-11-12 Version 1.0
 	"""
-	if re.match('^[a-zA-Z \']+$',value)==None:
+	if re.match('(^$|^[a-zA-Z\']+$)',value)==None:
 		raise ValidationError(u'\"%s\" no es un nombre valido, debe estar compuesto solo por letras.' % value)
 
 def validate_apellido(value):
@@ -32,7 +32,7 @@ def validate_apellido(value):
 	Autor: Mary Ontiveros
 	Fecha: 8-11-12 Version 1.0
 	"""
-	if re.match('^[a-zA-Z \']+$',value)==None:
+	if re.match('(^$|^[a-zA-Z\']+$)',value)==None:
 		raise ValidationError(u'\"%s\" no es un apellido valido, debe estar compuesto solo por letras' % value)
 
 def validate_telefono(value):
@@ -120,8 +120,8 @@ class ModificarUsuarioForm(forms.Form):
     Autor: German Leon
     Fecha: 8-11-12 Version 1.0
     """
-    nombre = forms.CharField(max_length=80,validators=[validate_nombre])
-    apellido = forms.CharField(max_length=20,validators=[validate_apellido])
+    nombre = forms.CharField(max_length=80,validators=[validate_nombre], required=False)
+    apellido = forms.CharField(max_length=20,validators=[validate_apellido], required=False)
     telefono = forms.CharField(max_length=15,validators=[validate_telefono])
     correo = forms.EmailField(max_length=50, error_messages={'invalid': ('La direccion de correo es invalida')})
 

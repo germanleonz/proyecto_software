@@ -151,7 +151,6 @@ def modificar_usuario(request):
     Fecha: 5-11-12
     """
     if request.method == 'POST':
-
         form = ModificarUsuarioForm(request.POST)
         if form.is_valid():
             print "Modificando la data recibida del formulario"
