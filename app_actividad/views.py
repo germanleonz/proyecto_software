@@ -80,14 +80,8 @@ def crear_subactividad(request):
       
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,pizarra,user,padre)
       calcularAvance(padre.idact)
-      listasub = obtener_subactividades(request.POST['idact'])
-      lista = obtener_comentarios(request.POST['idact'])
-      colab = colaboradores(padre.idpizactividad.idpiz)
 
-      usuario = request.user
-      orden = orden_cronologico(idpizactividad, usuario)
-      ordenE = orden_por_estados(idpizactividad, usuario)
-      return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pizarra, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE})
+      return visualizar_actividad(request)
     else:
       print "invalidooooooooooooooo!"
 
@@ -196,7 +190,7 @@ def modificar_actividad(request):
       	nombreact = data['nombreact']
       	descripcionact = data['descripcionact']
       	fechaInicial = data['fechainicial']
-      	fechaEntrega = data['fechaentrega']
+      	fechaEntrega = data['fecha_final']
       	act = Actividad.objects.get(idact = idact)
       	user = request.user
         modificarActividad(idact,nombreact,descripcionact,fechaInicial,fechaEntrega, user)
@@ -210,8 +204,8 @@ def modificar_actividad(request):
       	lista = []
       	lista.append(request.POST['nombreact'])
       	lista.append(request.POST['descripcionact'])
-      	lista.append(request.POST['fechainicial'])
-      	lista.append(request.POST['fechaentrega'])
+      	lista.append(request.POST['fecha_inicio'])
+      	lista.append(request.POST['fecha_final'])
 	return render(request, 'app_actividad/modificar_actividad.html', { 'form': form, 'idact' : idact, 'lista' : lista })
 	
 @csrf_exempt	

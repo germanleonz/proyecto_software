@@ -9,16 +9,21 @@
 
 #subactividades {
 	width: 500px;
-	height: 560px;
-	margin-left: 190px; 
+	height: 559px;
+	margin: 0;
+	padding: 0;
+	margin-left: 190px;
+	overflow-y: auto;
 }
 
 .subact{
 	width: 100px;
-	height: 80px;
+	height: 60px;
+	overflow: hidden;
 	margin: 15px;
 	color: black;
-	float: left;
+	text-align: left;
+	display: inline-block;
 }
 
 #comentarios {
