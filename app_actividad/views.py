@@ -159,8 +159,6 @@ def visualizar_subactividad(request):
     lista = obtener_subactividades(request)
     return render(request, 'app_actividad/vistaActividad.html', { 'lista' : lista, })
     
-
-
 @csrf_exempt
 @login_required
 def modificar_actividad(request):
@@ -275,7 +273,11 @@ def invitar_usuario(request):
 
             #   Creamos el usuario con nombre de usuario y contrasena como unicos datos
             nuevo = User.objects.create(username=nombre_usuario, email=recipiente, first_name="", last_name="")
-            nuevo.set_password = contrasena
+            print nuevo
+            print "contrasena " + contrasena
+            nuevo.set_password(contrasena)
+
+            print nuevo.password
             nuevo.save()
             tel = '000'
             usuario = UserProfile.objects.create(user= nuevo, telefono=tel)
