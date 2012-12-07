@@ -35,6 +35,7 @@ def crear_actividad(request):
       act = Actividad.objects.get(idpizactividad = piz, actividad_padre = None)
       
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,piz,user,act)
+      calcularAvance(act.idact)
 
       lista = obtener_actividades(request.POST['idpiz'])
       lista = obtener_misActividades(request.POST['idpiz'], user)
@@ -78,6 +79,7 @@ def crear_subactividad(request):
       user = request.user
       
       crearActividad(nombreact,descripcionact,fechainicial,fechaentrega,pizarra,user,padre)
+      calcularAvance(padre.idact)
       listasub = obtener_subactividades(request.POST['idact'])
       lista = obtener_comentarios(request.POST['idact'])
       colab = colaboradores(padre.idpizactividad.idpiz)
@@ -230,7 +232,7 @@ def generar_form_modificar(request):
     
 def asignar_actividad(request):
     
-    return render(request,'app_actividad/asignar_actividad.html',{'idact':request.POST['idact']})
+    return render(request,'app_actividad/asignar_actividad.html',{'idact':request.POST['idact'], 'idpiz':request.POST['idpiz']})
 
 
 def invitar_usuario(request):
@@ -244,17 +246,30 @@ def invitar_usuario(request):
     if request.method == 'POST':
         id_actividad = request.POST['idact']
         recipiente = request.POST['recipiente']
+        id_pizarra = request.POST['idpiz']
+        
+        act = Actividad.objects.get(idact=id_actividad)
+        piz = Pizarra.objects.get(idpiz=id_pizarra)
+        nombre_pizarra = piz.nombrepiz
+        print nombre_pizarra
+        nombre_actividad = act.nombreact
+        
         if not User.objects.filter(email=recipiente).exists():
             #   El usuario no estaba registrado se le crea un nombre de usuario y una contrasena
+            
             nombre_usuario = recipiente.partition("@")[0]
             contrasena = User.objects.make_random_password()
             asunto = "Felicidades, usted ha sido invitado a participar como colaborador"
             mensaje = """
-                Felicidades usted ha sido invitado a trabajar como colaborador en una actividad 
-                Su nombre de usuario es: {nombre_usuario}
-                Su contrasena es: {contrasena}
+                Felicidades usted ha sido invitado a trabajar como colaborador en la actividad \"%s\" del Proyecto \"%s\"
+                Su nombre de usuario es: %s
+                Su contrasena es: %s
 
-                Por su seguridad le recomendamos cambiar la clave tan pronto como le sea posible"""
+                
+                Para editar su perfil visite nuestra pagina 
+                
+                Por su seguridad le recomendamos cambiar la clave """ % (nombre_actividad, nombre_pizarra, nombre_usuario, contrasena)
+                
 	    #format(unicode(usuario), unicode(contrasena))
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
 
@@ -265,22 +280,24 @@ def invitar_usuario(request):
             tel = '000'
             usuario = UserProfile.objects.create(user= nuevo, telefono=tel)
 
-            
             editarAsignado(id_actividad,nuevo)
             editarJefe(id_actividad,request.user)
-            cambiarEstado(id_actividad, 'e')
             
 
             # Acomodar el crear_colaborador con la logica del negocio 
         else:
             #   El usuario ya estaba registrado solo hace falta notificarle su asignacion por correo 
             usuario = User.objects.get(email=recipiente)
-            asunto = "Buen dia, usted ha sido seleccionado para trabajar en una actividad"
-            mensaje = "El presente correo es para notificarle que a usted se la ha asignado una actividad de su empresa"
+            nombre_user = usuario.first_name
+            asunto = "Buen dia %s, usted ha sido seleccionado para trabajar en una actividad" % nombre_user
+            mensaje = "El presente correo es para notificarle que a usted se la ha asignado la actividad \"%s\" del Proyecto \"%s\"" % (nombre_actividad, nombre_pizarra)
             send_mail(asunto, mensaje, None, [recipiente],  fail_silently = False)
         #   Llamar a algun metodo de la app_actividad que se encargue de asignarle la actividad al usuario recien creado
         
+
+        cambiarEstado(id_actividad, 'e')
         act = Actividad.objects.get(idact=id_actividad)
+
         piz = act.idpizactividad
         lista = obtener_comentarios(id_actividad)
         listasub = obtener_subactividades(id_actividad)

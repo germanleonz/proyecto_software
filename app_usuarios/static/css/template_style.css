@@ -1,9 +1,16 @@
 html,body {
 	margin: 0;
 	padding: 0;
-	background: #f0f0f0;
+	background: url('../images/wall.png');
 	font-family: Helvetica;
 	color: #444;
+}
+
+#noElems{
+  text-align: center;
+  margin: auto;
+  margin-top: 250px;
+  font-size: 30px;
 }
 
 /*tabla de actividades*/
@@ -57,7 +64,8 @@ a {
 	margin: 0 auto;
 	width: 900px;
 	height: 100%;
-    background-color: #FFFFFF;
+  background: #f0f0f0;
+  background: #BBB;
 }
 
 /*Encabezado*/
@@ -105,8 +113,9 @@ a {
 #main {
 	padding: 50px 0px 0px 0px;
 	margin: 0 auto;
-    box-shadow: 6px 0px 50px -7px #888, -6px 0px 50px -7px #888;
-    height: 91.7%;
+  height: 600px;
+  background: #f0f0f0;
+  box-shadow: 6px 0px 50px -7px black, -6px 0px 50px -7px black;
 }
 
 /*Si es una vista de trabajo*/
