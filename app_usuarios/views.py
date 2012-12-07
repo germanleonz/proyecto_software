@@ -43,11 +43,9 @@ def login_usuario(request):
                 #   El usuario se autentico correctamente
                 if usuario.is_active:
                     #Se registra la accion de login del usuario
-                    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %I:%M")
                     Accion.objects.crearAccion(
                         usuario, 
                         "El usuario %s inicio sesion" % (nombre_usuario), 
-                        fechaYHora, 
                         'i')
 
                     #   Redirigir a pagina de login correcto (ver pared)
@@ -238,11 +236,9 @@ def logout_view(request):
     usuario = request.user
     nombre_usuario = usuario.username
     #Se agrega en el log que "nombre_usuario cerro sesion
-    fechaYHora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     Accion.objects.crearAccion(
         usuario, 
         "El usuario %s cerro sesion" % (nombre_usuario), 
-        fechaYHora, 
         'i')
     logout(request)
     return render(request, 'app_usuarios/login.html', { 'form': form, })

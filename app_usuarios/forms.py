@@ -22,7 +22,7 @@ def validate_nombre(value):
 	Autor: Mary Ontiveros
 	Fecha: 8-11-12 Version 1.0
 	"""
-	if re.match('(^$|^[a-zA-Z\']+$)',value)==None:
+	if re.match('(^$|^[a-zA-Z\' ]+$)',value)==None:
 		raise ValidationError(u'\"%s\" no es un nombre valido, debe estar compuesto solo por letras.' % value)
 
 def validate_apellido(value):
@@ -32,7 +32,7 @@ def validate_apellido(value):
 	Autor: Mary Ontiveros
 	Fecha: 8-11-12 Version 1.0
 	"""
-	if re.match('(^$|^[a-zA-Z\']+$)',value)==None:
+	if re.match('(^$|^[a-zA-Z\' ]+$)',value)==None:
 		raise ValidationError(u'\"%s\" no es un apellido valido, debe estar compuesto solo por letras' % value)
 
 def validate_telefono(value):

@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -10,7 +11,7 @@ class ManejadorAccion(models.Manager):
     Autor: Carla Urrea
     Fecha: 28-11-12 Version 1.0
     """
-    def crearAccion(self,accionloginuser, contenidoaccionuser, fechahoraaccionuser, tipo_accion):
+    def crearAccion(self,accionloginuser, contenidoaccionuser, tipo_accion):
         """
         Metodo para crear una accion de log
         In: self, accionloginuser, contenidoaccionuser, fechahoraaccionuser, tipo_accion
@@ -18,6 +19,7 @@ class ManejadorAccion(models.Manager):
         Autor: Carla Urrea
         Fecha: 28-11-12 Version 1.0
         """
+        fechahoraaccionuser = datetime.now().strftime("%Y-%m-%d %H:%M")
     	nuevo = self.model(
     		accionloginuser = accionloginuser,
     		contenidoaccionuser = contenidoaccionuser,
