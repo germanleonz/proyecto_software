@@ -22,7 +22,7 @@ Requisitos para la instalacion del sistema
 
     sudo apt-get install python-psycopg2
 
-Puede que esto les de problemas, en ese caso revisen que tengan instaladas las siguientes librerias: libpq-dev, python-dev
+Puede que esto les de problemas, en ese caso revisen que tengan instaladas las siguientes librerias: libpq-dev, python-dev.
 Si no las tienen hagan:
     
     sudo apt-get install libpq-dev python-dev
