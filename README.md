@@ -52,7 +52,12 @@ Una vez que tengan instalado todo lo anterior hagan lo siguiente.
 
 4.- Finalmente arrancar el servidor:  
     python manage.py runserver  
-    Esto va a arrancar el servidor del sistema en el puerto 8000 por defecto
+    Esto va a arrancar el servidor http del sistema en el puerto 8000 por defecto
 
-5.- Para entrar al sistema entren a localhost:8000
+5.- Creen un userprofile para el usuario
+    Entren en: localhost:8000/admin
+    Para acceder usen el nombre de usuario y clave que definieron en el paso 3
+    Luego busquen donde dice User Profiles, hacia la derecha dice add hagan click y agreguenle un numero de telefono a su usuario
+
+6.- Para entrar al sistema entren a localhost:8000
     Usen el nombre de usuario y la contrasena que definieron en el paso tres
