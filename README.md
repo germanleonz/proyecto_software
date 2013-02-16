@@ -22,8 +22,10 @@ Requisitos para la instalacion del sistema
 
     sudo apt-get install python-psycopg2
 
-    Puede que esto les de problemas, en ese caso revisen que tengan instaladas las siguientes librerias: libpq-dev, python-dev
-    Si no las tienen hagan:  sudo apt-get install libpq-dev python-dev
+Puede que esto les de problemas, en ese caso revisen que tengan instaladas las siguientes librerias: libpq-dev, python-dev
+Si no las tienen hagan:
+    
+    sudo apt-get install libpq-dev python-dev
 
 5.- Dajax
 
@@ -40,6 +42,7 @@ Requisitos para la instalacion del sistema
 Una vez que tengan instalado todo lo anterior hagan lo siguiente.
 
 1.- Clonar el repositorio  
+
     git clone https://github.com/germanleonz/proyecto_software.git  
 
 2.- Para el usuario postgres creen una base de datos que se llame proyecto_pizarra
