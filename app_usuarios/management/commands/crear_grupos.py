@@ -9,8 +9,10 @@ class Command(BaseCommand):
         print "Creando grupos de colaboradores y administradores..."
 
         #   Creamos los grupos  de colaboradores y administradores
+        print "Creando grupos ..."
         colaboradores, colab_creados = Group.objects.get_or_create(name="Colaboradores")
         administradores, admin_creados = Group.objects.get_or_create(name="Administradores")
+        print "Listo"
 
         print "Agregando permisos ..."
         #   Agregamos permisos de gestion de usuarios a los administradores
