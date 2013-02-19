@@ -1,8 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from crontab import CronTab
 
+import os
 import getpass
-import subprocess
 
 class Command(BaseCommand):
     """docstring for Command"""
@@ -11,16 +11,25 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         #   Variables correspondientes al respaldo
-        minutos = None
-        horas = None
-        dias = None
-        meses = None
+        minutos = 1
+        horas = 12
+        dia = 3
+        meses = 02
 
-        self.stdout.write("Configuracion de respaldos automaticos del proyecto pizarra\n")
+        self.stdout.write("Configuracion de respaldos automaticos del proyecto pizarra ...\n")
         usuario = getpass.getuser()
         cron = CronTab(usuario)
-        job = cron.new(command='python manage.py crear_respaldo')
-        job.minute.during(5,50).every(5)
-        job.hour.every(1)
-        #cron.write()
-        print "Configuracion terminada"
+
+        cron.remove_all('manage.py')
+
+        job = cron.new(command="{0}/{1}".format(os.getcwd(), 'python manage.py crear_respaldo'))
+
+        #   Configuracion de la ffrecuencia de respaldos
+        job.minute.on(minutos)
+        #job.hour.on(horas)
+        #job.dow.on(dia)
+        #job.month.on(meses)
+
+        #   Finalmente se guardan los cambios
+        cron.write()
+        self.stdout.write("Configuracion terminada\n")
