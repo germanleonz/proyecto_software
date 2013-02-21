@@ -11,8 +11,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         #   Variables correspondientes al respaldo
-        minutos = 1
-        horas = 12
+        minutos = 37
+        horas = 19
         dia = 3
         meses = 02
 
@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
         #   Configuracion de la ffrecuencia de respaldos
         job.minute.on(minutos)
-        #job.hour.on(horas)
+        job.hour.on(horas)
         #job.dow.on(dia)
         #job.month.on(meses)
 
