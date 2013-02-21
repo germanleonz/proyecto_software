@@ -24,7 +24,7 @@ $(function(){
   <input type="image" class="opcionesIzq" src="{% static "img/back.png" %}" style="height: 20px;">
 </form>
 
-<form action="{% url 'app_actividad:eliminar_actividad' %}" style="margin: 0;" method="post">
+<form action="{% url 'app_actividad:eliminar_actividad' %}" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false"  style="margin: 0;" method="post">
   {%csrf_token%}
   <input type="hidden" name="idact" value="{{actividad.idact}}"/>
   <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>

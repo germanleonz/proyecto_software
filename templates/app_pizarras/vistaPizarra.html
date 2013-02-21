@@ -6,6 +6,11 @@
 <link href="{% static "css/vistaPizarra_style.css" %}" rel="stylesheet" type="text/css"/>
 {% endblock css %}
 {% block botones %}
+<form action="{% url 'app_pizarras:eliminar_pizarra' %}" onsubmit="if(!confirm('Seguro desea eliminar esta pizarra?')) return false"  style="margin: 0;" method="post">
+  {%csrf_token%}
+  <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
+  <input type="image" class="opcionesIzq" src="{% static "img/rem.png" %}" style="height: 20px;"/>
+</form>
 <a id="crearActividad" onclick="Dajaxice.app_actividad.crearActividadForm(my_js_callbackActividad, {'data': {{pizarra.idpiz}}});" class="opcionesDer" href="#">Crear Actividad</a>
 {% endblock botones %}
 {% block cuerpo %}
