@@ -144,7 +144,7 @@ def visualizar_pizarra(request):
 	"""
 	Metodo que permite consultar la pizarra y ver sus atributos
 	In: request
-	Out: vista pizarra o visra listar usuarios
+	Out: vista pizarra o vista listar usuarios
 	Autor: Juan Arocha
 	Fecha: 4-11-12 Version 1.0
 	"""
