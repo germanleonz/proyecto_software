@@ -82,10 +82,11 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
             )
 
     #Se registra en el log la creacion de la nueva pizarra
-    nombre_usuario = usuario.username            
+    nombre_usuario = usuario.username
+    stringg = "El usuario %s creo la pizarra %s" % (nombre_usuario, unicode(nombrepiz));            
     Accion.objects.crearAccion(
         usuario,
-        "El usuario %s creo la pizarra %s" % (nombre_usuario, str(nombrepiz)),
+        stringg.encode('utf8'),
         'i')
 
     #   Creamos la actividad que representa a la pizarra dentro de la pizarra   
@@ -132,9 +133,10 @@ def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal, usuario):
                 'w'
                 )
         #Se registra en el log la creacion de la nueva pizarra
+	stringg2 = "El usuario %s modifico la informacion de la pizarra %s" % (nombre_usuario, unicode(nombrepiz));            
         Accion.objects.crearAccion(
             usuario,
-            "El usuario %s modifico la informacion de la pizarra %s" % (nombre_usuario, str(nombrepiz)), 
+            stringg2.encode('utf8'), 
             'i')   
 
 
