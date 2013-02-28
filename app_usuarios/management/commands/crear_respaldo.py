@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 
+import os
 import subprocess
 import tarfile
 
@@ -23,7 +24,8 @@ def respaldar_codigo():
             'app_pizarras', 'app_usuarios', 'config', 'manage.py',
             'middleware', 'proyecto_pizarras', 'README.md', 'respaldo_bd.txt',
             'static', 'templates']
-    tar = tarfile.open("respaldo_codigo.tar.gz", "w:gz")
+    nombre_tar = "respaldo_codigo.tar.gz"
+    tar = tarfile.open(nombre_tar, "w:gz")
     for name in archivos:
         tar.add(name)
     tar.close()
@@ -35,5 +37,6 @@ class Command(BaseCommand):
     help = "Comando que ejecuta un respaldo de la base de datos y del codigo fuente"
 
     def handle(self, *args, **options):
+
         respaldar_BD()
         respaldar_codigo()

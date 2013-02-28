@@ -11,7 +11,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         #   Variables correspondientes al respaldo
-        minutos = 37
+        minutos = 1
         horas = 19
         dia = 3
         meses = 02
@@ -22,12 +22,13 @@ class Command(BaseCommand):
 
         cron.remove_all('manage.py')
 
-        job = cron.new(command="{0}/{1}".format(os.getcwd(), 'python manage.py crear_respaldo'))
+        job = cron.new(command="{0}/{1} > /tmp/output.txt".format(os.getcwd(), 'manage.py crear_respaldo'))
 
-        #   Configuracion de la ffrecuencia de respaldos
-        job.minute.on(minutos)
-        job.hour.on(horas)
+        #   Configuracion de la frecuencia de respaldos
+        job.minute.every(minutos)
+        #job.hour.on(horas)
         #job.dow.on(dia)
+        #job.dom.on(dia)
         #job.month.on(meses)
 
         #   Finalmente se guardan los cambios

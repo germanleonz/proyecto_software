@@ -90,9 +90,9 @@ Configuracion de respaldos automaticos
 
     Requisitos: Descargar el modulo python-crontab e instalarlo
 
-    wget http://pypi.python.org/packages/source/p/python-crontab/python-crontab-1.2.tar.gz
-    tar xvfz python-crontab-1.2
-    cd python-crontab-1.2; python setup.py install
+    wget http://pypi.python.org/packages/source/p/python-crontab/python-crontab-1.2.tar.gz;
+    tar xvfz python-crontab-1.2;
+    cd python-crontab-1.2; python setup.py install;
 
     Para que el sistema genere respaldos automaticos se debe ejecutar el siguiente comando
 
