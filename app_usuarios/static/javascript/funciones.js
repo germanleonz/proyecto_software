@@ -25,7 +25,7 @@ function calendarios(){
       "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
     );
 
-    $( "#id_fecha_inicio" ).datepicker( "option", "yearRange", "2013:2900" );
+    $( "#id_fecha_inicio" ).datepicker( "option", "yearRange", "2013:2100" );
 
     //calendarios fecha de entrega
     $("#id_fecha_final").datepicker({
@@ -46,7 +46,7 @@ function calendarios(){
       "option", "dayNamesMin", [ "Dom", "Lun", "Mar", "Mie", "Juev", "Vier", "Sab" ] 
     );
 
-    $( "#id_fecha_final" ).datepicker( "option", "yearRange", "2013:2900" );
+    $( "#id_fecha_final" ).datepicker( "option", "yearRange", "2013:2100" );
 };
 
 /*funcion para mostrar dialog*/

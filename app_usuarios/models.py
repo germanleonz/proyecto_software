@@ -1,7 +1,7 @@
 import re
 import datetime
 from django.db import models
-from django.contrib.auth.models import User, Group, Permission, UserManager
+from django.contrib.auth.models import User, Group, Permission, UserManager, AnonymousUser
 from django.utils.encoding import smart_str
 from django.core.exceptions import ValidationError
 from app_log.models import ManejadorAccion, Accion
@@ -25,36 +25,38 @@ class ManejadorUsuario(UserManager):
         u.first_name = data['nuevo_nombre']
         u.last_name = data['nuevo_apellido']
 
-
-        if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', u.first_name):
-            Accion.objects.crearAccion(
-                usuario,
-                "El usuario %s inserto strings peligrosos creando al usuario %s" % (usuario.username, u.username),
-                'w'
-                )
-        elif re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', u.last_name):
+        if not usuario.username is '':
+            if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', u.first_name):
                 Accion.objects.crearAccion(
-                usuario,
-                "El usuario %s inserto strings peligrosos creando al usuario %s" % (usuario.username, u.username),
-                'w'
-                )
+                    usuario,
+                    "El usuario %s inserto strings peligrosos creando al usuario %s" % (usuario.username, u.username),
+                    'w'
+                    )
+            elif re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', u.last_name):
+                    Accion.objects.crearAccion(
+                    usuario,
+                    "El usuario %s inserto strings peligrosos creando al usuario %s" % (usuario.username, u.username),
+                    'w'
+                    )
         u.save()
 
         up = UserProfile.objects.create(user=u, telefono= data["nuevo_telefono"])
         #   Agregamos el usuario recien creado al grupo de los colaboradores
         u.groups.add(Group.objects.get(name="Colaboradores"))
+
         #Se registra en el log que "usuario" creo a un nuevo colaborador
-        Accion.objects.crearAccion(
-            usuario, 
-            "El usuario %s agrego a %s" % (usuario.username, u.first_name),
-            'i')
+        if not usuario.username is '':
+            Accion.objects.crearAccion(
+                usuario, 
+                "El usuario %s agrego a %s" % (usuario.username, u.first_name),
+                'i')
 
 
-        Accion.objects.crearAccion(
-            usuario,
-            "Se creo una instancia de usuario con los valores Nombre: %s, Apellido: %s, Email: %s, Tlf: %s" % (u.first_name, u.last_name, u.email, up.telefono),
-            'd'
-            )
+            Accion.objects.crearAccion(
+                usuario,
+                "Se creo una instancia de usuario con los valores Nombre: %s, Apellido: %s, Email: %s, Tlf: %s" % (u.first_name, u.last_name, u.email, up.telefono),
+                'd'
+                )
         return up  
 
     def crear_administrador(self, usuario, datos):

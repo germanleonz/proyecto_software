@@ -34,6 +34,7 @@ def crear_pizarra(request):
             CreadorPizarra(nombrepiz,descripcionpiz,fechaCreacion,fechaFinal,usuario)
 
             lista = obtener_pizarras(usuario)
+
             return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
         else:
@@ -55,7 +56,12 @@ def listar_pizarra(request):
     """
     usuario = request.user
     lista = obtener_pizarras(usuario)
-    return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
+    colab = {}
+    for elem in lista:
+        dicc = {elem.idpiz:colaboradores(elem.idpiz)}
+        colab.update(dicc)
+
+    return render(request, 'app_pizarras/listar.html', { 'lista' : lista, 'colaboradores' : colab})
         
 @login_required
 def eliminar_pizarra(request):
@@ -144,7 +150,7 @@ def visualizar_pizarra(request):
 	"""
 	Metodo que permite consultar la pizarra y ver sus atributos
 	In: request
-	Out: vista pizarra o vista listar usuarios
+	Out: vista pizarra o visra listar usuarios
 	Autor: Juan Arocha
 	Fecha: 4-11-12 Version 1.0
 	"""
@@ -249,6 +255,7 @@ def vista_orden_estados(request):
         ordenE = orden_por_estados(idpiz, usuario)
         return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE, 'arbol': str(string), })
     
+    
 
     #no se que retornar si no es post asi que retorno la vista anterior y ya
     return listar_pizarra(request)
@@ -285,6 +292,7 @@ def vista_orden_avance(request):
         #Listas de ordenes a mostrar en la pagina
         orden = orden_cronologico(idpiz, usuario)
         ordenE = orden_por_estados(idpiz, usuario)
+
         return render(request,'app_pizarras/vistaPizarra.html',{ 'pizarra' : pi, 'colaboradores': colab, 'lista': lista, 'orden': orden, 'ordenE': ordenE, 'arbol': str(string), })
     
 

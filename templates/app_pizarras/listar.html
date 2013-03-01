@@ -1,5 +1,5 @@
 {% extends "app_usuarios/template.html" %}
-{% load url from future }
+{% load url from future 
 {% load staticfiles %}
 {% load dajaxice_templatetags %}
 {% block titulo %}Pared{% endblock titulo %}
@@ -12,6 +12,21 @@
 <div id="noElems">No hay pizarras.</div>
 {% endif %}
 <script type="text/javascript" src="{% static "javascript/jquery.paginatetable.js" %}"></script>
+    <script src="../../javascript/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            $(".detalles").hide();
+            $(".mostrar").hover(function(){
+                $(this).siblings('.detalles').toggle();
+
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+        });
+    </script>
 <script>
 function divSubmit(div){
   lista = div.getElementsByTagName("form");
@@ -39,6 +54,21 @@ $(document).ready(function () {
     <tr>
       {% endif %}
       <td>
+          <span class="mostrar">Mostrar Detalles</span>
+	        <span class="detalles"> <br/>Creador: "{{object.logindueno.first_name}}  {{object.logindueno.last_name}}"<br/>
+			Fecha: "{{object.fechacreacion}} - {{object.fechafinal}}" <br/>
+			Participantes:
+                {% for key, values in colaboradores.items %}
+                {% ifequal key object.idpiz %}
+                    <ul>
+                        {% for num in values %}
+                            <li>{{ num }}</li>
+                        {% endfor %}
+                    </ul>
+                {%endifequal%}
+                {% endfor %}
+
+		</span>
         <div class="pizarra">
           <div id="cabeza">
             <div id="titulo">
@@ -59,9 +89,9 @@ $(document).ready(function () {
             </form>  
           </div>
           <div id="content">
-            {{object.descripcionpiz}}
+            {{object.descripcionpiz}}<br><br>
           </div>
-         
+            </div>
         </div>
       </td>
       {% if forloop.counter|divisibleby:"2"%}

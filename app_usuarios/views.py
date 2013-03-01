@@ -2,7 +2,7 @@ import re
 import datetime 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import views as views_admin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -11,7 +11,7 @@ from app_actividad.models import *
 
 import app_pizarras
 from app_usuarios.models import UserProfile, ManejadorUsuario
-from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm
+from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm, RegistrarVisitanteForm
 from app_log.models import ManejadorAccion, Accion
 from app_pizarras.views import listar_pizarra
 
@@ -261,7 +261,7 @@ def registrar_visitante(request):
     Fecha 5-11-12 Version 1.0
     """
     if request.method == 'POST':
-        form = CrearUsuarioForm(request.POST)
+        form = RegistrarVisitanteForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             nombre_usuario = data['nuevo_nombre_usuario']
@@ -269,7 +269,7 @@ def registrar_visitante(request):
                 #   Si el usuario no existe lo agregamos   
                 print "Agregando usuario %s" % nombre_usuario
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
-                UserProfile.objects.crear_colaborador(data, request.user)
+                UserProfile.objects.crear_colaborador(data, User())
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')
@@ -284,7 +284,7 @@ def registrar_visitante(request):
     
     else:
         #   Se intento acceder usando un metodo distinto al POST
-        form = CrearUsuarioForm()  # Un Form Unbound
+        form = RegistrarVisitanteForm()  # Un Form Unbound
 
         return render(request, 'app_usuarios/registrar_visitante.html', { 'form': form, })
 
