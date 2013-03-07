@@ -8,7 +8,7 @@ PROJECT_PATH = os.path.realpath(dirname(dirname(__file__)))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = ( #('carla', 'carlaustabile@gmail.com') # ('Your Name', 'your_email@example.com'),
+ADMINS = ( #('germanleonz', 'germanleonz@gmail.com') # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -129,10 +129,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-
-    PROJECT_PATH+'/templates'
-
-
+    PROJECT_PATH + '/templates'
 )
 
 INSTALLED_APPS = (
@@ -195,3 +192,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'proyecto.pizarra@gmail.com'
 EMAIL_HOST_PASSWORD = 'sacamos5'
 EMAIL_PORT = 587
+

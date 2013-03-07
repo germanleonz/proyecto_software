@@ -1,42 +1,146 @@
+/*cuadros de proyectos*/
+#pared {
+	overflow: auto;
+  margin: auto;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
 
+a {
+	text-decoration: none;
+}
+
+#herramientas {
+	height: 40px;
+	width: 100%;
+	border: solid #bbb;
+        border-width: 0px 0px 1px 0px;
+	background: #378B6E;
+}
+
+.mostrar {
+    background: #378B6E;
+    color: #ffffff
+}
+
+.detalles{
+    background: #ffffff;
+    width: 380px;
+}
+
+/*Division de cuadro de proyectos y titulos*/
 .pizarra {
-	width: 260px;
-	height: 180px;
-	margin: 15px;
-	margin-top: 50px;
-	margin-bottom: 0px;
-	border-radius: 5px;
-	border: 2px #2B2 solid;
-	background-color: #eee;
+  cursor: default;
+  margin: 10px;
+  margin-top: 20px;
+  width: 358px;
+  height: 108px;
+  border: 8px solid transparent;
+  background-image: url("../images/pared/pizarra.png");
+  background-position: -8px;
 }
 
-.pizarra #pizHead{
-	text-align: center;
-	background-color: #2B2;
-	font-size: 20px;
-	font-family: Helvetica;
-	color: white;
+.pizarra:hover{
+  background-image: url("../images/pared/pizarraH.png");
 }
 
-.borrar{
-        cursor: pointer;
-        background-color: transparent;
-        float: right;
-        margin 2px;
-        margin-top: -25px !important;
-        width: 24px;
-        height: 24px;
-        background-image: url('../images/close2.png');
-        border: none;
+.pizarra #cabeza {
+  width: 100%;
+  height: 25px;
+  font-size: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: white;
+  text-align: center;
+
+  -o-text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+.pizarra #titulo {
+  width: 288px;
+  float: left;
+}
+
+.pizarra #content {
+  color: white;
+  margin: auto;
+  padding: 0px 14px 0px 14px;
+  width: 330px;
+  height: 80px;
+  text-align: justify;
+  overflow-y: auto;
+  font-family: Helvetica, fantasy;
+}
+
+.borrar, .modi{
+  float: right;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  background: transparent;
+  border: none;
+}
+
+.borrar {
+  background-image: url('../images/closePiz.png');
+  background-repeat: no-repeat;
 }
 
 .modi{
-        cursor: pointer;
-        background-color: transparent;
-        float: right;
-        margin 2px;
-        border: none;
-        width: 24px;
-        height: 24px;
-        background-image: url('../images/pencil.png')
+  background-image: url('../images/pencil.png');
+  background-size: 25px 25px;
+  background-repeat: no-repeat;
 }
+
+/*navegacion entre paredes*/
+.prevPage, .nextPage {
+  position: absolute;
+  top: 350px;
+  display: block !important;
+}
+
+.prevPage{
+  left: 10px;
+}
+
+.nextPage{
+  right: 10px;
+}
+
+/*forms*/
+#pizarraForm fieldset{
+  border: none;
+}
+
+#pizarraForm input[type="text"]{
+  border: 1px solid #A6A6CF;
+  width: 230px;
+}
+
+#pizarraForm textarea{
+  border: 1px solid #A6A6CF;
+  width: 230px;
+  height: 100px;
+  
+}
+
+/*forms*/
+
+#usuarioForm fieldset{
+  border: none;
+}
+
+#usuarioForm input[type="text"], #usuarioForm input[type="password"]{
+  border: 1px solid #A6A6CF;
+  width: 230px;
+}
+
+#usuarioForm textarea{
+  border: 1px solid #A6A6CF;
+  width: 230px;
+  height: 100px;
+  
+}
+/*End forms*/

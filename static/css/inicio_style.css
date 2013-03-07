@@ -1,71 +1,74 @@
-#logofront {
-	margin-top: 140px;
-	margin-left: 50px;
+#tutorial {
+  position: absolute;
+  font-size: 20px;
+  margin-top: 115px;
+  margin-left: 50px;
 }
 
 /* begin LoginBox */
 #loginBox { 
-    margin: 60px 250px 60px 250px;
-    display: block;
-    width: 420px;
-    opacity:0.8;
-    filter:alpha(opacity=60); /* Para IE8*/
-    font-size: 15px;
+  float: right;
+  display: block;
+  overflow: hidden;
+  opacity:0.8;
+  filter:alpha(opacity=60); /* Para IE8*/
+  font-size: 15px;
+  margin-top: 140px;
+  margin-right: 80px;
 }
 
 /* Login Form */
 #loginForm {
-    width: 400px;
-    border:1px solid #899caa;
-    border-radius:3px 3px 3px 3px;
-    -moz-border-radius:3px 3px 3px 3px;
-    background:#46A641;
-    padding:8px;
+  width: 230px;
+  border:1px solid #899caa;
+  border-radius:3px 3px 3px 3px;
+  -moz-border-radius:3px 3px 3px 3px;
+  background:#378B6E;
+  padding:8px;
 }
 
 #loginForm fieldset {
-    margin:0 0 10px 0;
-    display:block;
-    border:0;
-    padding:0;
+  margin:0 0 10px 0;
+  display:block;
+  border:0;
+  padding:0;
 }
 
 fieldset#body {
-    background:#fff;
-    border-radius:3px;
-    -moz-border-radius:3px;
-    padding:10px 13px;
-    margin:0;
+  background:#fff;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  padding:10px 13px;
+  margin:0;
 }
 
 
 #body label {
-    color:#3a454d;
-    margin:9px 0 0 0;
-    display:block;
+  color:#3a454d;
+  margin:9px 0 0 0;
+  display:block;
 }
 
 #loginForm #body fieldset label {
-   
-    float:none;
-    margin:0 0 6px 0;
+
+  float:none;
+  margin:0 0 6px 0;
 }
 
 /* Default Input */
 #loginForm input {
-    width:92%;
-    border:1px solid #899caa;
-    border-radius:3px;
-    -moz-border-radius:3px;
-    color:#3a454d;
-    font-weight:bold;
-    padding:8px 8px;
-    box-shadow:inset 0px 1px 3px #bbb;
-    -webkit-box-shadow:inset 0px 1px 3px #bbb;
-    -moz-box-shadow:inset 0px 1px 3px #bbb;
-    font-size:10px;
+  width:92%;
+  border:1px solid #899caa;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  color:#3a454d;
+  font-weight:bold;
+  padding:8px 8px;
+  box-shadow:inset 0px 1px 3px #bbb;
+  -webkit-box-shadow:inset 0px 1px 3px #bbb;
+  -moz-box-shadow:inset 0px 1px 3px #bbb;
+  font-size:10px;
 }
-
 #loginForm textarea {
     width:92%;
     border:1px solid #899caa;
@@ -83,23 +86,47 @@ fieldset#body {
 
 /* Boton iniciar sesion */
 #loginForm #login {
-    width:120px;
-    float:right;
-    background:#46A641;
-    color:#fff;
-    padding:7px 10px 8px 10px;
-    text-shadow:0px -1px #EBEBEB;
-    border:1px solid #EBEBEB;
-    box-shadow:none;
-    -moz-box-shadow:none;
-    -webkit-box-shadow:none;
-    border-radius: 10px;
-    margin:0 12px 0 0;
-    cursor:pointer;
-    padding:7px 2px 8px 2px; /* IE7 Fix */
+  width:120px;
+  float:right;
+  background:#378B6E;
+  color:#fff;
+  padding:7px 10px 8px 10px;
+  text-shadow:0px -1px #278db8;
+  border:1px solid #378B6E;
+  box-shadow:none;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  margin:0 12px 0 0;
+  cursor:pointer;
+ *padding:7px 2px 8px 2px; /* IE7 Fix */
 }
 
+/* Olvidaste contraseña */
+
+
+#loginForm span {
+ text-align:center;
+ display:block;
+ padding:7px 0 4px 0;
+}
+
+#loginForm span a {
+ color: white;
+ text-shadow:1px 1px #000;
+ font-size:12px;
+}
+
+x|input:focus {
+ outline:none;
+}
 /*end LoginBox*/
+
+#forgot {
+  color: white;
+  text-shadow:1px 1px #000;
+  font-size:12px;
+  cursor: pointer;
+}
 
 /*Titulo*/
 

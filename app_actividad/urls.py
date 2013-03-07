@@ -16,4 +16,3 @@ urlpatterns = patterns('',
         url(r'^asignar_actividad/',views.asignar_actividad, name='asignar_actividad'),
         url(r'^invitar_usuario/',views.invitar_usuario, name='invitar_usuario')
 )
-

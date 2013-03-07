@@ -1,4 +1,10 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+
 from app_usuarios.models import UserProfile
 from app_pizarras.forms import CrearPizarraForm
 from app_pizarras.models import *
@@ -6,11 +12,6 @@ from app_actividad.forms import *
 from app_actividad.models import *
 from app_comentarios.models import *
 from app_log.models import ManejadorAccion, Accion
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import permission_required
-from django.template import RequestContext
-from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail
 from app_log.models import ManejadorAccion, Accion
 
 #requiere permisos para agregar actividad

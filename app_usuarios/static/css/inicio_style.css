@@ -69,6 +69,20 @@ fieldset#body {
   -moz-box-shadow:inset 0px 1px 3px #bbb;
   font-size:10px;
 }
+#loginForm textarea {
+    width:92%;
+    border:1px solid #899caa;
+    border-radius:3px;
+    -moz-border-radius:3px;
+    color:#3a454d;
+    font-weight:bold;
+    padding:8px 8px;
+    box-shadow:inset 0px 1px 3px #bbb;
+    -webkit-box-shadow:inset 0px 1px 3px #bbb;
+    -moz-box-shadow:inset 0px 1px 3px #bbb;
+    font-size:10px;
+    margin-right: 10px;
+}
 
 /* Boton iniciar sesion */
 #loginForm #login {
@@ -113,3 +127,12 @@ x|input:focus {
   font-size:12px;
   cursor: pointer;
 }
+
+/*Titulo*/
+
+#titulo {
+    font-family: Helvetica;
+    font-size: 30px;
+    color: #3A454D;
+}
+
