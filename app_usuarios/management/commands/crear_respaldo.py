@@ -1,8 +1,11 @@
 from django.core.management.base import BaseCommand, CommandError
 
-import os
 import subprocess
 import tarfile
+import os
+
+dirname = os.path.dirname
+PROJECT_PATH = os.path.realpath(dirname(dirname(dirname(dirname(__file__)))))
 
 def respaldar_BD():
     """ Crea un respaldo de la base de datos del sistema  """
@@ -37,6 +40,6 @@ class Command(BaseCommand):
     help = "Comando que ejecuta un respaldo de la base de datos y del codigo fuente"
 
     def handle(self, *args, **options):
-
+        os.chdir(PROJECT_PATH)
         respaldar_BD()
         respaldar_codigo()

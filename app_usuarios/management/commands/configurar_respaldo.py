@@ -1,8 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from crontab import CronTab
 
-import os
 import getpass
+import os
 
 class Command(BaseCommand):
     """docstring for Command"""
@@ -11,8 +11,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         #   Variables correspondientes al respaldo
-        minutos = 1
-        horas = 19
+        minutos = 60
         dia = 3
         meses = 02
 
