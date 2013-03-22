@@ -25,15 +25,15 @@ class Pizarra(models.Model):
     logindueno = models.ForeignKey(User, related_name='pizarra_dueno')
     is_active = models.BooleanField(default = True)
 
-    def save(self, *args, **kwargs):
-        if self.fechacreacion < date.today():
-            raise ValidationError(u'\"%s\" Error. La fecha de creacion debe ser mayor o igual a la fecha de hoy' % self.fechacreacion)
-        elif self.fechafinal < self.fechacreacion:
-            raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de creacion' % (self.fechacreacion, self.fechafinal))
-        elif self.fechafinal < date.today():
-            raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de hoy' % (self.fechafinal))    
-        else:    
-            super(Pizarra,self).save(*args,**kwargs)
+    #def save(self, *args, **kwargs):
+       #if self.fechacreacion < date.today():
+            #raise ValidationError(u'\"%s\" Error. La fecha de creacion debe ser mayor o igual a la fecha de hoy' % self.fechacreacion)
+        #elif self.fechafinal < self.fechacreacion:
+            #raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de creacion' % (self.fechacreacion, self.fechafinal))
+        #elif self.fechafinal < date.today():
+            #raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de hoy' % (self.fechafinal))    
+        #else:    
+            #super(Pizarra,self).save(*args,**kwargs)
 
 class PersonalizarPizarra(models.Model):
     """
@@ -56,8 +56,8 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
     Fecha: 27-10-12 Version 1.0
     """
     from app_actividad.models import crearActividad
-     #instancio la pizarra a guardar   
 
+    #   Se crea una instancia que represente a la pizarra nueva   
     nuevo = Pizarra(
         nombrepiz=nombrepiz, 
         descripcionpiz=descripcionpiz,
@@ -65,7 +65,15 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
         fechafinal=fechafinal,
         avancepiz=0,
         logindueno =  usuario)
-    nuevo.save()
+
+    if nuevo.fechacreacion < date.today():
+        raise ValidationError(u'\"%s\" Error. La fecha de creacion debe ser mayor o igual a la fecha de hoy' % nuevo.fechacreacion)
+    elif nuevo.fechafinal < self.fechacreacion:
+        raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de creacion' % (nuevo.fechacreacion, nuevo.fechafinal))
+    elif nuevo.fechafinal < date.today():
+        raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de hoy' % (nuevo.fechafinal))    
+    else:    
+        nuevo.save()
 
 
     if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', nombrepiz):
