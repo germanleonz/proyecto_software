@@ -68,7 +68,6 @@ MEDIA_URL = ''
 
 STATIC_ROOT =  PROJECT_PATH + "/static"
 
-
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
@@ -142,16 +141,17 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
+    'middleware',
     'django.contrib.admindocs',
     'dajaxice',
     'dajax',
+    'rest_framework',
     # Aplicaciones propias del Proyecto de Pizarras
     'app_usuarios',
     'app_pizarras',
     'app_actividad',
     'app_comentarios',
-    'app_log',
-    'middleware'
+    'app_log'
 )
 
 # A sample logging configuration. The only tangible logging

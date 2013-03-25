@@ -1,17 +1,18 @@
+from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 from django.conf.urls import patterns, include, url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from dajaxice.core import dajaxice_autodiscover, dajaxice_config
+
+from app_actividad.models import Actividad
 from app_usuarios import views as views_usuarios
 from app_usuarios.models import UserProfile
 from app_usuarios.models import UserProfile
 from app_pizarras.models import Pizarra
 from app_log.models import Accion
 from app_comentarios.models import Comentario
-from dajaxice.core import dajaxice_autodiscover, dajaxice_config
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from app_actividad.models import Actividad
-from django.conf.urls import patterns, include, url
-from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 
 admin.site.register(UserProfile)
 admin.site.register(Pizarra)
@@ -20,6 +21,7 @@ admin.site.register(Comentario)
 admin.site.register(Accion)
 admin.autodiscover()
 dajaxice_autodiscover()
+
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^account/', include('django.contrib.auth.urls')),

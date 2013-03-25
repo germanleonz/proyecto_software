@@ -1,12 +1,14 @@
 import re
 import datetime
+
 from django.db import models
 from django.db.models import Max
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from datetime import date
+
 #from app_actividad.models import Actividad
 from app_log.models import ManejadorAccion, Accion
-from datetime import date
-from django.core.exceptions import ValidationError
 
 class Pizarra(models.Model):
     """
@@ -68,7 +70,7 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
 
     if nuevo.fechacreacion < date.today():
         raise ValidationError(u'\"%s\" Error. La fecha de creacion debe ser mayor o igual a la fecha de hoy' % nuevo.fechacreacion)
-    elif nuevo.fechafinal < self.fechacreacion:
+    elif nuevo.fechafinal < nuevo.fechacreacion:
         raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de creacion' % (nuevo.fechacreacion, nuevo.fechafinal))
     elif nuevo.fechafinal < date.today():
         raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de hoy' % (nuevo.fechafinal))    

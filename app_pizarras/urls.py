@@ -1,5 +1,8 @@
 from django.conf.urls import patterns, url
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from app_pizarras import views
+from app_pizarras import rest_views
 
 urlpatterns = patterns('',
         url(r'^crear_pizarra/',views.crear_pizarra, name='crear_pizarra'),
@@ -11,5 +14,8 @@ urlpatterns = patterns('',
         url(r'^orden_cronologico/',views.vista_orden_cronologico, name='orden_cronologico'),
         url(r'^orden_estados/',views.vista_orden_estados, name='orden_estados'),
         url(r'^orden_avance/',views.vista_orden_avance, name='orden_avance'),
+        url(r'^rest/$', rest_views.PizarraList.as_view(), name='rest_pizarra_list'),
+        url(r'^rest/(?P<pk>[0-9]+)/$', rest_views.PizarraDetail.as_view(), name='rest_pizarra_detail'),
 )
 
+urlpatterns = format_suffix_patterns(urlpatterns)
