@@ -14,11 +14,11 @@ from app_pizarras.models import Pizarra
 from app_log.models import Accion
 from app_comentarios.models import Comentario
 
-admin.site.register(UserProfile)
-admin.site.register(Pizarra)
-admin.site.register(Actividad)
-admin.site.register(Comentario)
-admin.site.register(Accion)
+#admin.site.register(UserProfile)
+#admin.site.register(Pizarra)
+#admin.site.register(Actividad)
+#admin.site.register(Comentario)
+#admin.site.register(Accion)
 admin.autodiscover()
 dajaxice_autodiscover()
 

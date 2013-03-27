@@ -1,7 +1,10 @@
 from django.conf.urls import patterns, url
+from django.contrib.auth import views as views_admin
+
+from rest_framework.urlpatterns import format_suffix_patterns
 
 from app_usuarios import views as views_usuarios
-from django.contrib.auth import views as views_admin
+from app_usuarios import rest_views as rest_views_usuarios
 
 urlpatterns = patterns('',
     url(r'^crear_usuario/', views_usuarios.crear_usuario, name='crear_usuario'),
@@ -16,5 +19,8 @@ urlpatterns = patterns('',
     url(r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', views_admin.password_reset_confirm),
     url(r'^reset/done/$', views_admin.password_reset_complete),
     url(r'^cerrar_sesion/', views_usuarios.logout_view, name='logout_view'),
-    url(r'^perfil_usuario/',views_usuarios.perfil_usuario, name='perfil_usuario')
+    url(r'^perfil_usuario/',views_usuarios.perfil_usuario, name='perfil_usuario'),
+    url(r'^login/(?P<nombre_usuario>\w+)/(?P<clave>[\w\d]+)/$', rest_views_usuarios.Login.as_view(), name='rest_login'),
 )
+
+urlpatterns = format_suffix_patterns(urlpatterns)

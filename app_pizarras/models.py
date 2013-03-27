@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from datetime import date
 
-#from app_actividad.models import Actividad
 from app_log.models import ManejadorAccion, Accion
 
 class Pizarra(models.Model):
@@ -26,6 +25,12 @@ class Pizarra(models.Model):
     avancepiz = models.IntegerField()
     logindueno = models.ForeignKey(User, related_name='pizarra_dueno')
     is_active = models.BooleanField(default = True)
+
+    class Meta:
+        ordering = ('fechacreacion', )
+
+    def __unicode__(self):
+        return self.nombrepiz + ", fecha_ini: " + fechacreacion + ", fechafinal: " + fechafinal
 
     #def save(self, *args, **kwargs):
        #if self.fechacreacion < date.today():
@@ -76,7 +81,6 @@ def CreadorPizarra(nombrepiz, descripcionpiz, fechacreacion, fechafinal, usuario
         raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de hoy' % (nuevo.fechafinal))    
     else:    
         nuevo.save()
-
 
     if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', nombrepiz):
         Accion.objects.crearAccion(

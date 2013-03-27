@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'middleware',
     'django.contrib.admindocs',
+    # Aplicacion de terceros utilizadas en el proyecto 
     'dajaxice',
     'dajax',
     'rest_framework',
@@ -187,6 +188,7 @@ AUTH_PROFILE_MODULE = 'app_usuarios.UserProfile'
 
 LOGIN_URL = '/'
 
+#   Configuracion para el envio de correos
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'proyecto.pizarra@gmail.com'

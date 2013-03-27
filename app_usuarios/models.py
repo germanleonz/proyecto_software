@@ -145,7 +145,7 @@ class ManejadorUsuario(UserManager):
 
 class UserProfile(models.Model):
     """
-    Clase UserProfile que extiende los datos que se definen en la tabla User de Django
+    Clase UserProfile que extiende los datos que se definen en la clase User de Django
     Nota: Deprecado esta manera de extender User esta deprecada en Django 1.5
     Autor: German Leon
     Fecha: 4-11-12 Version 1.0
@@ -164,7 +164,7 @@ class UserProfile(models.Model):
         if re.match('^[0-9]+[-]?[0-9]+$', self.telefono) == None:
             raise ValidationError(u'\"%s\" Error. El telefono solo puede estar compuesto por numeros' % self.telefono)
         else:    
-        	super(UserProfile,self).save(*args,**kwargs)
+        	super(UserProfile, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.user.username + ", " + self.telefono

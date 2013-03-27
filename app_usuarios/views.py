@@ -12,7 +12,7 @@ from app_actividad.models import *
 import app_pizarras
 from app_usuarios.models import UserProfile, ManejadorUsuario
 from app_usuarios.forms import LoginForm, CrearUsuarioForm, ModificarUsuarioForm, CambiarContrasenaForm, RegistrarVisitanteForm
-from app_log.models import ManejadorAccion, Accion
+from app_log.models import Accion
 from app_pizarras.views import listar_pizarra
 
 def login_if(request):
