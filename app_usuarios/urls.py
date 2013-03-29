@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^cerrar_sesion/', views_usuarios.logout_view, name='logout_view'),
     url(r'^perfil_usuario/',views_usuarios.perfil_usuario, name='perfil_usuario'),
     url(r'^login/(?P<nombre_usuario>\w+)/(?P<clave>[\w\d]+)/$', rest_views_usuarios.Login.as_view(), name='rest_login'),
+    #url(r'^login/(?P<nombre_usuario>\w+)/(?P<clave>[\w\d]+)/$', rest_views_usuarios.Login.as_view(), name='rest_login'),
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns)

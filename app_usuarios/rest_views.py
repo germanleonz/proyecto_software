@@ -11,7 +11,7 @@ from app_usuarios.models import UserProfile
 from app_usuarios.serializers import UserProfileSerializer
 
 class Login(APIView):
-    def post(self, request, nombre_usuario, clave, format=None):
+    def get(self, request, nombre_usuario, clave, format=None):
         usuario = authenticate(username=nombre_usuario, password=clave)
         serializer = UserProfileSerializer(usuario)
         if usuario is not None:
