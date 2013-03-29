@@ -38,10 +38,8 @@ def crear_pizarra(request):
             return render(request, 'app_pizarras/listar.html', { 'lista' : lista, })
 
         else:
-            print "NOO"
             return listar_pizarra(request)
     
-    print "YAA"
     form = CrearPizarraForm()
     return render(request, 'app_pizarras/crear_pizarra.html', { 'form': form, })
 
