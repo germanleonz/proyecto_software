@@ -1,0 +1,25 @@
+NameVirtualHost 127.0.0.1:8000
+<VirtualHost *:8000>
+
+    ServerName germanleonz-Debian.galz.com
+    DocumentRoot /home/germanleonz/Python/Projects/software2
+
+    <Directory /home/germanleonz/Python/Projects/software2>
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    ErrorLog "/var/log/apache2/proyecto_pizarras_error.log"
+    CustomLog "/var/log/apache2/proyecto_pizarras_access.log" common
+
+    WSGIDaemonProcess proyecto_pizarras processes=2 threads=15 display-name=%{GROUP}
+    WSGIProcessGroup proyecto_pizarras
+
+    WSGIScriptAlias / /home/germanleonz/Python/Projects/software2/apache/django.wsgi
+
+    #   Configuracion para el soporte de SSL
+    #SSLEngine on
+    #SSLCertificateFile      /etc/ssl/proyecto_pizarras_cert.pem
+    #SSLCertificateKeyFile   /etc/ssl/apachekey.pem
+
+</VirtualHost>
