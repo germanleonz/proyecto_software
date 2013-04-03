@@ -1,15 +1,17 @@
 from django.http import Http404
+from django.contrib.auth.models import User
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from app_pizarras.models import Pizarra
+from app_pizarras.models import Pizarra, obtener_pizarras
 from app_pizarras.serializers import PizarraSerializer
 
 class PizarraList(APIView):
-    def get(self, request, format=None):
-        pizarras = Pizarra.objects.all()
+    def get(self, request, username, format=None):
+        usuario = User.objects.get(username=username)
+        pizarras = obtener_pizarras(usuario)
         serializer = PizarraSerializer(pizarras, many=True)
         return Response(serializer.data)
 

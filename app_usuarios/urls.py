@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^cerrar_sesion/', views_usuarios.logout_view, name='logout_view'),
     url(r'^perfil_usuario/',views_usuarios.perfil_usuario, name='perfil_usuario'),
     url(r'^login/(?P<nombre_usuario>\w+)/(?P<clave>[\w\d]+)/$', rest_views_usuarios.Login.as_view(), name='rest_login'),
+    url(r'^crear_usuario_rest/', rest_views_usuarios.UserProfileList.as_view(), name='rest_create_user'),
     #url(r'^login/(?P<nombre_usuario>\w+)/(?P<clave>[\w\d]+)/$', rest_views_usuarios.Login.as_view(), name='rest_login'),
 )
 

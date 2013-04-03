@@ -46,11 +46,12 @@ class UserProfileList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = UserProfileSerializer(data=request.DATA)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print request.DATA
+        data = request.DATA
+        if not User.objects.filter(username__exact = data['nuevo_nombre_usuario']):
+            UserProfile.objects.crear_colaborador(data, User())
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UserProfileDetail(APIView):
     def get_object(self, pk):

@@ -14,7 +14,8 @@ urlpatterns = patterns('',
         url(r'^orden_cronologico/',views.vista_orden_cronologico, name='orden_cronologico'),
         url(r'^orden_estados/',views.vista_orden_estados, name='orden_estados'),
         url(r'^orden_avance/',views.vista_orden_avance, name='orden_avance'),
-        url(r'^rest/$', rest_views.PizarraList.as_view(), name='rest_pizarra_list'),
+        url(r'^listar_pizarras_rest/$', rest_views.PizarraList.as_view(), name='listar_pizarra_rest'),
+        url(r'^rest_pizarras_usuario/(?P<username>[\w]+)/$', rest_views.PizarraList.as_view(), name='pizarras_usuarios_rest'),
         url(r'^rest/(?P<pk>[0-9]+)/$', rest_views.PizarraDetail.as_view(), name='rest_pizarra_detail'),
 )
 

@@ -26,22 +26,6 @@ class Pizarra(models.Model):
     logindueno = models.ForeignKey(User, related_name='pizarra_dueno')
     is_active = models.BooleanField(default = True)
 
-    class Meta:
-        ordering = ('fechacreacion', )
-
-    def __unicode__(self):
-        return self.nombrepiz + ", fecha_ini: " + fechacreacion + ", fechafinal: " + fechafinal
-
-    #def save(self, *args, **kwargs):
-       #if self.fechacreacion < date.today():
-            #raise ValidationError(u'\"%s\" Error. La fecha de creacion debe ser mayor o igual a la fecha de hoy' % self.fechacreacion)
-        #elif self.fechafinal < self.fechacreacion:
-            #raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de creacion' % (self.fechacreacion, self.fechafinal))
-        #elif self.fechafinal < date.today():
-            #raise ValidationError(u'\"%s\", \"%s\" Error. La fecha final debe ser mayor o igual a la fecha de hoy' % (self.fechafinal))    
-        #else:    
-            #super(Pizarra,self).save(*args,**kwargs)
-
 class PersonalizarPizarra(models.Model):
     """
     Metodo que permite guardar las posiciones de las pizarras dentro de la pared de un usuario
