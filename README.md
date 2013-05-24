@@ -105,6 +105,6 @@ Configuracion de respaldos automaticos
     
 Instalacion de django-rest-framework
 
-    pip install django-rest-framework
+    pip install djangorestframework
     
 
