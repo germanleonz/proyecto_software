@@ -1,5 +1,4 @@
 {% extends "app_usuarios/template.html" %}
-{% load url from future }
 {% block titulo %}Listar usuarios{% endblock titulo %}
 {% block cuerpo %}
 
@@ -27,7 +26,7 @@
       {{objeto.last_name}}
     </td>
     <td>
-      <form action="{% url app_usuarios:modificar_form %}" onsubmit="return false;" method="post">
+      <form action="{% url "app_usuarios:modificar_form" %}" onsubmit="return false;" method="post">
         {% csrf_token %}
         {% if perms.app_usuarios.change_userprofile %}
           <button type="submit" class="modificarUsuario" onclick="Dajaxice.app_usuarios.modificarUsuarioAjax(my_js_callbackModificarUsuario, {'nombre_usuario' : {{objeto.id}}});">Modificar</button>
@@ -36,7 +35,7 @@
     </td>
     <td>
       {% if perms.app_usuarios.delete_userprofile %}
-      <form action="{% url app_usuarios:eliminar_usuario %}" method="post" onsubmit="if (!confirm('Seguro desea elimimar este usuario?')) return false">
+      <form action="{% url "app_usuarios:eliminar_usuario" %}" method="post" onsubmit="if (!confirm('Seguro desea elimimar este usuario?')) return false">
         {% csrf_token %}
         <input name="nombre_usuario" type="hidden" value="{{objeto.username}}"/>
         <input type="submit" value="Eliminar"/>

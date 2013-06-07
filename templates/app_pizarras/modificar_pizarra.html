@@ -2,7 +2,7 @@
   calendarios();
 </script>
 <div id="errores_modificar_pizarra" class="errores"/>
-<form id="modificarPizarraForm" action="{% url app_pizarras:modificar_pizarra %}" method="post">
+<form id="modificarPizarraForm" action="{% url "app_pizarras:modificar_pizarra" %}" method="post">
   {% csrf_token %}
   <fieldset id="body">
     <input type="hidden" name="idpiz" value="{{id_pizarra}}" />

@@ -1,7 +1,7 @@
 <script>
   calendarios();
 </script>
-  <form action="{% url app_actividad:crear_subactividad %}" id="formCrearSubactividad" method="post" >
+  <form action="{% url "app_actividad:crear_subactividad" %}" id="formCrearSubactividad" method="post" >
   {% csrf_token %}
     <fieldset id="body">
       <fieldset>

@@ -4,7 +4,7 @@
 <div id="errores_crear_actividad" class="errores">
   *Todos los campos son requeridos
 </div>
-<form action="{% url app_actividad:crear_actividad %}" id="actividadForm" method="post">
+<form action="{% url "app_actividad:crear_actividad" %}" id="actividadForm" method="post">
   {% csrf_token %}
   <fieldset id="body">
     {{ form.as_p }}

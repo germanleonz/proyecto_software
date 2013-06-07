@@ -28,17 +28,17 @@
     <td>
       <div class="actividad" onclick="divSubmit(this)" >
         <div id="actHead">
-          <form id="visualizarActividad" action="{% url app_actividad:visualizar_actividad %}" method="post">
+          <form id="visualizarActividad" action="{% url "app_actividad:visualizar_actividad" %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="idact" value="{{object.idact}}"/>
           </form>
           {{object.nombreact}}
-          <form action="{% url app_actividad:eliminar_actividad %}" method="post" onsubmit="if (!confirm('Seguro desea eliminar esta actividad?') return false">
+          <form action="{% url "app_actividad:eliminar_actividad" %}" method="post" onsubmit="if (!confirm('Seguro desea eliminar esta actividad?') return false">
             {% csrf_token %}
             <input type="hidden" name="idact" value="{{object.idact}}"/>
             <input class="borrar" type="submit" value=""/>
           </form>
-          <form action="{% url app_actividad:modificar_form %}" method="post" >
+          <form action="{% url "app_actividad:modificar_form" %}" method="post" >
             {% csrf_token %}
             <input type="hidden" name="idact" value="{{object.idact}}"/>
             <input type="hidden" name="nombreact" value="{{object.nombreact}}"/>

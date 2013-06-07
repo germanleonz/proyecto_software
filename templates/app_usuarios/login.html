@@ -1,12 +1,11 @@
 {% extends "app_usuarios/template.html" %}
-{% load url from future %}
 {% load staticfiles %}
 {% block titulo %}Inicio de sesion{% endblock %}
 {% block css %}
 <link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
 {% endblock css %}
 {% block rightHeader %}
-<a style="color:white;" href="{% url 'app_usuarios:registrar_visitante' %}">
+<a style="color:white;" href="{% url "app_usuarios:registrar_visitante" %}">
  <div id="nombre">
    Registrarse
 </div>
@@ -41,7 +40,7 @@
 </div>
 <!-- LOGIN BOX -->
 <div id="loginBox">                
-  <form action="{% url 'login_usuario' %}" method="post" id="loginForm">
+  <form action="{% url "login_usuario" %}" method="post" id="loginForm">
     <fieldset id="body">
         {% csrf_token %}
         {{ form.as_p }}
