@@ -1,5 +1,4 @@
 {% extends "app_usuarios/template.html" %}
-{% load url from future 
 {% load staticfiles %}
 {% load dajaxice_templatetags %}
 {% block titulo %}Pared{% endblock titulo %}
@@ -79,7 +78,7 @@ $(document).ready(function () {
               <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>
               <input class="borrar" type="submit" value=""/>
             </form>
-            <form action="{% url app_pizarras:modificar_form %}" onsubmit="return false;" method="post" style="width: 25px;float: right;">
+            <form action="{% url "app_pizarras:modificar_form" %}" onsubmit="return false;" method="post" style="width: 25px;float: right;">
               {% csrf_token %}
               <button type="submit" class="modi" id="modi" onclick="Dajaxice.app_pizarras.modificarPizarraAjax(my_js_callbackModificarPizarra, {'id_pizarra' : {{object.idpiz}}}); return false;"></button>
             </form>

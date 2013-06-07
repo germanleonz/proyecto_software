@@ -16,12 +16,9 @@ from app_log.models import Accion
 from app_pizarras.views import listar_pizarra
 
 def login_if(request):
-    """
-    Metodo que veirifica si el usuario ya esta conectado al sistema, de manera 
-    que no le muestre la pagina de login, sino la de listar pizarras
-    """
+    """docstring for login_if"""
     if request.user.is_authenticated():
-        return listar_pizarra(request)
+        return listar_pizarras(request)
     else:
         return login_usuario(request)
 

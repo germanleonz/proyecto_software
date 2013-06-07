@@ -14,6 +14,8 @@ Requisitos para la instalacion del sistema
     cd Django-1.4.3
     sudo python setup.py install
 
+    pip install django
+
 3.- PostgreSQL
 
     sudo apt-get install postgresql
@@ -21,6 +23,10 @@ Requisitos para la instalacion del sistema
 4.- Psycopg2
 
     sudo apt-get install python-psycopg2
+
+    git clone https://github.com/psycopg/psycopg2.git
+    cd ./psycopg2
+    python setup.py install
 
 Puede que esto les de problemas, en ese caso revisen que tengan instaladas las siguientes librerias: libpq-dev, python-dev.
 Si no las tienen hagan:
