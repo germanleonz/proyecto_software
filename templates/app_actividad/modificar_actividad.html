@@ -2,7 +2,7 @@
   calendarios();
 </script>
 
-<form action="{% url app_actividad:modificar_actividad %}" id="modificarActividadForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta actividad?')) return false">
+<form action="{% url "app_actividad:modificar_actividad" %}" id="modificarActividadForm" method="post" onsubmit="if(!confirm('Seguro desea modificar esta actividad?')) return false">
   {% csrf_token %}
   <fieldset id="body">
     <input type="hidden" name="idact" value="{{idact}}" />

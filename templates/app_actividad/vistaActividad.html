@@ -1,5 +1,4 @@
 {% extends "app_usuarios/template.html" %}
-{% load url from future %}
 {% load staticfiles %}
 {% block titulo %}Actividad "{{actividad.nombreact}}"{% endblock titulo %}
 {% block css %}
@@ -18,13 +17,13 @@ $(function(){
 {% endblock javascript %}
 
 {% block botones %}
-<form action="{% url 'app_pizarras:visualizar_pizarra'%}" style="margin: 0;" method="post">
+<form action="{% url "app_pizarras:visualizar_pizarra"%}" style="margin: 0;" method="post">
   {%csrf_token%}
   <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
   <input type="image" class="opcionesIzq" src="{% static "img/back.png" %}" style="height: 20px;">
 </form>
 
-<form action="{% url 'app_actividad:eliminar_actividad' %}" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false"  style="margin: 0;" method="post">
+<form action="{% url "app_actividad:eliminar_actividad" %}" onsubmit="if(!confirm('Seguro desea eliminar esta actividad?')) return false"  style="margin: 0;" method="post">
   {%csrf_token%}
   <input type="hidden" name="idact" value="{{actividad.idact}}"/>
   <input type="hidden" name="idpiz" value="{{pizarra.idpiz}}"/>
@@ -32,21 +31,21 @@ $(function(){
 </form>
 
 <a class="opcionesIzq" style="height: 40px; width: 40px; padding: 0">
-  <form action="{% url 'app_actividad:modificar_form' %}" onsubmit="return false;" method="post" style="margin: 0;">
+  <form action="{% url "app_actividad:modificar_form" %}" onsubmit="return false;" method="post" style="margin: 0;">
     {% csrf_token %}
     <button type="submit" id="modificarActividad" onclick="Dajaxice.app_actividad.modificarActividadAjax(my_js_callbackModificarActividad, {'idact' : {{actividad.idact}}});"><img style="height: 20px; width: 20px; margin: 8px 3px" src="{% static "img/pencil.png" %}"></button>
   </form>
 </a>
 
 <a class="opcionesDer">
-<form action="{% url 'app_actividad:crear_subactividad' %}" method="post" onclick="return false;">
+<form action="{% url "app_actividad:crear_subactividad" %}" method="post" onclick="return false;">
      {% csrf_token %}
     <button type="submit" id="crearSubactividad" onclick="Dajaxice.app_actividad.crearSubactividadAjax(my_js_callbackCrearSubactividad, {'idact' : {{actividad.idact}}, 'idpiz': {{pizarra.idpiz}}});">Crear subactividad</button>
 </form>
 </a>
 
 <a class="opcionesDer">
-<form action="{% url 'app_actividad:asignar_actividad' %}" onclick="return false;" method="post">
+<form action="{% url "app_actividad:asignar_actividad" %}" onclick="return false;" method="post">
   {% csrf_token %}
   <input type="hidden" name="idact" value="{{actividad.idact}}"/>
   <input type="hidden" name="idpiz" value="{{actividad.idpizactividad.idpiz}}"/>
@@ -114,7 +113,7 @@ $(function(){
     <tr>
       <td>
         <!-- cambiar estado -->
-        <form name="CambiarEstadoForm" action="{% url 'app_actividad:cambiar_estado_actividad' %}" method="post"> 
+        <form name="CambiarEstadoForm" action="{% url "app_actividad:cambiar_estado_actividad" %}" method="post"> 
           {% csrf_token %}
           <select name="estadoact">
             <option value="null"> Estado </option>
@@ -140,7 +139,7 @@ $(function(){
         {% for elem in lista %}
         <tr>
           <td>
-           <form action="{% url 'app_comentarios:eliminar_comentario' %}" method="post">
+           <form action="{% url "app_comentarios:eliminar_comentario" %}" method="post">
              {% csrf_token %}
              <input type="image" src="{% static "img/rem.png" %}" style="height: 10px; float: right;"/>
              {{elem.contenido}}
@@ -157,7 +156,7 @@ $(function(){
    </div>
    <!-- hacer comentarios -->
     <div id="comentar">
-      <form action="{% url 'app_comentarios:crear_comentario' %}" id="crear_comentario" method="post">{% csrf_token %}
+      <form action="{% url "app_comentarios:crear_comentario" %}" id="crear_comentario" method="post">{% csrf_token %}
         <input type="hidden" name="idact" value="{{actividad.idact}}"/>
         <textarea id="contenido" style="resize: none; width: 200px" name="contenido"></textarea>
         <input type="submit" value="Comentar"/>
@@ -166,7 +165,7 @@ $(function(){
   </div>
   <div id="subactividades">
     {% for elem in listasub %}
-      <form action="{% url 'app_actividad:visualizar_actividad' %}" style=" display: inline-block;" id="visualizar_actividad" method="post">
+      <form action="{% url "app_actividad:visualizar_actividad" %}" style=" display: inline-block;" id="visualizar_actividad" method="post">
         {% csrf_token %}
         <input type="hidden" name="idact" value="{{elem.idact}}" />
           <button class="subact" type="submit"

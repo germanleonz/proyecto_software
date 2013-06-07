@@ -108,3 +108,9 @@ Configuracion de respaldos automaticos
     ya configurados, en caso de que lo esten. En caso contrario, hara los pasos
     necesarios para automatizar la generacion de respaldos. Las variables que definen la frecuencia 
     con la que se generaran los respaldos estan definidas en el mismo script
+    
+Instalacion de django-rest-framework
+
+    pip install djangorestframework
+    
+

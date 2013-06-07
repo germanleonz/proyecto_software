@@ -73,7 +73,7 @@ $(document).ready(function () {
             <div id="titulo">
               {{object.nombrepiz}}
             </div>
-            <form action="{% url app_pizarras:eliminar_pizarra %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta pizarra?')) return false" style="width: 25px;float: right;">
+            <form action="{% url "app_pizarras:eliminar_pizarra" %}" method="post" onsubmit="if(!confirm('Seguro desea eliminar esta pizarra?')) return false" style="width: 25px;float: right;">
               {% csrf_token %}
               <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>
               <input class="borrar" type="submit" value=""/>
@@ -82,7 +82,7 @@ $(document).ready(function () {
               {% csrf_token %}
               <button type="submit" class="modi" id="modi" onclick="Dajaxice.app_pizarras.modificarPizarraAjax(my_js_callbackModificarPizarra, {'id_pizarra' : {{object.idpiz}}}); return false;"></button>
             </form>
-            <form id="visualizarPizarra" action="{% url app_pizarras:visualizar_pizarra %}" method="post">
+            <form id="visualizarPizarra" action="{% url "app_pizarras:visualizar_pizarra" %}" method="post">
               {% csrf_token %}
               <input type="hidden" name="idpiz" value="{{object.idpiz}}"/>  
             </form>  
