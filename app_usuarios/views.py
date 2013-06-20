@@ -1,3 +1,4 @@
+#coding=utf-8
 import re
 import datetime 
 from django.contrib.auth import authenticate, login, logout

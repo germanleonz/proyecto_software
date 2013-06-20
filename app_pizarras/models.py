@@ -26,6 +26,10 @@ class Pizarra(models.Model):
     logindueno = models.ForeignKey(User, related_name='pizarra_dueno')
     is_active = models.BooleanField(default = True)
 
+    def __unicode__(self):
+        """docstring for __unicode__"""
+        return self.nombrepiz + ":" + self.fechacreacion + ":" + self.fechafinal
+
 class PersonalizarPizarra(models.Model):
     """
     Metodo que permite guardar las posiciones de las pizarras dentro de la pared de un usuario

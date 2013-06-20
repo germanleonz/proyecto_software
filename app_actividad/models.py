@@ -24,6 +24,10 @@ class Actividad(models.Model):
     actividad_padre = models.ForeignKey('self', related_name='sub_actividades', null=True) # Atributo que indica el padre de la actividad, en caso de que la actividad sea la raiz entonces el padre es null
     is_active = models.BooleanField(default = True) 
 
+    def __unicode__(self):
+        """docstring for __uni"""
+        return self.nombreact + ":" + self.fechainicial + ":" + self.fechaentrega
+
 def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
 
 	a=Actividad(nombreact = nombre,

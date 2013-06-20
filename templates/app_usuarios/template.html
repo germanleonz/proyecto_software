@@ -63,8 +63,8 @@
 
         <div id="herramientas">
           <a id="crearPizarra" onclick="Dajaxice.app_pizarras.crearPizarraForm(my_js_callbackPizarra);" class="opcionesDer" href="#">Nueva Pizarra</a>
-          <a id="mis_pizarras" class="opcionesDer" href="{% url "app_pizarras:listar_pizarra"%}">Mis pizarras</a>
-          <a id="listarUsuarios" class="opcionesDer" href="{% url "app_usuarios:listar_usuarios"%}">Listar usuarios</a>
+          <a id="mis_pizarras" class="opcionesDer" href="{% url "app_pizarras:listar_pizarra" %}">Mis pizarras</a>
+          <a id="listarUsuarios" class="opcionesDer" href="{% url "app_usuarios:listar_usuarios" %}">Listar usuarios</a>
           {% block botones %}{% endblock botones %}
         </div>
         <div id="opcionesUsuario">
