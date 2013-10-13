@@ -21,11 +21,18 @@ a {
 .mostrar {
     background: #378B6E;
     color: #ffffff
+    font-size: 14px;
+    font-style: italic;
 }
 
 .detalles{
     background: #ffffff;
     width: 380px;
+    position: absolute;
+    background-color: rgb(240, 230, 140);
+    font-size: 14px;
+    font-family: Helvetica;
+    padding: 10px;
 }
 
 /*Division de cuadro de proyectos y titulos*/

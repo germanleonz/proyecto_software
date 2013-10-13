@@ -10,6 +10,22 @@
 {% if not lista %}
 <div id="noElems">No hay pizarras.</div>
 {% endif %}
+<style>
+    .mostrar {
+        color: #ffffff
+        font-size: 14px;
+        font-style: italic;
+    }
+
+.detalles{
+
+        position: absolute;
+        background-color: rgb(240, 230, 140);
+        font-size: 14px;
+        font-family: Helvetica;
+        padding: 10px;
+    }
+</style>
 <script type="text/javascript" src="{% static "javascript/jquery.paginatetable.js" %}"></script>
     <script src="../../javascript/jquery.min.js"></script>
     <script>
@@ -49,9 +65,9 @@ $(document).ready(function () {
 <table id="pared">
   <tbody>
     {% for object in lista%}
-    {% if forloop.counter0|divisibleby:"2"%}
+
     <tr>
-      {% endif %}
+
       <td>
           <span class="mostrar">Mostrar Detalles</span>
 	        <span class="detalles"> <br/>Creador: "{{object.logindueno.first_name}}  {{object.logindueno.last_name}}"<br/>
@@ -93,9 +109,9 @@ $(document).ready(function () {
             </div>
         </div>
       </td>
-      {% if forloop.counter|divisibleby:"2"%}
+
     </tr>
-    {% endif %}
+
     {% endfor %}
   </tbody>
   <div class='pager'>
