@@ -21,18 +21,11 @@ a {
 .mostrar {
     background: #378B6E;
     color: #ffffff
-    font-size: 14px;
-    font-style: italic;
 }
 
 .detalles{
     background: #ffffff;
     width: 380px;
-    position: absolute;
-    background-color: rgb(240, 230, 140);
-    font-size: 14px;
-    font-family: Helvetica;
-    padding: 10px;
 }
 
 /*Division de cuadro de proyectos y titulos*/
@@ -151,3 +144,71 @@ a {
   
 }
 /*End forms*/
+
+/* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+/*Reglas para la parte de arriba*/
+
+	#herramientas {
+		height: 35px;
+		font-size: 14px;
+	}
+
+}
+
+/* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+	#herramientas {
+		height: 27px;
+		height: 20px;
+		font-size: 12px;
+	}
+
+	.mostrar {
+		font-size: 12px;
+	} 	EN: pared_style.css
+
+	.detalles {
+		font-size: 12px;
+	}
+
+}
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+
+/*Reglas para la parte de detalles de la pizarra*/
+
+	.mostrar {
+		font-size: 10px;
+	}
+
+	.detalles font {
+		font-size: 10px;
+	}
+
+    #pizarraForm input[type="text"]{
+      width: 60%;
+    }
+
+    #pizarraForm textarea{
+      width: 60%;
+    }
+
+    #modificarPizarraForm input[type="text"]{
+      width: 60%;
+    }
+
+    #modificarPizarraForm textarea{
+      width: 60%;
+    }
+
+}

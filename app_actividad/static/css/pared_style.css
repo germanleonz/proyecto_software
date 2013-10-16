@@ -26,3 +26,38 @@
         overflow-y: scroll; 
         overflow-x: hidden;
 }
+
+* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+/*Reglas para la parte de arriba*/
+
+	#herramientas {
+		height: 60px;
+		font-size: 12px;
+	}
+
+}
+
+/* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+	#herramientas {
+		height: 54px;
+		font-size: 12px;
+	}
+
+
+}
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+
+/*Reglas para la parte de detalles de la pizarra imposible */
+

@@ -136,3 +136,116 @@ x|input:focus {
     color: #3A454D;
 }
 
+/* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+	/* Styles */
+	#borde{
+		width:100%;
+	}
+
+	#loginForm{
+		width:90%;
+	}
+
+
+	#tutorial{
+		display:none;
+	}
+
+	#loginBox{
+		margin-right:25%;
+	}
+
+
+}
+
+
+/* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+	/* Styles */
+	#borde{
+		width:100%;
+	}
+
+	#loginForm{
+		width:90%;
+	}
+
+
+	#tutorial{
+		display:none;
+	}
+
+	#loginBox{
+		margin-top:10%;
+		font-size:12px;
+		margin-right:20%
+	}
+
+	#nombre{
+		font-size:12px;
+		padding:5px;
+		min-width:30%;
+	}
+
+	#loginForm input{
+		padding:3px;
+	}
+
+	#loginForm #login{
+	padding:5px;
+	}
+}
+
+
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+
+	/* Styles */
+	#borde{
+		width:100%;
+	}
+
+	#loginForm{
+		width:90%;
+	}
+
+
+	#tutorial{
+		display:none;
+	}
+
+	#loginBox{
+		margin-top:10%;
+		font-size:12px;
+		margin-right:5%;
+	}
+
+	#nombre{
+		padding:2px;
+		margin-right:5%;
+		margin-top:5%;
+	}
+
+	#loginForm inputmin-width:30%;{
+		padding:3px;
+	}
+
+	#loginForm #login{
+	padding:5px;
+	}
+
+	#login {
+	margin:2%;
+	}
+}
+

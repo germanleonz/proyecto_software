@@ -143,5 +143,112 @@ div.opcionesAct:hover{
   background: #545454;
 }
 
+/* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+/*Reglas para la columna*/
+
+	#columna  {
+		width: 122px;
+	}
+
+	#columna table h {
+		font-size: 12px;
+	}
+
+	#lista, #columna table tr td {
+    		max-width: 100%;
+	}
+
+	#columna table, .columna a, .participante {
+    		font-size: 10px;
+		width: 90px;
+	}
+
+	/*Reglas para el arbol*/
+
+	#arbol {
+		width: 73%;
+		font-size:14px;
+	}
+
+}
+
+
+/* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+	/* Styles */
+	#borde{
+		width:100%;
+	}
+
+/*Reglas para la columna*/
+
+	#columna  {
+		width: 122px;
+	}
+
+	#columna table h {
+		font-size: 12px;
+	}
+
+	#lista, #columna table tr td {
+    		max-width: 100%;
+	}
+
+	#columna table, .columna a, .participante {
+    		font-size: 10px;
+		width: 90px;
+	}
+
+/*Reglas para el arbol*/
+
+	#arbol {
+		width: 60%;
+		font-size:12px;
+	}
+
+
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+
+/*Reglas para la columna*/
+
+	#columna  {
+		width: 103px;
+	}
+
+	#columna table h {
+		font-size: 10px;
+		font-style: italic;
+	}
+
+
+	#lista, #columna table tr td {
+    		max-width: 100%;
+	}
+
+
+	#columna table, .columna a, .participante {
+    		font-size: 10px;
+		width: 90px;
+	}
+
+/*Reglas para el arbol*/
+
+	#arbol {
+		width: 54%;
+		font-size:10px;
+	}
+}
+
 
 

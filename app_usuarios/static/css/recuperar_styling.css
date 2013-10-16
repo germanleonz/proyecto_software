@@ -128,3 +128,32 @@
   cursor:pointer;
  *padding:7px 2px 8px 2px; /* IE7 Fix */
 }
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 899px) {
+    #recuperarBox {
+        margin-right:67%;
+        }
+}
+
+/* GROUP 3 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 480px) {
+    #recuperarBox {
+        margin-right:47%;
+        }
+}
+
+/* GROUP 2 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+    #recuperarBox {
+        margin-right:1%;
+        }
+}
+
+

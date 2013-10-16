@@ -134,3 +134,55 @@ a {
   
 }
 /*End forms*/
+
+/* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+/*Reglas para la parte de arriba*/
+
+	#herramientas {
+		height: 35px;
+		font-size: 14px;
+	}
+
+}
+
+/* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+/*Reglas para la parte de arriba*/
+
+	#herramientas {
+		height: 35px;
+		font-size: 14px;
+	}
+
+}
+
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+
+    #pizarraForm input[type="text"]{
+      width: 60%;
+    }	EN: pared_style.css
+
+    #pizarraForm textarea{
+      width: 60%;
+    }
+
+    #modificarPizarraForm input[type="text"]{
+      width: 60%;
+    }
+
+    #modificarPizarraForm textarea{
+      width: 60%;
+    }
+
+}
