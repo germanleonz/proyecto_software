@@ -28,7 +28,7 @@
 
 #comentarios {
 	width: 200px;
-	height: 490px;
+	height: 480px;
 	max-height: 559px;
 	overflow-y: auto; 
 }
@@ -100,14 +100,18 @@
 	#subActividades {
 		width: 50%;
 		font-size:10px;
-	}	EN: vistaActividad_style.css
+	}
 
-
+	#bordeComents {
+        display:none;
+    }
 }
 
 /* GROUP 4 */
 /* Smartphones (portrait)*/
 
 @media only screen and (max-width : 320px) {
-
-/* imposible */
+    #bordeComents {
+        display:none;
+    }
+}

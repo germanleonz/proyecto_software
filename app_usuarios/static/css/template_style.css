@@ -519,7 +519,10 @@ fieldset {
 		width: 400px;
 	}
 
-
+    a.opcionesIzq{
+        max-width:30px;
+        max-height:30px;
+    }
 }
 
 
@@ -585,14 +588,14 @@ fieldset {
 	.tabla {
 		font-size: 10px
 		width: 100%;
+		max-width: 100%;
 		margin: 0;
-	}	EN: template_style.css
-
+	}
 
 	.tabla td {
 		padding: 0px;
-	}	EN: template_style.css
-
+		width:33%;
+	}
 	.tabla th {
 		font-size: 10px;
 		font-style: italic;
@@ -600,7 +603,19 @@ fieldset {
 
 	}
 
+    #vistasDropDown input[type="submit"]{
+        font-size:10px;
+        padding: 1px;
+    }
 
+    #modificarActividad img {
+        max-width:13px;
+        max-height:13px;
+    }
+    a.opcionesIzq{
+        max-width:20px;
+        max-height:20px;
+    }
 }
 
 
@@ -675,17 +690,36 @@ fieldset {
 	.tabla {
 		font-size: 10px
 		width: 100%;
+		max-width: 100%;
 		margin: 0;
 	}
 
 	.tabla td {
 		padding: 0px;
+		width:33%;
 	}
 	.tabla th {
 		font-size: 10px;
 		font-style: italic;
-		max-width:20px;
+		max-width:20px
+	}
+	.tabla tr {
+		max-width:30px;
 	}
 
+    #vistasDropDown input[type="submit"]{
+        font-size:10px;
+        padding: 1px;
+    }
+
+    #modificarActividad img {
+        max-width:13px;
+        max-height:13px;
+    }
+
+    a.opcionesIzq{
+        max-width:20px;
+        max-height:20px;
+    }
 
 }
