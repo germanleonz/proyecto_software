@@ -130,16 +130,8 @@
 @media only screen and (max-width : 480px) {
 
 .style_dialog {
-    Left: 4%;
 	font-size:12px;
-	width: 90%;
 	max-width: 90%;
-	width: 80%;
-	max-width: 300px;
-	top: 50px;
-	left: 10%;
-    top: 10%;
-	left: 15%;
 }
 
 
@@ -150,22 +142,15 @@
 
 @media only screen and (max-width : 320px) {
 
-.style_dialog {
-    Left: 4%;
+style_dialog {
 	font-size:10px;
-	width: 90%;
 	max-width: 90%;
-	width: 80%;
-	max-width: 300px;
-	top: 50px;
-	left: 10%;
-	width: 75%;
-	top: 10%;
 }
 
 .style_Dialog .ui-widget-header .ui-icon {
     background-size: 20px;
 }
+
 
 }
 

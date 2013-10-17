@@ -134,8 +134,13 @@
 
 @media only screen and (max-width : 899px) {
     #recuperarBox {
-        margin-right:67%;
+        margin-right:0;
         }
+
+    #loginForm {
+    width:99%;
+    max-width:250px;
+    }
 }
 
 /* GROUP 3 */
@@ -143,8 +148,13 @@
 
 @media only screen and (max-width : 480px) {
     #recuperarBox {
-        margin-right:47%;
+        margin-right:0;
         }
+
+    #loginForm {
+    width:99%;
+    max-width:250px;
+    }
 }
 
 /* GROUP 2 */
