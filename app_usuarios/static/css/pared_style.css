@@ -157,9 +157,41 @@ a {
 /*Reglas para la parte de arriba*/
 
 	#herramientas {
-		height: 35px;
+		height: 50px;
 		font-size: 14px;
 	}
+    .pizarra {
+    		background-image: none;
+            background-color:378B6E;
+            max-width:200px;
+	}
+
+    .pizarra:hover{
+    	    background-image: none;
+            background-color:378B6A;
+            max-width:200px;
+
+	}
+
+    .nextPage {
+        right:0px;
+        }
+
+    .prevPage{
+        left:0px;
+        }
+    .pizarra #content{
+        max-width:80%;
+        font-size: 12px;
+        }
+
+        .pizarra #titulo {
+         width:70%;
+         font-size: 12px;
+         font-style: italic;
+        }
+
+
 
 }
 
@@ -184,5 +216,41 @@ a {
     #modificarPizarraForm textarea{
       width: 60%;
     }
+
+    .pizarra {
+    		background-image: none;
+            background-color:378B6E;
+            max-width:200px;
+	}
+
+    .pizarra:hover{
+    	    background-image: none;
+            background-color:378B6A;
+            max-width:200px;
+	}
+
+        .nextPage {
+        right:0px;
+        }
+
+    .prevPage{
+        left:0px;
+        }
+
+       .pizarra #content{
+        max-width:80%;
+        font-size: 10px;
+        }
+    .pizarra #titulo {
+               width:70%;
+             font-size: 12px;
+           font-style: italic;
+    }
+
+    #herramientas {
+		height: 45px;
+		font-size:10px;
+	}
+
 
 }

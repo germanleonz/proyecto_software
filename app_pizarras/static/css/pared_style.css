@@ -178,6 +178,30 @@ a {
 		font-size: 12px;
 	}
 
+    .pizarra {
+    		background-image: none;
+            background-color:378B6E;
+            max-width:200px;
+	}
+
+    .pizarra:hover{
+    	    background-image: none;
+            background-color:378B6A;
+            max-width:200px;
+
+	}
+
+    .nextPage {
+        right:0px;
+        }
+
+    .prevPage{
+        left:0px;
+        }
+    .pizarra #conten{
+        max-width:80%;
+        }
+
 }
 
 /* GROUP 4 */
@@ -210,5 +234,29 @@ a {
     #modificarPizarraForm textarea{
       width: 60%;
     }
+
+    .pizarra {
+    		background-image: none;
+            background-color:378B6E;
+            max-width:200px;
+	}
+
+    .pizarra:hover{
+    	    background-image: none;
+            background-color:378B6A;
+            max-width:200px;
+
+	}
+
+    .nextPage {
+        right:0px;
+        }
+
+    .prevPage{
+        left:0px;
+        }
+    .pizarra #conten{
+        max-width:80%;
+        }
 
 }
