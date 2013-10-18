@@ -154,7 +154,7 @@ a {
 {
 	padding: 12px 17px 12px 17px;
 	font-weight: normal;
-	font-size: 14px;
+	font-size: 12px;
 	color: black;
 	border-bottom: 1px dashed #378B6E;
 }
@@ -461,4 +461,265 @@ fieldset {
 .node table td{
   width: 100%;
   overflow: hidden;
+}
+
+  #crearUsuario{
+    margin-left:45px;
+        }
+
+/* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+#borde {
+	width: 100%;
+}
+
+#main {
+	height: 640px;
+}
+
+.opcionesIzq {
+		font-size: 12px;
+		padding: 2px;
+		padding: 0px;
+		margin-left:8px;
+		border-width: 0px;
+}
+.opcionesDer {
+		font-size: 12px;
+		padding: 2px;
+		margin-top: -1px;
+		margin-left: -1px;
+	}
+.opcionesIzq input[type="submit"], .opcionesDer input[type="submit"], .opcionesIzq button, .opcionesDer button {
+		font-size:12px;
+	}
+
+	#columna  {
+		width: 149px;
+	}
+
+	#columna table h {
+		font-size: 12px;
+		font-style: italic
+	}
+
+	#lista, #columna table tr td {
+    		max-width: 100%;
+	}
+
+	#columna table, .columna a {
+    		font-size: 10px;
+		width: 90px;
+	}
+
+    .tabla {
+		width: 400px;
+	}
+
+    a.opcionesIzq{
+        max-width:30px;
+        max-height:30px;
+    }
+}
+
+
+/* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+#borde {
+	width: 100%;
+}
+
+/*Reglas para la parte de arriba*/
+
+	#nombre {
+		font-size: 12px;
+		min-width: 80px;
+		min-width: 100px;
+	}
+
+	/*Reglas para el menú desplegable del usuario*/
+
+	.opcionVer {
+		font-size:12px;
+	}
+
+	/*Reglas para las pizarras*/
+
+	#noElems {
+		margin-top:25%;
+	}
+
+	.opcionesDer {
+		padding: 5px;
+		font-size: 10px;
+		font-size: 12px;
+		padding: 4px;
+		margin-top: -1px;
+		margin-left: -1px;
+	}
+
+	.opcionesIzq {
+		max-height:12px;
+		border: 0px;
+		border-width: 0px;
+		margin: 4px;
+		padding: 1px;
+		font-size: 12px;
+	}
+
+    .opcionesIzq input[type="submit"], .opcionesDer input[type="submit"], .opcionesIzq button, .opcionesDer button {
+		font-size:10px;
+	}
+
+	/*Reglas para el menú desplegable del usuario*/
+
+	.opcionVer {
+		font-size:12px;
+	}
+
+    /*Reglas para la tabla*/
+
+	.tabla {
+		font-size: 10px
+		width: 100%;
+		max-width: 100%;
+		margin: 0;
+	}
+
+	.tabla td {
+		padding: 0px;
+		width:33%;
+	}
+	.tabla th {
+		font-size: 10px;
+		font-style: italic;
+		max-width:20px;
+
+	}
+
+    #vistasDropDown input[type="submit"]{
+        font-size:10px;
+        padding: 1px;
+    }
+
+    #modificarActividad img {
+        max-width:13px;
+        max-height:13px;
+    }
+    a.opcionesIzq{
+        max-width:20px;
+        max-height:20px;
+    }
+}
+
+
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+
+	/* Styles */
+	#borde{
+		width:100%;
+	}
+
+	#nombre {
+		font-size: 10px;
+		min-width: 80px;
+		min-height: 15px;
+	}
+
+
+	#logo {
+		height: 40px;
+		margin: 2%;
+	}
+
+	#herramientas {
+		height: 20px;
+		font-size:10px;
+	}
+
+	.opcionesDer {
+		padding: 3px;
+		padding: 5px;
+	    font-size:10px;
+		width:30%;
+	}
+
+	.opcionesIzq {
+		max-height:15px;
+		border: 0px;
+		border-width: 0px;
+		margin: 0px;
+	}
+
+/*Reglas para el menú desplegable del usuario*/
+
+	#opcionesUsuario {
+		width: 84px;
+		margin-right: 2%;
+	}
+
+	.opcionVer {
+		padding: 2px;
+		font-size: 10px;
+	}
+
+/*Reglas para el menú desplegable del usuario*/
+
+	#opcionesUsuario {
+		width: 84px;
+		margin-right: 2%;
+	}
+
+	.opcionVer {
+		padding: 2px;
+		font-size: 10px;
+	}
+
+    /*Reglas para la tabla*/
+
+	.tabla {
+		font-size: 10px
+		width: 100%;
+		max-width: 100%;
+		margin: 0;
+	}
+
+	.tabla td {
+		padding: 0px;
+		width:33%;
+	}
+	.tabla th {
+		font-size: 10px;
+		font-style: italic;
+		max-width:20px
+	}
+	.tabla tr {
+		max-width:30px;
+	}
+
+    #vistasDropDown input[type="submit"]{
+        font-size:10px;
+        padding: 1px;
+    }
+
+    #modificarActividad img {
+        max-width:13px;
+        max-height:13px;
+    }
+
+    a.opcionesIzq{
+        max-width:20px;
+        max-height:20px;
+    }
+
 }

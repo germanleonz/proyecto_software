@@ -106,3 +106,51 @@
 }
 
 /*End styling dialog */
+
+/* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+/*Reglas para la parte de arriba*/
+
+    .style_dialog {
+        Left: 25%;
+        width: 60%;
+        max-width:300px;
+        top: 10%;
+	    left: 20%;
+}
+
+}
+
+/* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+.style_dialog {
+	font-size:12px;
+	max-width: 90%;
+}
+
+
+}
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+
+style_dialog {
+	font-size:10px;
+	max-width: 90%;
+}
+
+.style_Dialog .ui-widget-header .ui-icon {
+    background-size: 20px;
+}
+
+
+}
+

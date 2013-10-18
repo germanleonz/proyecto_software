@@ -144,3 +144,85 @@ a {
   
 }
 /*End forms*/
+
+/* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+/*Reglas para la parte de arriba*/
+
+	#herramientas {
+		height: 27px;
+	}
+
+}
+
+        /* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+	#herramientas {
+		height: 27px;
+		font-size: 12px;
+	}
+
+    .pizarra {
+    		background-image: url("../images/pared/pestanaverdepequena.png");
+                    max-width:200px;
+
+	}
+
+    .pizarra :hover{
+    		background-image: url("../images/pared/pestanaverdepequena.png");
+	}
+
+            .nextPage {
+        right:0px;
+        }
+
+    .prevPage{
+        left:0px;
+        }
+
+        .pizarra #conten{
+        max-width:80%;
+        }
+
+}
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+
+/*Reglas para la parte de detalles de la pizarra*/
+
+
+
+    .pizarra {
+    		background-image: url("../images/pared/pestanaverdepequena.png");
+            max-width:200px;
+
+	}
+
+    .pizarra :hover{
+    		background-image: url("../images/pared/pestanaverdepequena.png");
+	}
+
+            .nextPage {
+        right:0px;
+        }
+
+    .prevPage{
+        left:0px;
+        }
+
+     .pizarra #conten{
+        max-width:80%;
+        }
+
+
+
+   }

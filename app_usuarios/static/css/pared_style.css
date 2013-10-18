@@ -134,3 +134,123 @@ a {
   
 }
 /*End forms*/
+
+/* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+/*Reglas para la parte de arriba*/
+
+	#herramientas {
+		height: 35px;
+		font-size: 14px;
+	}
+
+}
+
+/* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+/*Reglas para la parte de arriba*/
+
+	#herramientas {
+		height: 50px;
+		font-size: 14px;
+	}
+    .pizarra {
+    		background-image: none;
+            background-color:378B6E;
+            max-width:200px;
+	}
+
+    .pizarra:hover{
+    	    background-image: none;
+            background-color:378B6A;
+            max-width:200px;
+
+	}
+
+    .nextPage {
+        right:0px;
+        }
+
+    .prevPage{
+        left:0px;
+        }
+    .pizarra #content{
+        max-width:80%;
+        font-size: 12px;
+        }
+
+        .pizarra #titulo {
+         width:70%;
+         font-size: 12px;
+         font-style: italic;
+        }
+
+
+
+}
+
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+
+    #pizarraForm input[type="text"]{
+      width: 60%;
+    }
+
+    #pizarraForm textarea{
+      width: 60%;
+    }
+
+    #modificarPizarraForm input[type="text"]{
+      width: 60%;
+    }
+
+    #modificarPizarraForm textarea{
+      width: 60%;
+    }
+
+    .pizarra {
+    		background-image: none;
+            background-color:378B6E;
+            max-width:200px;
+	}
+
+    .pizarra:hover{
+    	    background-image: none;
+            background-color:378B6A;
+            max-width:200px;
+	}
+
+        .nextPage {
+        right:0px;
+        }
+
+    .prevPage{
+        left:0px;
+        }
+
+       .pizarra #content{
+        max-width:80%;
+        font-size: 10px;
+        }
+    .pizarra #titulo {
+               width:70%;
+             font-size: 12px;
+           font-style: italic;
+    }
+
+    #herramientas {
+		height: 65px;
+		font-size:10px;
+	}
+
+
+}

@@ -462,3 +462,149 @@ fieldset {
   width: 100%;
   overflow: hidden;
 }
+
+/* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+#borde {
+	width: 100%;
+}
+
+
+.opcionesDer {
+    padding: 5px;
+}
+/*Reglas para la tabla*/
+
+	.tabla {
+		width: 400px;
+	}
+
+}
+
+
+/* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+#borde {
+	width: 100%;
+}
+
+
+
+/*Reglas para la parte de arriba*/
+
+	#nombre {
+		font-size: 12px;
+		min-width: 80px;
+		min-width: 100px;
+	}
+
+	/*Reglas para el menú desplegable del usuario*/
+
+	.opcionVer {
+		font-size:12px;
+	}
+
+	/*Reglas para las pizarras*/
+
+	#noElems {
+		margin-top:25%;
+	}
+
+	.opcionesDer {
+		padding: 5px;
+		font-size: 10px;
+		font-size: 12px;
+		padding: 4px;
+		margin-top: -1px;
+		margin-left: -1px;
+	}
+
+	.opcionesIzq {
+		max-height:12px;
+		border: 0px;
+		border-width: 0px;
+		margin: 4px;
+		padding: 1px;
+		font-size: 12px;
+	}
+
+    .opcionesIzq input[type="submit"], .opcionesDer input[type="submit"], .opcionesIzq button, .opcionesDer button {
+		font-size:10px;
+	}
+
+	/*Reglas para el menú desplegable del usuario*/
+
+	.opcionVer {
+		font-size:12px;
+	}
+
+/*Reglas para la tabla*/
+
+	.tabla {
+		font-size: 10px
+		width: 300px;
+		margin: 6%;
+	}	EN: template_style.css
+
+	.tabla td {
+		padding: 0px;
+	}
+
+}
+
+
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+
+	#borde {
+		width: 100%;
+	} 	EN: template_style.css
+
+/*Reglas para la parte de arriba*/
+
+	#nombre {
+		font-size: 10px;
+		min-width: 80px;
+	}	 EN: template_style.css
+
+
+	#logo {
+		height: 40px;
+		margin: 2%;
+	}
+
+	.opcionesDer {
+		padding: 3px;
+	} 	 EN: template_style.css
+
+/*Reglas para la tabla*/
+
+	.tabla {
+		font-size: 10px
+		width: 100%;
+		margin: 0;
+	}	EN: template_style.css
+
+
+	.tabla td {
+		padding: 0px;
+	}	EN: template_style.css
+
+	.tabla th tr {
+		font-size: 10px;
+		font-style: italic;
+		max-width:20px;
+	}
+
+
+}
+

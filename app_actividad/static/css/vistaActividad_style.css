@@ -28,7 +28,7 @@
 
 #comentarios {
 	width: 200px;
-	height: 490px;
+	height: 480px;
 	max-height: 559px;
 	overflow-y: auto; 
 }
@@ -39,4 +39,79 @@
 
 #tablaComentarios tr td {
 	background: white;
+}
+
+* GROUP 2 */
+/* Tablets (portrait)*/
+
+@media only screen and (max-width : 899px) {
+
+/*Reglas para los comentarios*/
+
+	#bordeComents  {
+		width: 149px;
+		height: 159px;
+		top: 530px;
+	}
+
+	#comentarios {
+		width: 149px;
+		top: 90px;
+	}
+
+	#tablaComentarios {
+		width: 120px;
+	}
+
+/*Reglas para el arbol*/
+
+	#subactividades {
+		width: 67%;
+		margin: 0px;
+		font-size:14px;
+	}
+
+}
+
+/* GROUP 3 */
+/* Smartphones (landscape)*/
+
+@media only screen and (max-width : 480px) {
+
+	#columna  {
+		width: 122px;
+	}
+
+	#columna table h {
+		font-size: 12px;
+	}
+
+	#lista, #columna table tr td {
+    		max-width: 100%;
+	}
+
+	#columna table, .columna a, .participante {
+    		font-size: 10px;
+		width: 90px;
+	}
+
+/*Reglas para el arbol*/
+
+	#subActividades {
+		width: 50%;
+		font-size:10px;
+	}
+
+	#bordeComents {
+        display:none;
+    }
+}
+
+/* GROUP 4 */
+/* Smartphones (portrait)*/
+
+@media only screen and (max-width : 320px) {
+    #bordeComents {
+        display:none;
+    }
 }

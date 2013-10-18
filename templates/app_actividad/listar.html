@@ -20,12 +20,12 @@
     }
   }
 </script>
-<!--<table> --> <ul>
+<table>
   {% for object in lista%}
     {% if forloop.counter0|divisibleby:"3"%}
-      <!--<tr>--><li>
+      <tr>
     {% endif %}
-    <!--<td>-->
+    <td>
       <div class="actividad" onclick="divSubmit(this)" >
         <div id="actHead">
           <form id="visualizarActividad" action="{% url "app_actividad:visualizar_actividad" %}" method="post">
@@ -52,10 +52,10 @@
           {{object.descripcionact}}
         </div>
       </div>
-    <!--</td>-->
+    </td>
     {% if forloop.counter|divisibleby:"3"%}
-   <!-- </tr>--></li>
+    </tr>
   {% endif %}
   {% endfor %}
-<!--</table>--></ul>
+</table>
 {% endblock cuerpo %}
