@@ -1,3 +1,5 @@
+#coding=utf-8
+
 import re
 import datetime
 
@@ -28,7 +30,7 @@ class Pizarra(models.Model):
 
     def __unicode__(self):
         """docstring for __unicode__"""
-        return self.nombrepiz + ":" + self.fechacreacion + ":" + self.fechafinal
+        return self.nombrepiz #+ ":" + self.fechacreacion + ":" + self.fechafinal
 
 class PersonalizarPizarra(models.Model):
     """
@@ -140,8 +142,6 @@ def modificar(idpiz, nombrepiz, descripcionpiz, fechafinal, usuario):
             usuario,
             stringg2.encode('utf8'), 
             'i')   
-
-
 
 def eliminar(idpiz):
     """

@@ -13,17 +13,26 @@ ADMINS = ( #('germanleonz', 'germanleonz@gmail.com') # ('Your Name', 'your_email
 )
 
 MANAGERS = ADMINS
+TEST = 'test' in sys.argv
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'proyecto_pizarra',                      # Or path to database file if using sqlite3.
-        'USER': 'postgres',                      # Not used with sqlite3.
-        'PASSWORD': 'postgres',                  # Not used with sqlite3.
-        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
+if TEST:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3', 
+            'NAME': 'pruebas_proyecto_pizarra',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'proyecto_pizarra',                      # Or path to database file if using sqlite3.
+            'USER': 'postgres',                      # Not used with sqlite3.
+            'PASSWORD': 'postgres',                  # Not used with sqlite3.
+            'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
+        }
+    }
 
 DEFAULT_CHARSET='utf-8'
 
@@ -154,7 +163,10 @@ INSTALLED_APPS = (
     'app_actividad',
     'app_comentarios',
     'app_log',
+    # Aplicacion donde estan definidas las pruebas funcionales
     'fts',
+    # Django Faker
+    'django_faker',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -191,9 +203,12 @@ AUTH_PROFILE_MODULE = 'app_usuarios.UserProfile'
 LOGIN_URL = '/'
 
 #   Configuracion para el envio de correos
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'proyecto.pizarra@gmail.com'
+EMAIL_USE_TLS       = True
+EMAIL_HOST          = 'smtp.gmail.com'
+EMAIL_HOST_USER     = 'proyecto.pizarra@gmail.com'
 EMAIL_HOST_PASSWORD = 'sacamos5'
-EMAIL_PORT = 587
+EMAIL_PORT          = 587
 
+# Configuracion para el Django Faker
+FAKER_LOCALE    = None # settings.LANGUAGE_CODE is loaded
+FAKER_PROVIDERS = None # faker.DEFAULT_PROVIDERS is loaded (all)`

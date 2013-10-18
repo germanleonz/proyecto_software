@@ -1,0 +1,22 @@
+[
+{
+  "pk": 1, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "germanleonz", 
+    "first_name": "Germ\u00e1n", 
+    "last_name": "Le\u00f3n", 
+    "is_active": true, 
+    "is_superuser": true, 
+    "is_staff": true, 
+    "last_login": "2013-10-16T21:41:27.254", 
+    "groups": [
+      2
+    ], 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$10000$68lFhWSHrjr9$gGrw7sOt+xrnytPYqvSW4UaO9Dr6mlc37exoHa4Tgy0=", 
+    "email": "08-10611@ldc.usb.ve", 
+    "date_joined": "2013-06-05T17:44:31"
+  }
+}
+]

@@ -1,3 +1,4 @@
+#coding=utf-8
 from django.core.management.base import BaseCommand, CommandError
 
 class Command(BaseCommand):
@@ -13,4 +14,3 @@ administradores.permissions.add(Permission.objects.get(codename="delete_user"))
 administradores.permissions.add(Permission.objects.get(codename="delete_user_profile"))
 administradores.permissions.add(Permission.objects.get(codename="change_user"))
 administradores.permissions.add(Permission.objects.get(codename="change_userprofile"))
-

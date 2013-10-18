@@ -1,6 +1,8 @@
 #coding=utf-8
+
 import re
 import datetime 
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import views as views_admin
 from django.contrib.auth.models import User, AnonymousUser
@@ -19,7 +21,7 @@ from app_pizarras.views import listar_pizarra
 def login_if(request):
     """docstring for login_if"""
     if request.user.is_authenticated():
-        return listar_pizarras(request)
+        return listar_pizarra(request)
     else:
         return login_usuario(request)
 
@@ -252,7 +254,7 @@ def logout_view(request):
 def registrar_visitante(request):
     """
     Metodo para crear un usuario con los datos debidamente validados 
-    proporcionados por el usuario
+    proporcionados por el usuario. Usado desde afuera del sistema
     In: request
     Out: vista de registrar visitante
     Autor: German Leon
@@ -268,6 +270,7 @@ def registrar_visitante(request):
                 print "Agregando usuario %s" % nombre_usuario
                 #   En caso de agregar algun dato extra al perfil se agregan aqui   
                 UserProfile.objects.crear_colaborador(data, User())
+
             else:
                 #   Ya habia un usuario registrado con ese nombre de usuario   
                 #   raise ValidationError(u'Ya existe')

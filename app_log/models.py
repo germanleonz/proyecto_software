@@ -1,3 +1,5 @@
+#coding=utf-8
+
 import datetime
 from django.db import models
 from datetime import datetime
@@ -21,10 +23,10 @@ class ManejadorAccion(models.Manager):
         """
         fechahoraaccionuser = datetime.now().strftime("%Y-%m-%d %H:%M")
     	nuevo = self.model(
-    		accionloginuser = accionloginuser,
+    		accionloginuser     = accionloginuser,
     		contenidoaccionuser = contenidoaccionuser,
     		fechahoraaccionuser = fechahoraaccionuser,
-            tipo_accion = tipo_accion
+            tipo_accion         = tipo_accion
     		)
     	nuevo.save()
 
@@ -37,8 +39,8 @@ class ManejadorAccion(models.Manager):
         Fecha: 28-11-12 Version 1.0
         """
         accion = {}
-        a = Accion.Objects.get(idaccionuser = idaccionuser)
-        accion['accionloginuser'] = a.accionloginuser
+        a      = Accion.Objects.get(idaccionuser = idaccionuser)
+        accion['accionloginuser']     = a.accionloginuser
         accion['contenidoaccionuser'] = a.contenidoaccionuser
         accion['fechahoraaccionuser'] = a.fechahoraaccionuser
         return a
@@ -77,12 +79,11 @@ class Accion(models.Model):
     Autor: Carla Urrea
     Fecha: 28-11-12 Version 1.0
     """
-    idaccionuser = models.AutoField(primary_key=True)
-    tipo_errores=(('d', 'DEBUG'), ('i', 'INFO'),('w', 'WARNING'),('e', 'ERROR'),('f', 'FATAL'))
-    tipo_accion = models.CharField(max_length=7, choices=tipo_errores)
-    accionloginuser = models.ForeignKey(User, related_name = 'accion_user_loginuser')
-    contenidoaccionuser = models.CharField(max_length=200)
-    fechahoraaccionuser = models.DateTimeField(auto_now=False, auto_now_add=False)
+    idaccionuser        = models.AutoField(primary_key = True)
+    tipo_errores        = (('d', 'DEBUG'), ('i', 'INFO'),('w', 'WARNING'),('e', 'ERROR'),('f', 'FATAL'))
+    tipo_accion         = models.CharField(max_length = 7, choices = tipo_errores)
+    accionloginuser     = models.ForeignKey(User, related_name = 'accion_user_loginuser')
+    contenidoaccionuser = models.CharField(max_length = 200)
+    fechahoraaccionuser = models.DateTimeField(auto_now = False, auto_now_add = False)
 
     objects = ManejadorAccion()
-

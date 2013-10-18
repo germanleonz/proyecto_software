@@ -1,15 +1,17 @@
 {% extends "app_usuarios/template.html" %}
 {% load staticfiles %}
-{% block titulo %}Inicio de sesion{% endblock %}
+{% block titulo %}
+Inicio de sesión
+{% endblock %}
 {% block css %}
 <link href="{% static "css/inicio_style.css" %}" rel="stylesheet" type="text/css"/>
 {% endblock css %}
 {% block rightHeader %}
 <a style="color:white;" href="{% url "app_usuarios:registrar_visitante" %}">
- <div id="nombre">
-   Registrarse
-</div>
- </a>
+  <div id="nombre">
+    Registrarse
+  </div>
+</a>
 {% endblock rightHeader %}
 {% block herramientas %}{% endblock herramientas %}
 {% block cuerpo %}
@@ -19,7 +21,7 @@
       modal:true,
       position: { my: "center", at: "top", of: window },
       dialogClass: 'style_Dialog',
-      title: "Recuperar contrasena",
+      title: "Recuperar contraseña",
       buttons: {
         "Enviar": function(){
           var mail = $("#");
@@ -35,7 +37,7 @@
 </script>
 
 <div id="tutorial" >
-  Como usar el Proyecto Pizarra<br>
+  ¿Cómo usar el Proyecto Pizarra?<br>
   <iframe width="400" height="225" src="http://www.youtube.com/embed/-5e0BKrXGpA" frameborder="0" allowfullscreen></iframe>
 </div>
 <!-- LOGIN BOX -->
@@ -46,8 +48,7 @@
         {{ form.as_p }}
       <input type="submit" id="login" value="Iniciar Sesión" />
     </fieldset>
-    <span><a id="forgot" href="{% url 'app_usuarios:password_reset' %}">¿Olvidaste tu contrasena?</a></span>
-    <!--<span><div id="forgot">¿Olvistaste tu contrasena?</div></span>-->
+    <span><a id="forgot" href="{% url 'app_usuarios:password_reset' %}">¿Olvidaste tu contraseña?</a></span>
   </form>
 </div>
 

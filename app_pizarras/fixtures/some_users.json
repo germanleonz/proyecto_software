@@ -1,0 +1,22 @@
+[
+{
+  "pk": 1, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "johndoe", 
+    "first_name": "John", 
+    "last_name": "Doe", 
+    "is_active": true, 
+    "is_superuser": false, 
+    "is_staff": false, 
+    "last_login": "2013-10-16T23:27:28.739", 
+    "groups": [
+      1
+    ], 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$10000$TInIJu62QLu2$vVBda9tC5S9KZlwc8QmnQFkLIV7lmHRk6n0OUBWYkHQ=", 
+    "email": "johndoe@gmail.com", 
+    "date_joined": "2013-10-16T23:27:22.424"
+  }
+}
+]

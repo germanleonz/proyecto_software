@@ -26,7 +26,7 @@ class Actividad(models.Model):
 
     def __unicode__(self):
         """docstring for __uni"""
-        return self.nombreact + ":" + self.fechainicial + ":" + self.fechaentrega
+        return self.nombreact #+ ":" + self.fechainicial + ":" + self.fechaentrega
 
 def crearActividad(nombre,descript,fechaini,fechaent,piz,creador, padre):
 

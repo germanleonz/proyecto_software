@@ -1,5 +1,5 @@
-<div id ="errores_cambiar_contrasena" class="errores">Introduzca su nueva contrasena</div>
-<form action="{% url "app_usuarios:cambiar_contrasena" %}" id="cambiarContrasenaForm" method="post" onsubmit="if(!confirm('Seguro desea cambiar su contrasena?')) return false">
+<div id ="errores_cambiar_contrasena" class="errores">Introduzca su nueva contraseña</div>
+<form action="{% url "app_usuarios:cambiar_contrasena" %}" id="cambiarContrasenaForm" method="post" onsubmit="if(!confirm('Seguro desea cambiar su contraseña?')) return false">
   {% csrf_token %}
   <fieldset  id="body">
     {{ form.as_p }}

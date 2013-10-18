@@ -1,0 +1,290 @@
+[
+{
+  "pk": 3, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": null, 
+    "fechaentrega": "2013-10-20", 
+    "logincreador": 1, 
+    "is_active": true, 
+    "nombreact": "Primera pizarra", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-20", 
+    "loginasignado": 1, 
+    "descripcionact": "Descripcion de mi primera pizarra", 
+    "loginjefe": 1, 
+    "idpizactividad": 3
+  }
+},
+{
+  "pk": 4, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": null, 
+    "fechaentrega": "2013-10-26", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Primera pizarra de John", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-20", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripcion de la primera pizarra de John", 
+    "loginjefe": 10, 
+    "idpizactividad": 4
+  }
+},
+{
+  "pk": 5, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": null, 
+    "fechaentrega": "2013-10-31", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Segunda pizarra de John", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-27", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripcion de la segunda pizarra de John", 
+    "loginjefe": 10, 
+    "idpizactividad": 5
+  }
+},
+{
+  "pk": 6, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": null, 
+    "fechaentrega": "2013-11-08", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Tercera pizarra de John", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-11-01", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripcion de la tercera pizarra de John", 
+    "loginjefe": 10, 
+    "idpizactividad": 6
+  }
+},
+{
+  "pk": 7, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": null, 
+    "fechaentrega": "2013-11-17", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Cuarta pizarra de John", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-11-09", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripcion de la cuarta pizarra de John", 
+    "loginjefe": 10, 
+    "idpizactividad": 7
+  }
+},
+{
+  "pk": 8, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": null, 
+    "fechaentrega": "2013-11-30", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Proyecto Pizarra", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-19", 
+    "loginasignado": 10, 
+    "descripcionact": "Proceso de desarrollo del proyecto pizarra", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+},
+{
+  "pk": 9, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": 8, 
+    "fechaentrega": "2013-10-26", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Actividades macros del proyecto", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-19", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripcion de las actividades macros del proyecto", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+},
+{
+  "pk": 10, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": 9, 
+    "fechaentrega": "2013-10-26", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Actividades del grupo de desarrollo", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-19", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripci\u00f3n de las actividades del grupo de desarrollo", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+},
+{
+  "pk": 11, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": 9, 
+    "fechaentrega": "2013-10-26", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Actividades del grupo de pruebas", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-19", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripci\u00f3n del proceso de pruebas", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+},
+{
+  "pk": 12, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": 9, 
+    "fechaentrega": "2013-10-26", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Actividades del grupo de infraestructura", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-19", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripci\u00f3n de las actividades del grupo de infraestructura", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+},
+{
+  "pk": 13, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": 10, 
+    "fechaentrega": "2013-10-31", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Actividades del colaborador 1", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-27", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripcion de las actividades del primer colaborador", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+},
+{
+  "pk": 14, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": 10, 
+    "fechaentrega": "2013-10-31", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Actividades del colaborador 2", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-27", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripci\u00f3n de las actividades del segundo colaborador", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+},
+{
+  "pk": 15, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": 10, 
+    "fechaentrega": "2013-10-31", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Actividades del colaborador 3", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-27", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripci\u00f3n de las actividades del tercer colaborador", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+},
+{
+  "pk": 16, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": 12, 
+    "fechaentrega": "2013-10-31", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Actividades de ambiente", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-27", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripci\u00f3n de las actividades de ambiente", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+},
+{
+  "pk": 17, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": 12, 
+    "fechaentrega": "2013-10-31", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Actividades de infraestructura", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-27", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripci\u00f3n de las actividades de infraestructura", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+},
+{
+  "pk": 18, 
+  "model": "app_actividad.actividad", 
+  "fields": {
+    "actividad_padre": 11, 
+    "fechaentrega": "2013-10-31", 
+    "logincreador": 10, 
+    "is_active": true, 
+    "nombreact": "Actividades de certificacion", 
+    "avanceact": 0, 
+    "estadoact": "s", 
+    "fechainicial": "2013-10-27", 
+    "loginasignado": 10, 
+    "descripcionact": "Descripci\u00f3n de las actividades de certificaci\u00f3n", 
+    "loginjefe": 10, 
+    "idpizactividad": 8
+  }
+}
+]

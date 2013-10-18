@@ -10,10 +10,10 @@
       {% endblock titulo%}
     </title>
     <!-- CSS -->
-    <link href="{% static "css/template_style.css" %}" rel="stylesheet" type="text/css"/>
-    <link href="{% static "css/pared_style.css" %}" rel="stylesheet" type="text/css"/>
-    <link href="{% static "css/style_dialog.css" %}" rel="stylesheet" type="text/css"/>
-    <link href="{% static "css/calendario.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "css/template_style.css" %}" rel ="stylesheet" type="text/css"/>
+    <link href="{% static "css/pared_style.css" %}"    rel ="stylesheet" type="text/css"/>
+    <link href="{% static "css/style_dialog.css" %}"   rel ="stylesheet" type="text/css"/>
+    <link href="{% static "css/calendario.css" %}"     rel ="stylesheet" type="text/css"/>
     {% block css %}
     {% endblock css %}
     <!-- JAVASCRIPT -->
@@ -77,8 +77,8 @@
         {%endfor %}
           <div class="opcionVer"><a href="{% url "app_pizarras:listar_pizarra" %}">Mis pizarras</a></div>
           <div class="opcionVer"><a id="editarPerfil" onclick="Dajaxice.app_usuarios.editarPerfilAjax(my_js_callbackPerfil);" href="#">Editar Perfil</a></div>
-          <div class="opcionVer"><a id="cambiarContrasena" onclick="Dajaxice.app_usuarios.cambiarContrasenaAjax(my_js_callbackContrasena);" href="#">Cambiar Contrasena</a></div>
-          <div class="opcionVer"><a href="{% url "app_usuarios:logout_view" %}">Cerrar Sesion</a></div>
+          <div class="opcionVer"><a id="cambiarContrasena" onclick="Dajaxice.app_usuarios.cambiarContrasenaAjax(my_js_callbackContrasena);" href="#">Cambiar Contraseña</a></div>
+          <div class="opcionVer"><a href="{% url "app_usuarios:logout_view" %}">Cerrar Sesión</a></div>
         </div>
         {% endblock herramientas %}
         {%block dialogs %}
@@ -95,10 +95,5 @@
         {% block cuerpo %}
         {% endblock cuerpo %}
       </div>	
-
-      <!--<div id="footer">
-        <div id="ano"><a href="">2012 ©</a></div>
-        <div id="idioma"><a href="#">Español</a>  |  <a href="#">English</a></div>
-      </div>-->
     </div>
   </body>

@@ -1,3 +1,5 @@
+#coding=utf-8
+
 import re
 import datetime
 from django.db import models
@@ -11,7 +13,7 @@ class ManejadorUsuario(UserManager):
     def crear_colaborador(self, data, usuario):
         """
         Crea un colaborador con los datos proporcionados
-        In: self, datos
+        In: self, data, usuario
         Out: --
         Autor: German Leon
         Fecha: 4-11-12 Version 1.0
@@ -19,13 +21,21 @@ class ManejadorUsuario(UserManager):
         print "Entramos a crear_colaborador"
         u = User.objects.create_user(
             username = data['nuevo_nombre_usuario'],
-            email = data['nuevo_correo'],
+            email    = data['nuevo_correo'],
         )
         u.set_password(data['nueva_password'])
         u.first_name = data['nuevo_nombre']
-        u.last_name = data['nuevo_apellido']
+        u.last_name  = data['nuevo_apellido']
 
-        if not usuario.username is '':
+        u.save()
+
+        #   Se crea el UserProfile 
+        up = UserProfile.objects.create(user=u, telefono= data["nuevo_telefono"])
+        #   Agregamos el usuario recien creado al grupo de los colaboradores
+        u.groups.add(Group.objects.get(name="Colaboradores"))
+
+        #Se registra en el log que "usuario" creo a un nuevo colaborador
+        if not usuario.username == '':
             if re.match('(;)|(?i)(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})', u.first_name):
                 Accion.objects.crearAccion(
                     usuario,
@@ -38,25 +48,17 @@ class ManejadorUsuario(UserManager):
                     "El usuario %s inserto strings peligrosos creando al usuario %s" % (usuario.username, u.username),
                     'w'
                     )
-        u.save()
-
-        up = UserProfile.objects.create(user=u, telefono= data["nuevo_telefono"])
-        #   Agregamos el usuario recien creado al grupo de los colaboradores
-        u.groups.add(Group.objects.get(name="Colaboradores"))
-
-        #Se registra en el log que "usuario" creo a un nuevo colaborador
-        if not usuario.username is '':
             Accion.objects.crearAccion(
                 usuario, 
                 "El usuario %s agrego a %s" % (usuario.username, u.first_name),
                 'i')
-
 
             Accion.objects.crearAccion(
                 usuario,
                 "Se creo una instancia de usuario con los valores Nombre: %s, Apellido: %s, Email: %s, Tlf: %s" % (u.first_name, u.last_name, u.email, up.telefono),
                 'd'
                 )
+
         return up  
 
     def crear_administrador(self, usuario, datos):
@@ -81,11 +83,11 @@ class ManejadorUsuario(UserManager):
         Autor: German Leon
         Fecha: 4-11-12 Version 1.0
         """
-        modificado = User.objects.get(username = nombre_usuario)
-        nuevo = User.objects.filter(username = nombre_usuario)
+        modificado   = User.objects.get(username = nombre_usuario)
+        nuevo        = User.objects.filter(username = nombre_usuario)
         nuevoProfile = UserProfile.objects.filter(user=nuevo)
-        telefonoB = False
-        correoB = False
+        telefonoB    = False
+        correoB      = False
         if correo == "":
             correoB = True
         if telefono == "":

@@ -113,4 +113,22 @@ Instalacion de django-rest-framework
 
     pip install djangorestframework
     
+Instalacion de Django Faker
+
+    pip install django-faker   
+
+    Configuracion de django-faker
+
+    INSTALLED_APPS = (
+
+        # ...
+            'django_faker',
+            )
+
+    FAKER_LOCALE = None     # settings.LANGUAGE_CODE is loaded
+    FAKER_PROVIDERS = None  # faker.DEFAULT_PROVIDERS is loaded (all)
+
+
+
+
 
